@@ -1,18 +1,34 @@
 const jwt = require('jsonwebtoken');
 
-const {secretKey} = require('../configuration/jwtConfig');
-
-function generateToken(user) {
-    const payload = {
+function generateAccessToken(user){
+    jwt.sign(
+    {
         name: user.name,
         email: user.email,
         role: user.role
-        
-    }
-    return jwt.sign(payload, secretKey, {expiresIn: "1h"});
-
+    },
+    process.env.SECRET_REFRESH_TOKEN,
+    { expiresIn: '1d' }
+)
 }
 
+const refreshToken = jwt.sign(
+    {
+        email: user.email,
+    },
+    process.env.SECRET_REFRESH_TOKEN,
+    { expiresIn: '1d' }
+)
+
+res.cookie('jwt', refreshToken, {
+    httpOnly: true,
+    sameSite: 'None',
+    maxAge: 1 * 24 * 60 * 60
+})
+
+res.json({accessToken})
+
 module.exports = {
-    generateToken
+    generateAccessToken,
+    generateAccessToken
 }
