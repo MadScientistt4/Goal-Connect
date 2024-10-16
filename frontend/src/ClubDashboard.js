@@ -1,17 +1,36 @@
 import React from 'react';
-import clubLogo from '../src/assets/sample-club-logo.png'
-import nikeLogo from '../src/assets/nike.png'
-import adidasLogo  from '../src/assets/adidas.png'
+import clubLogo from '../src/assets/sample-club-logo.png';
+import nikeLogo from '../src/assets/nike.png';
+import adidasLogo from '../src/assets/adidas.png';
+import player1 from '../src/assets/messi.png'; // Sample player image
+import player2 from '../src/assets/messi.png'; // Sample player image
+import player3 from '../src/assets/messi.png'; // Sample player image
 
 // Sample data for club name, logo, and sponsors
 const clubInfo = {
     name: 'Super Strikers FC',
-    logo: clubLogo, // Replace with actual image URL
+    logo: clubLogo,
     sponsors: [
-        { name: 'Nike', logo: nikeLogo }, // Replace with actual image URLs
+        { name: 'Nike', logo: nikeLogo },
         { name: 'Adidas', logo: adidasLogo }
     ],
 };
+
+// Sample data for players
+const players = [
+    { id: 1, name: 'Kanye West', position: 'Forward', image: player1 },
+    { id: 2, name: 'Arijit Singh', position: 'Midfielder', image: player2 },
+    { id: 3, name: 'Akshay Kumar', position: 'Defender', image: player3 },
+    { id: 4, name: 'Dwayne Johnson', position: 'Defender', image: player3 },
+    { id: 5, name: 'Messi', position: 'Defender', image: player3 },
+    { id: 6, name: 'Tame Impala', position: 'Defender', image: player3 },
+    { id: 7, name: 'Honey singh', position: 'Defender', image: player3 },
+    { id: 8, name: 'Samay Raina', position: 'Defender', image: player3 },
+    { id: 9, name: 'Tanmay Bhat', position: 'Defender', image: player3 },
+    { id: 10, name: 'Madhur Virli', position: 'Defender', image: player3 },
+    { id: 11, name: 'Sunil Chettri', position: 'Defender', image: player3 },
+    // Add more players as needed
+];
 
 const ClubDashboard = () => {
     return (
@@ -93,6 +112,24 @@ const ClubDashboard = () => {
                         <button className="bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded mt-4 transition duration-300">
                             Scout Players
                         </button>
+                    </div>
+                </section>
+
+                {/* Team Section */}
+                <section className="mb-2">
+                    <h2 className="text-2xl font-semibold mb-4">Our Team</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {players.map(player => (
+                            <div key={player.id} className="bg-gray-800 p-4 cursor-pointer hover:scale-105 transition-all rounded-lg shadow-lg flex flex-col items-center">
+                                <img
+                                    src={player.image}
+                                    alt={`${player.name}'s Profile`}
+                                    className="w-[10rem] h-[10rem] object-contain mb-2"
+                                />
+                                <h3 className="text-lg font-semibold">{player.name}</h3>
+                                <p className="text-gray-400">{player.position}</p>
+                            </div>
+                        ))}
                     </div>
                 </section>
             </div>
