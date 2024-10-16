@@ -36,7 +36,7 @@ const App = () => {
 
   return (
     <>
-      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={true} />
+      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={false} />
       <Routes>
         <Route path="/" element={
           <div>
