@@ -21,7 +21,7 @@ function Navbar({ onSearch, cartItemCount, onCartClick, onClearSearch, favoriteC
     };
 
     return (
-        <nav className="bg-blue-600 text-white py-4 mb-6">
+        <nav className="bg-blue-600 justify-center text-white py-4 mb-6">
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center">
                     <div className="w-1/3"></div> {/* Empty div for spacing */}
