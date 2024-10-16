@@ -1,15 +1,10 @@
-const newsItems = {
+export let newsItems = {
     "East Bengal FC": {
         newsItems: [
             {
                 thumbnail: "path/to/east-bengal-thumbnail.jpg",
                 title: "East Bengal Wins the Match!",
                 description: "East Bengal FC wins their latest match against Kerala Blasters."
-            },
-            {
-                thumbnail: "path/to/another-thumbnail.jpg",
-                title: "Star Player Joins East Bengal",
-                description: "East Bengal has signed a star player for the upcoming season."
             }
         ]
     },
@@ -21,8 +16,15 @@ const newsItems = {
                 description: "A thrilling match saw Mohammedan Sporting defeat Bengaluru FC 2-1."
             }
         ]
-    },
-    // Add similar objects for other clubs
+    }
 };
 
-export default newsItems
+// Function to update the news items for a given club
+export const updateNewsItems = (clubName, newNewsItem) => {
+    if (newsItems[clubName]) {
+        newsItems[clubName].newsItems.push(newNewsItem);
+    } else {
+        // If the club doesn't exist, create a new entry
+        newsItems[clubName] = { newsItems: [newNewsItem] };
+    }
+};

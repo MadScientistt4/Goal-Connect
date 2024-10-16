@@ -2,14 +2,14 @@ import React from 'react';
 import clubLogo from '../../assets/sample-club-logo.png';
 import nikeLogo from '../../assets/nike.png';
 import adidasLogo from '../../assets/adidas.png';
-import player1 from '../../assets/messi.png'; // Sample player image
-import player2 from '../../assets/messi.png'; // Sample player image
-import player3 from '../../assets/messi.png'; // Sample player image
+import player1 from '../../assets/chhetri.jpg'; // Sample player image
+import player2 from '../../assets/chhetri.jpg'; // Sample player image
+import player3 from '../../assets/chhetri.jpg'; // Sample player image
 import { Link } from 'react-router-dom';
 
 // Sample data for club name, logo, and sponsors
 const clubInfo = {
-    name: 'Super Strikers FC',
+    name: 'East Bengal FC',
     logo: clubLogo,
     sponsors: [
         { name: 'Nike', logo: nikeLogo },
@@ -92,19 +92,29 @@ const ClubDashboard = () => {
                     <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
                         <h3 className="text-xl font-semibold mb-4">Post News & Updates</h3>
                         <p className="mb-4">Keep your fans and sponsors updated with the latest news.</p>
-                        <button className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded transition duration-300">
-                            Post News
-                        </button>
+                        <Link to={{
+                            pathname: "/post-news",
+                            state: { clubName: clubInfo.name }
+                        }}>
+                            <button className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                Post News
+                            </button>
+                        </Link>
                     </div>
 
+
                     {/* Create Crowdfunding Campaign */}
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-                        <h3 className="text-xl font-semibold mb-4">Crowdfunding Campaign</h3>
-                        <p className="mb-4">Start a campaign to raise funds for the club.</p>
+                    <Link to={{
+                        pathname: "/create-campaign",
+                        state: {
+                            clubName: clubInfo.name,
+                            clubLogo: clubInfo.logo
+                        }
+                    }}>
                         <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded transition duration-300">
                             Start Campaign
                         </button>
-                    </div>
+                    </Link>
                 </section>
 
                 {/* Player Scouting Section */}

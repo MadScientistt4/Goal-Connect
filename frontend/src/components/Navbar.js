@@ -43,8 +43,8 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
             </Link>
             {loggedIn && (
                 <>
-                    <Link  to ="/DigitalFootballAcademy" className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center p-4'>Digital Football Academy</Link>
-                    <Link to ="/shop" className='text-xl text-center w-full py-10 h-full flex items-center justify-center p-4'>Shop</Link>
+                    <Link to="/DigitalFootballAcademy" className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center p-4'>Digital Football Academy</Link>
+                    <Link to="/shop" className='text-xl text-center w-full py-10 h-full flex items-center justify-center p-4'>Shop</Link>
                 </>
             )}
         </div>
@@ -52,23 +52,25 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
 
     return (
         <nav className='sticky top-0 w-full flex justify-between items-center py-3 px-3 sm:px-10 bg-background-dark shadow-2xl shadow-slate-800/200 border-b border-b-gray-500 z-10 bg-opacity-[0.95]'>
-            {/* Left - Logo */}
-            <div className="left flex justify-center items-center gap-3 text-white">
-                <FootballLogo className='w-9 h-9' />
-                <span className='text-xl text-md max-[363px]:hidden'>Goal Connect</span>
-            </div>
+            <Link to="/">
+                <div className="left flex justify-center items-center gap-3 text-white">
+                    <FootballLogo className='w-9 h-9' />
+                    <span className='text-xl text-md max-[363px]:hidden'>Goal Connect</span>
+                </div>
+            </Link>
 
             {/* Right - Links and Menu */}
             <div className="right flex justify-center items-center gap-4 sm:gap-7 text-white">
-                <Link to ="/" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={scrollToMatchCenter}>Match hub</Link>
-                <Link to ="/News" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>News</Link>
-                <Link to ="/clubs" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={handleClubsClick}>Clubs</Link> {/* Navigate to Clubs */}
+                <Link to="/" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={scrollToMatchCenter}>Match hub</Link>
+                <Link to="/News" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>News</Link>
+                <Link to="/clubs" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={handleClubsClick}>Clubs</Link> {/* Navigate to Clubs */}
 
                 {/* Conditionally render Shop and Digital Football Academy based on loggedIn prop */}
                 {loggedIn && (
                     <>
-                        <Link to ="/DigitalFootballAcademy" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Digital Football Academy</Link>
-                        <Link to ="/shop" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Shop</Link>
+                        <Link to="/DigitalFootballAcademy" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Digital Football Academy</Link>
+                        <Link to="/shop" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Shop</Link>
+                        <Link to="/crowdfunding" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Contribute</Link>
                     </>
                 )}
 
@@ -78,10 +80,20 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
                         <ProfilePic className='h-8 w-10' />
                     </div>
                 ) : (
-                    <div className='login hover:border-gray-400 border border-gray-500 py-1 px-3 gap-2 rounded flex items-center justify-center cursor-pointer transition-all duration:75'>
-                        <ProfilePic className='h-8 w-6' />
-                        <span className='text-xl'>Login</span>
-                    </div>
+                    <>
+                        <Link to="/login">
+                            <div className='login hover:border-gray-400 border border-gray-500 py-1 px-3 gap-2 rounded flex items-center justify-center cursor-pointer transition-all duration:75'>
+                                {/* <ProfilePic className='h-8 w-6' /> */}
+                                <span className='text-xl'>Login</span>
+                            </div>
+                        </Link>
+                        <Link to="/signup">
+                            <div className='login hover:border-gray-400 border border-gray-500 py-1 px-3 gap-2 rounded flex items-center justify-center cursor-pointer transition-all duration:75'>
+                                {/* <ProfilePic className='h-8 w-6' /> */}
+                                <span className='text-xl'>Sign up</span>
+                            </div>
+                        </Link>
+                    </>
                 )}
 
                 {/* Hamburger Menu */}

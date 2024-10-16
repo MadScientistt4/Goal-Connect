@@ -3,90 +3,84 @@ import React, { useState, useEffect } from 'react';
 const newsData = {
     mainArticles: [
         {
-            image: "https://placehold.co/1200x600",
+            image: "https://ss-i.thgim.com/public/incoming/whbpm8/article68760636.ece/alternates/LANDSCAPE_1200/WhatsApp%20Image%202024-10-16%20at%2015.12.01.jpeg",
             alt: "A young athlete standing on a field with stadium lights in the background",
-            title: "From Arunachal Pradesh to Mumbai, Gyamar Nikum chases his dreams",
+            title: "ISL 2024-25: NorthEast United FC chases consistency as Chennaiyin FC pays visit",
             date: "14 Oct, 2024"
         },
         {
-            image: "https://placehold.co/1200x600",
+            image: "https://ss-i.thgim.com/public/incoming/e5pi4f/article68114049.ece/alternates/LANDSCAPE_1200/PTI04_15_2024_000360B.jpg",
             alt: "Celebrating a victory in a match",
-            title: "Team India secures a stunning victory in their latest match",
+            title: "ISL 2024-25 Schedule: Full list of matches, dates, venues for the entire Indian Super League season",
             date: "13 Oct, 2024"
         },
         {
-            image: "https://placehold.co/1200x600",
+            image: "https://ss-i.thgim.com/public/incoming/86foln/article68566069.ece/alternates/LANDSCAPE_1200/PTI07_29_2024_000368A.jpg",
             alt: "A coach giving a motivational speech",
-            title: "Behind the scenes with coach Manolo Marquez",
+            title: "East Bengal ISL 2024-25 Schedule: EBFC to plays Mohun Bagan on October 19 and January 11",
             date: "12 Oct, 2024"
         },
         {
-            image: "https://placehold.co/1200x600",
+            image: "https://ss-i.thgim.com/public/incoming/mw0oju/article68565866.ece/alternates/LANDSCAPE_1200/80717_23_8_2024_20_0_57_5_KBFCVSBFC5.JPG",
             alt: "An intense moment in a soccer game",
-            title: "Thrilling moments from the latest league matches",
+            title: "Kerala Blasters ISL 2024-25 Schedule: KBFC to kick off Indian Super League season at home against Punjab FC",
             date: "11 Oct, 2024"
         },
         {
-            image: "https://placehold.co/1200x600",
+            image: "https://ss-i.thgim.com/public/incoming/6m3ayz/article68565957.ece/alternates/LANDSCAPE_1200/PTI08_08_2024_000381B.jpg",
             alt: "Players training in the field",
-            title: "Preparations for the upcoming international friendly matches",
+            title: "Mohun Bagan ISL 2024-25 schedule: Mariners play East Bengal on October 9 and January 11",
             date: "10 Oct, 2024"
         },
     ],
     articles: [
         {
-            image: "https://placehold.co/300x200",
+            image: "https://ss-i.thgim.com/public/incoming/hlyaqp/article68758093.ece/alternates/LANDSCAPE_1200/Screenshot%202024-10-15%20221838.png",
             alt: "A coach speaking at a press conference",
-            title: "Farukh did what we expected him to do: Manolo Marquez",
+            title: "SAFF Women’s Championship 2024: Blue Tigresses reach Nepal before India vs Pakistan opener",
             date: "13 Oct, 2024"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "https://ss-i.thgim.com/public/incoming/5b33do/article68753741.ece/alternates/LANDSCAPE_1200/KUN06978-2-800x500.jpg",
             alt: "A soccer match between two teams",
-            title: "Report: Farukh Choudhary on target as India play out draw with Vietnam",
+            title: "Indian women’s football team coach Santosh Kashyap announces 23-member squad for the SAFF Championship 2024",
             date: "12 Oct, 2024"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "https://ss-i.thgim.com/public/incoming/o65rqo/article68746529.ece/alternates/LANDSCAPE_1200/Farukh%20Chaudhary%20.jpg",
             alt: "A goalkeeper making a save during a match",
-            title: "Friendlies like these put us in uncomfortable situations: Sandhu on Vietnam clash",
+            title: "Farukh scores crucial equaliser as India plays out 1-1 draw against Vietnam in international friendly",
             date: "11 Oct, 2024"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "https://ss-i.thgim.com/public/incoming/u4rr7x/article68719169.ece/alternates/LANDSCAPE_300/Armando%20Sadiku%20of%20FC%20Goa%20celebrates%20after%20scoring%20the%20second%20goal%20against%20NorthEast%20United%20FC%20%20at%20the%20Jawaharlal%20Nehru%20Stadium%20on%20Friday.JPG",
             alt: "A coach giving instructions to players during training",
-            title: "Preview, Vietnam vs India: Blue Tigers target first win under Manolo Marquez",
+            title: "ISL 2024-25 Golden boot race: Sadiku on top, Chhetri in fifth",
             date: "11 Oct, 2024"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "https://ss-i.thgim.com/public/incoming/8xzgg7/article68748333.ece/alternates/LANDSCAPE_1200/AKH_7756.JPG",
             alt: "A young athlete celebrating a goal",
-            title: "Young talent shines in the national leagues",
+            title: "We could have scored another: Farukh Choudhary after 1-1 draw against Vietnam",
             date: "10 Oct, 2024"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "https://ss-i.thgim.com/public/incoming/r970ck/article68745709.ece/alternates/LANDSCAPE_1200/PARK1162.JPG",
             alt: "Fans cheering in a stadium",
-            title: "Fans back in full force as leagues resume",
+            title: "Odisha FC ends AWCL with 0-4 defeat to Taichung Blue Whale",
             date: "09 Oct, 2024"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "https://ss-i.thgim.com/public/incoming/81pz6b/article68737681.ece/alternates/LANDSCAPE_1200/11908_19_1_2024_12_34_5_3_EMM_7909_2.JPG",
             alt: "A player dribbling past an opponent",
-            title: "Top players to watch this season",
+            title: "I-League return, youth development, future plans: Dempo CEO Pradhyum Reddy on climbing Indian Football ladder",
             date: "08 Oct, 2024"
         },
         {
-            image: "https://placehold.co/300x200",
+            image: "https://ss-i.thgim.com/public/incoming/jou5rn/article68735912.ece/alternates/LANDSCAPE_1200/Odisha%20winning%20IWL.JPG",
             alt: "A coach discussing strategies with players",
-            title: "Coaching changes shake up the league",
+            title: "Odisha FC Women - A juggernaut on the rise",
             date: "07 Oct, 2024"
-        },
-        {
-            image: "https://placehold.co/300x200",
-            alt: "A training session in progress",
-            title: "Training camps preparing players for the upcoming season",
-            date: "06 Oct, 2024"
         },
     ]
 };
