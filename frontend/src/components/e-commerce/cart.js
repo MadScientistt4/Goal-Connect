@@ -1,5 +1,7 @@
 import { X } from "lucide-react";
 
+
+
 function Cart({ items, setCart, onClose }) {
     const removeFromCart = (productId) => {
         setCart((prev) => prev.filter((item) => item.id !== productId));
@@ -11,11 +13,51 @@ function Cart({ items, setCart, onClose }) {
 
     const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    const handlePayNow = () => {
-        console.log("Processing payment for:", items);
-        alert("Payment processed successfully!");
-        setCart([]);
-        onClose();
+    const handlePayNow = async () => {
+        const amountInPaise = total * 100; // Razorpay expects amount in paise (smallest unit)
+    
+        try {
+            // Call backend to create the Razorpay order
+            const response = await fetch("http://localhost:5000/create-order", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ amount: amountInPaise }),
+            });
+            
+            const orderData = await response.json();
+    
+            // Open Razorpay payment modal
+            const options = {
+                key: "rzp_test_iVFlHfIHXJjTX9", // Replace with your Razorpay key
+                amount: amountInPaise, // Amount in paise
+                currency: "INR",
+                name: "Your Store",
+                description: "Thank you for your purchase!",
+                order_id: orderData.id, // The order ID returned from the backend
+                handler: function (response) {
+                    console.log("Payment successful!", response);
+                    alert("Payment successful!");
+                    setCart([]); // Clear cart after successful payment
+                    onClose(); // Close cart after payment
+                },
+                prefill: {
+                    name: "Customer Name", // Optional: pre-fill customer info
+                    email: "customer@example.com",
+                    contact: "9999999999",
+                },
+                theme: {
+                    color: "#3399cc",
+                },
+            };
+    
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+        } catch (error) {
+            console.error("Payment failed", error);
+            alert("Something went wrong with the payment.");
+        }
     };
 
     return (
