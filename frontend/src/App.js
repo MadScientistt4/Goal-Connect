@@ -16,6 +16,7 @@ import SignUp from './components/SignUp/index.js';
 import Login from './components/Login/index';
 import MatchSummaryPage from "./components/Matches/MatchSummary.js";
 import PostNews from "./components/Clubs/PostNews.js";
+import CreateCampaign from "./components/Clubs/CreateCampaign.js";
 
 
 const App = () => {
@@ -36,7 +37,7 @@ const App = () => {
 
   return (
     <>
-      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={false} />
+      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={true} />
       <Routes>
         <Route path="/" element={
           <div>
@@ -58,6 +59,7 @@ const App = () => {
         <Route path='/clubs' element={<ClubsMenu />} />
         <Route path='/match-summary' element={<MatchSummaryPage />} />
         <Route path='/post-news' element={<PostNews />} />
+        <Route path="/create-campaign" element={<CreateCampaign />} />
       </Routes>
       {showSessions && <Sessions />} {/* Render Sessions conditionally */}
     </>

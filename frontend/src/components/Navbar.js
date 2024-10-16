@@ -70,6 +70,7 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
                     <>
                         <Link to="/DigitalFootballAcademy" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Digital Football Academy</Link>
                         <Link to="/shop" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Shop</Link>
+                        <Link to="/crowdfunding" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Contribute</Link>
                     </>
                 )}
 
