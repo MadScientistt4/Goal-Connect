@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt')
 const User = require('../models/User')
 const mongoose = require('mongoose')
 
@@ -22,7 +23,9 @@ const createUser = async (req, res) => {
 
   // add to the database
   try {
-    const user = await User.create({ name, email, password })
+    const hashPassword = await bcrypt.hash(password, 10);
+    console.log(hashPassword)
+    const user = await User.create({ name, email, password: hashPassword })
     res.status(200).json(user)
   } catch (error) {
     res.status(400).json({ error: error.message })
