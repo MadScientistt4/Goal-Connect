@@ -14,10 +14,11 @@ const Navbar = ({ scrollToMatchCenter }) => {
 
     function Menu(){
         return (
-        <div className = "menu absolute text-white bg-background-dark bg-opacity-[0.98] top-[27vh] w-[65vw] left-[20%] flex flex-col items-center justify-around rounded-[10%]">
+        <div className = "menu absolute text-white max-h-[85vh] bg-background-dark bg-opacity-[0.98] top-[15vh] w-[65vw] left-[20%] flex flex-col items-center justify-around rounded-[10%]">
             <span className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4'><a href="#">Match hub</a></span>
             <span className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4'><a href="#">News</a></span>
             <span className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4'><a href="#">Players</a></span>
+            <span className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4'><a href="#">Digital Football Academy</a></span>
             <span className='text-xl border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4'><a href="#">Shop</a></span>
         </div>  
         )
@@ -34,6 +35,7 @@ const Navbar = ({ scrollToMatchCenter }) => {
                 <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 '><a href="#">News</a></span>
                 <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 '><a href="#">Players</a></span>
                 <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 '><a href="#">Shop</a></span>
+                <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 '><a href="#">Digitial Football Academy</a></span>
                 <div className = 'login hover:border-gray-400 border border-gray-500 py-1 px-3 gap-2 rounded flex items-center justify-center cursor-pointer transition-all duration:75'>
                     <ProfilePic className='h-8 w-6'/>
                     <span className='text-xl'><a href="#">Login</a></span>
