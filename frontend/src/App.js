@@ -37,7 +37,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={
           <div>
-            <Hero scrollToMatchCenter={scrollToMatchCenter} />
+            <Hero scrollToMatchCenter={scrollToMatchCenter} loggedIn={true}/>
             <div ref={matchCenterRef}>
               <MatchCenter />
             </div>
