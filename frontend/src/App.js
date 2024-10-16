@@ -18,7 +18,7 @@ const App = () => {
   return (
     <Router>
       <main className='bg-gradient-to-r from-background-dark to-[#1b202c]'>
-        <Navbar scrollToMatchCenter={scrollToMatchCenter} />
+        <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn = {false}/>
         <Routes>
           <Route path="/" element={
             <div>
