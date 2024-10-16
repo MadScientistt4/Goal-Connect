@@ -2,8 +2,8 @@ import React, { useRef } from 'react'
 import Navbar from './Navbar.js'
 import Hero from './Hero.js'
 import MatchCenter from './MatchCenter.js'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+import SignUp from './components/SignUp'
+import { Routes, Route } from 'react-router-dom'
 const App = () => {
   const matchCenterRef = useRef(null);
 
@@ -14,21 +14,20 @@ const App = () => {
     }
   };
   return (
-    <Router>
-      <main className='bg-gradient-to-r from-background-dark to-[#1b202c]'>
-        <Navbar scrollToMatchCenter={scrollToMatchCenter} />
-        <Routes>
-          <Route path="/" element={
-            <div>
-              <Hero scrollToMatchCenter={scrollToMatchCenter} />
-              <div ref={matchCenterRef}>
-                <MatchCenter />
-              </div>
+    <>
+      <Navbar scrollToMatchCenter={scrollToMatchCenter} />
+      <Routes>
+        <Route path="/" element={
+          <div>
+            <Hero scrollToMatchCenter={scrollToMatchCenter} />
+            <div ref={matchCenterRef}>
+              <MatchCenter />
             </div>
-          } />
-        </Routes>
-      </main>
-    </Router>
+          </div>
+        } />
+        <Route path='/signup' element={<SignUp/>}></Route>
+      </Routes>
+    </>
   )
 }
 

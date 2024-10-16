@@ -38,7 +38,7 @@ const Navbar = ({ scrollToMatchCenter }) => {
                 <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 '><a href="#">Digitial Football Academy</a></span>
                 <div className = 'login hover:border-gray-400 border border-gray-500 py-1 px-3 gap-2 rounded flex items-center justify-center cursor-pointer transition-all duration:75'>
                     <ProfilePic className='h-8 w-6'/>
-                    <span className='text-xl'><a href="#">Login</a></span>
+                    <span className='text-xl'><a href="/signup">Sign Up</a></span>
                 </div>
                 <div className = 'hamburger md:hidden block border border-gray-500 py-1 px-3 gap-2 rounded flex items-center justify-center cursor-pointer'>
                     <Hamburger onClick = {toggleMenu} className='md:hidden block h-8 w-6'/> 
