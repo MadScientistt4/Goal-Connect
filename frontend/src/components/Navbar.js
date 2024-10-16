@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ReactComponent as FootballLogo } from '../src/assets/football-logo.svg';
-import { ReactComponent as ProfilePic } from '../src/assets/profile-pic.svg';
-import { ReactComponent as Hamburger } from '../src/assets/hamburger.svg';
-import { useNavigate } from 'react-router-dom';
+import { ReactComponent as FootballLogo } from "../assets/football-logo.svg"
+import { ReactComponent as ProfilePic } from "../assets/profile-pic.svg"
+import { ReactComponent as Hamburger } from "../assets/hamburger.svg"
+// import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
     const [menu, setMenu] = React.useState(false);
@@ -14,7 +14,7 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
 
     const Menu = () => (
         <div className="menu absolute text-white max-h-[85vh] bg-background-dark bg-opacity-[0.98] top-[15vh] w-[65vw] left-[20%] flex flex-col items-center justify-around rounded-[10%]">
-            <span
+            <span 
                 className="text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4"
                 onClick={scrollToMatchCenter}
             >

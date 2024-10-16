@@ -1,6 +1,6 @@
 import React from 'react'
-import {ReactComponent as Liverpool} from './assets/liverpool.svg'
-import {ReactComponent as Chelsea} from './assets/chelsea.svg'
+import {ReactComponent as Liverpool} from '../../assets/liverpool.svg'
+import {ReactComponent as Chelsea} from '../../assets/chelsea.svg'
 
 const MatchContainer = (props) => {
 
@@ -13,7 +13,7 @@ const MatchContainer = (props) => {
                         <Liverpool className='w-10 h-10' />
                         <h1 className='text-[#a8b2ce] text-xl text-center'>Mohun Bagan Super Giant</h1>
                     </div>
-                    <h1 className='score-text text-5xl md:text-6xl'>3-0</h1>
+                    <h1 className='score-text text-5xl text-white md:text-6xl'>3-0</h1>
                     <div className='team flex gap-1 items-center justify-center'>
                         <Chelsea className='w-10 h-10' />
                         <h1 className='text-[#a8b2ce] text-xl text-center'>Mumbai City FC</h1>
@@ -23,9 +23,9 @@ const MatchContainer = (props) => {
                     <h1 className='font-bold text-gray-200'>Thane Sub-junior Youth League</h1>
                 </div>
                 <div>
-                    {props.live ? <button className='border border-gray-400 p-3 rounded hover:text-blue-300 hover:border-blue-300'>Join live discussion</button>
+                    {props.live ? <button className='border border-gray-400 p-3 rounded text-white hover:text-blue-300 hover:border-blue-300'>Join live discussion</button>
                     :
-                    <button className='border border-gray-400 p-3 rounded hover:text-blue-300 hover:border-blue-300'>See highlights</button>}
+                    <button className='border border-gray-400 p-3 rounded hover:text-blue-300 text-white hover:border-blue-300'>See highlights</button>}
                 </div>
             </div>
         </div>

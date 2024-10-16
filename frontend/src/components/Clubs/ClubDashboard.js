@@ -1,10 +1,10 @@
 import React from 'react';
-import clubLogo from '../src/assets/sample-club-logo.png';
-import nikeLogo from '../src/assets/nike.png';
-import adidasLogo from '../src/assets/adidas.png';
-import player1 from '../src/assets/messi.png'; // Sample player image
-import player2 from '../src/assets/messi.png'; // Sample player image
-import player3 from '../src/assets/messi.png'; // Sample player image
+import clubLogo from '../../assets/sample-club-logo.png';
+import nikeLogo from '../../assets/nike.png';
+import adidasLogo from '../../assets/adidas.png';
+import player1 from '../../assets/messi.png'; // Sample player image
+import player2 from '../../assets/messi.png'; // Sample player image
+import player3 from '../../assets/messi.png'; // Sample player image
 
 // Sample data for club name, logo, and sponsors
 const clubInfo = {

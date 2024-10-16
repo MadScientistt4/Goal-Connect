@@ -1,18 +1,18 @@
 import React, { useRef, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./Navbar.js";
-import Hero from "./Hero.js";
-import MatchCenter from "./MatchCenter.js";
-import ClubDashboard from "./ClubDashboard.js";
-import ClubsMenu from './ClubsMenu.js'
-import Crowdfunding from "./Crowdfunding";
-import Digitalfootballacademy from "./Digitalfootballacademy";
-import RegistrationPage from "./registration";
-import Sessions from "./Sessions"; 
-import News from "./News"; 
+import Navbar from "./components/Navbar.js";
+import Hero from "./components/Home/Hero.js";
+import MatchCenter from "./components/Home/MatchCenter.js";
+import ClubDashboard from "./components/Clubs/ClubDashboard.js";
+import ClubsMenu from './components/Clubs/ClubsMenu.js'
+import Crowdfunding from "./components/Crowdfunding.js";
+import Digitalfootballacademy from "./components/Digitalfootballacademy.js";
+import RegistrationPage from "./components/registration.js";
+import Sessions from "./components/Sessions.js"; 
+import News from "./components/News.js"; 
 import ProductList from './components/e-commerce/product-list.js';
-import JobApplicationForm from './JobApplicationForm.js';
-import SignUp from './components/SignUp/index.js';
+import JobApplicationForm from './components/JobApplicationForm.js';
+import SignUp from "./components/SignUp/index.js";
 
 const App = () => {
   const matchCenterRef = useRef(null);
