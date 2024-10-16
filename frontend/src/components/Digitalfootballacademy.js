@@ -92,6 +92,54 @@ const Instructors = () => {
 
   ];
 
+  const handlePayNow = async (course) => {
+    if (course.price === "₹800.00") {
+      const amountInPaise = 800 * 100; // Razorpay expects amount in paise
+
+      try {
+        // Call backend to create the Razorpay order
+        const response = await fetch("http://localhost:5000/create-order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ amount: amountInPaise }),
+        });
+
+        const orderData = await response.json();
+
+        // Open Razorpay payment modal
+        const options = {
+          key: "rzp_test_iVFlHfIHXJjTX9", // Replace with your Razorpay key
+          amount: amountInPaise,
+          currency: "INR",
+          name: "Football Training",
+          description: `Payment for ${course.title}`,
+          order_id: orderData.id,
+          handler: function (response) {
+            console.log("Payment successful!", response);
+            alert("Payment successful!");
+            navigate("/registration"); // Redirect on success
+          },
+          prefill: {
+            name: "Customer Name",
+            email: "customer@example.com",
+            contact: "9999999999",
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      } catch (error) {
+        console.error("Payment failed", error);
+        alert("Something went wrong with the payment.");
+      }
+    }
+  };
+
 
 
   return (
@@ -113,13 +161,18 @@ const Instructors = () => {
               </ul>
             </div>
             <button
-              onClick={() => course.price === "₹800.00" && navigate("/registration")}
-              className="bg-orange-600 text-white py-2 px-5 rounded mt-4 hover:bg-orange-500 transition duration-300"
+  onClick={() => {
+    if (course.price === "₹800.00") {
+      handlePayNow(course);  // Call Razorpay payment handler for paid courses
+    } else {
+      navigate("/registration");  // For free courses
+    }
+  }}
+  className="bg-orange-600 text-white py-2 px-5 rounded mt-4 hover:bg-orange-500 transition duration-300"
+>
+  {course.price}
+</button>
 
-
-            >
-              {course.price}
-            </button>
           </div>
         ))}
       </div>
