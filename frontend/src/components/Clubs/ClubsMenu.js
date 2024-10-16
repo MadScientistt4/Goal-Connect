@@ -34,7 +34,7 @@ const ClubsMenu = () => {
             <div className="absolute inset-0 bg-black bg-opacity-80 z-0"></div>
 
             {/* Main content */}
-            <div className="relative container mx-auto p-4 z-10">
+            <div className="relative container mx-auto p-4 z-2">
                 <h1 className='text-5xl font-bold mb-4 text-white'>Find Clubs</h1>
 
                 {/* Search bar */}

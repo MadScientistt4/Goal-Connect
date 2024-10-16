@@ -1,5 +1,4 @@
 import React from 'react'
-import { ReactComponent as BackgroundImage } from '../src/assets/background-hero-alt.jpeg';
 
 const Hero = ({ scrollToMatchCenter }) => {
     return (

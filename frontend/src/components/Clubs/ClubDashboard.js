@@ -1,10 +1,11 @@
 import React from 'react';
-import clubLogo from '../src/assets/sample-club-logo.png';
-import nikeLogo from '../src/assets/nike.png';
-import adidasLogo from '../src/assets/adidas.png';
-import player1 from '../src/assets/messi.png'; // Sample player image
-import player2 from '../src/assets/messi.png'; // Sample player image
-import player3 from '../src/assets/messi.png'; // Sample player image
+import clubLogo from '../../assets/sample-club-logo.png';
+import nikeLogo from '../../assets/nike.png';
+import adidasLogo from '../../assets/adidas.png';
+import player1 from '../../assets/messi.png'; // Sample player image
+import player2 from '../../assets/messi.png'; // Sample player image
+import player3 from '../../assets/messi.png'; // Sample player image
+import { Link } from 'react-router-dom';
 
 // Sample data for club name, logo, and sponsors
 const clubInfo = {
@@ -51,9 +52,11 @@ const ClubDashboard = () => {
                     </div>
 
                     {/* Create Crowdfunding Campaign Button */}
-                    <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-md shadow-lg transition duration-300">
-                        Create Crowdfunding Campaign
-                    </button>
+                    <Link to="/crowdfunding">
+                        <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-md shadow-lg transition duration-300">
+                            Create Crowdfunding Campaign
+                        </button>
+                    </Link>
                 </header>
 
                 {/* Sponsors Section */}
@@ -82,6 +85,7 @@ const ClubDashboard = () => {
                         <button className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded transition duration-300">
                             Create Job Posting
                         </button>
+
                     </div>
 
                     {/* Post News and Updates */}
