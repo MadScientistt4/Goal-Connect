@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const newsData = {
     mainArticles: [
@@ -150,6 +150,12 @@ const News = () => {
             setCurrentIndex(currentIndex - 1);
         }
     };
+
+    
+    useEffect(() => {
+        // Scroll to the top of the page when the component mounts
+        window.scrollTo(0, 0);
+    }, []); // Empty dependency array means this effect runs once on mount
 
     return (
         <div className="bg-black text-white min-h-screen py-8">
