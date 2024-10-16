@@ -19,12 +19,13 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
 
     const Menu = () => (
         <div className="menu absolute text-white max-h-[85vh] bg-background-dark bg-opacity-[0.98] top-[15vh] w-[65vw] left-[20%] flex flex-col items-center justify-around rounded-[10%]">
-            <span 
+            <Link
+                to="/"
                 className="text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4"
                 onClick={scrollToMatchCenter}
             >
                 Match hub
-            </span>
+            </Link>
             <Link
                 to="/crowdfunding"
                 className="text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4"
@@ -42,8 +43,8 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
             </Link>
             {loggedIn && (
                 <>
-                    <span className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center p-4'>Digital Football Academy</span>
-                    <span className='text-xl text-center w-full py-10 h-full flex items-center justify-center p-4'>Shop</span>
+                    <Link  to ="/DigitalFootballAcademy" className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center p-4'>Digital Football Academy</Link>
+                    <Link to ="/shop" className='text-xl text-center w-full py-10 h-full flex items-center justify-center p-4'>Shop</Link>
                 </>
             )}
         </div>
@@ -59,15 +60,15 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
 
             {/* Right - Links and Menu */}
             <div className="right flex justify-center items-center gap-4 sm:gap-7 text-white">
-                <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={scrollToMatchCenter}>Match hub</span>
-                <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>News</span>
-                <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={handleClubsClick}>Clubs</span> {/* Navigate to Clubs */}
+                <Link to ="/" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={scrollToMatchCenter}>Match hub</Link>
+                <Link to ="/News" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>News</Link>
+                <Link to ="/clubs" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={handleClubsClick}>Clubs</Link> {/* Navigate to Clubs */}
 
                 {/* Conditionally render Shop and Digital Football Academy based on loggedIn prop */}
                 {loggedIn && (
                     <>
-                        <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Digital Football Academy</span>
-                        <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Shop</span>
+                        <Link to ="/DigitalFootballAcademy" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Digital Football Academy</Link>
+                        <Link to ="/shop" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Shop</Link>
                     </>
                 )}
 

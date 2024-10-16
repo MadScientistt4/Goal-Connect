@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {ReactComponent as Liverpool} from '../../assets/liverpool.svg'
 import {ReactComponent as Chelsea} from '../../assets/chelsea.svg'
 // import MatchSummary from '../Matches/MatchSummary'
@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 const MatchContainer = (props) => {
 
     const navigate = useNavigate()
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <div className='flex flex-col mt-4'>
