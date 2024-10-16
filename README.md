@@ -19,7 +19,7 @@ App:
 Website:
 
 - Ultra cool feature #1
-- Pro max feature #2
+- Pro max super feature #2
 - Feature #3
 
 ## 🟢 Access
