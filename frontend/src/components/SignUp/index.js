@@ -17,10 +17,8 @@ const SignUp = () => {
     });
   };
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here (e.g., form validation, API call)
     const options = {
       method: 'POST',
       headers: {
@@ -29,32 +27,30 @@ const SignUp = () => {
       body: JSON.stringify(formData),
     };
     const url = 'http://localhost:5000/apis/signup';
-    try{
+    try {
       const res = await fetch(url, options);
       const data = await res.json();
-      
-      
       console.log('data submitted:', data);
       navigate("/");
-    } catch(err){
+    } catch (err) {
       console.log(err);
-    } finally{
-
+    } finally {
       setFormData({
         name: '',
         email: '',
         password: ''
-      })
+      });
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
-        <h2 className="text-2xl font-bold mb-6 text-center text-black">Sign up</h2>
+    <div className="relative flex items-center bg-background-hero justify-center h-[92vh] bg-cover bg-center" >
+      <div className="absolute inset-0 bg-black opacity-70"></div>
+      <div className="relative bg-card-background p-8 rounded-lg shadow-lg max-w-sm w-full border border-gray-500 z-2">
+        <h2 className="text-4xl font-bold text-center text-white">Sign up</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Username</label>
+            <label className="block text-sm font-medium text-gray-200">Username</label>
             <input
               type="text"
               name="name"
@@ -66,7 +62,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-200">Email</label>
             <input
               type="text"
               name="email"
@@ -78,7 +74,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium text-gray-200">Password</label>
             <input
               type="password"
               name="password"

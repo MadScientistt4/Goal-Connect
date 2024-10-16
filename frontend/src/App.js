@@ -2,7 +2,8 @@ import React, { useRef } from 'react'
 import Navbar from './Navbar.js'
 import Hero from './Hero.js'
 import MatchCenter from './MatchCenter.js'
-import SignUp from './components/Signup/index.js'
+import JobApplicationForm from './JobApplicationForm.js'
+import SignUp from './components/SignUp/index.js'
 import { Routes, Route } from 'react-router-dom'
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -28,6 +29,7 @@ const App = () => {
           } />
         </Route>
         <Route path='/signup' element={<SignUp/>}></Route>
+        <Route path='/apply' element={<JobApplicationForm/>}></Route>
       </Routes>
     </>
   )
