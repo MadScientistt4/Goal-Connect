@@ -4,6 +4,7 @@ import Hero from './Hero.js'
 import MatchCenter from './MatchCenter.js'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ClubDashboard from './ClubDashboard.js'
+import JobApplicationForm from './JobApplicationForm.js';
 
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -28,6 +29,7 @@ const App = () => {
             </div>
           } />
           <Route path="/club-dashboard" element={<ClubDashboard />} />
+          <Route path="/apply" element={<JobApplicationForm />} />
         </Routes>
       </main>
     </Router>
