@@ -16,7 +16,7 @@ const App = () => {
   };
   return (
     <>
-      <Navbar scrollToMatchCenter={scrollToMatchCenter} />
+      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={false}/>
       <Routes>
         <Route>
           <Route path="/" element={
