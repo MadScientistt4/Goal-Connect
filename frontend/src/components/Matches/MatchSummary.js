@@ -94,7 +94,7 @@ const MatchSummaryPage = () => {
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-cover bg-center bg-background-match-summary">
+    <div className="text-white relative w-full min-h-screen bg-cover bg-center bg-background-match-summary">
       <div className="absolute inset-0 bg-black opacity-80"></div>
 
       <div className="relative z-2 flex flex-col max-w-5xl sm:flex-row justify-center sm:gap-3 mx-auto p-6 shadow-card-background shadow-lg bg-[#0e1217] sm:border-r sm:border-r-gray-500 border-l border-l-gray-500">
