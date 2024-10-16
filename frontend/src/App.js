@@ -12,8 +12,10 @@ import Sessions from "./components/Sessions.js";
 import News from "./components/News.js"; 
 import ProductList from './components/e-commerce/product-list.js';
 import JobApplicationForm from './components/JobApplicationForm.js';
-import SignUp from "./components/SignUp/index.js";
+import SignUp from './components/SignUp/index.js';
+import Login from './components/Login/index';
 import MatchSummaryPage from "./components/Matches/MatchSummary.js";
+import PostNews from "./components/Clubs/PostNews.js";
 
 
 const App = () => {
@@ -50,10 +52,12 @@ const App = () => {
         <Route path="/registration" element={<RegistrationPage closeRegistration={closeRegistration} />} />
         <Route path="/News" element={<News />} />
         <Route path='/signup' element={<SignUp />} />
+        <Route path='/login' element={<Login/>}> </Route>
         <Route path='/apply' element={<JobApplicationForm />} />
         <Route path='/shop' element={<ProductList />} />
         <Route path='/clubs' element={<ClubsMenu />} />
         <Route path='/match-summary' element={<MatchSummaryPage />} />
+        <Route path='/post-news' element={<PostNews />} />
       </Routes>
       {showSessions && <Sessions />} {/* Render Sessions conditionally */}
     </>
