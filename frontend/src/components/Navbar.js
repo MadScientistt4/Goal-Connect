@@ -52,11 +52,12 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
 
     return (
         <nav className='sticky top-0 w-full flex justify-between items-center py-3 px-3 sm:px-10 bg-background-dark shadow-2xl shadow-slate-800/200 border-b border-b-gray-500 z-10 bg-opacity-[0.95]'>
-            {/* Left - Logo */}
+            <Link to="/"> 
             <div className="left flex justify-center items-center gap-3 text-white">
                 <FootballLogo className='w-9 h-9' />
                 <span className='text-xl text-md max-[363px]:hidden'>Goal Connect</span>
             </div>
+            </Link>
 
             {/* Right - Links and Menu */}
             <div className="right flex justify-center items-center gap-4 sm:gap-7 text-white">
