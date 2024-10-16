@@ -50,7 +50,7 @@ const Crowdfunding = () => {
           const displayClubLogo = club.logo === "url-to-logo" ? clubLogo : club.logo; // Use custom club logo if applicable
 
           return (
-            <div key={index} className="border border-gray-600 p-6 flex flex-col justify-between bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:scale-105">
+            <div key={index} className="border border-gray-600 p-6 flex flex-col justify-between bg-gray-800 rounded-lg shadow-lg hover:shadow-xl cursor-pointer transition-all ease-in-out duration-300 transform transition-all hover:scale-105">
               <div>
                 <img src={displayClubLogo} alt={`${displayClubName} logo`} className="w-24 h-24 mx-auto mb-4 object-cover" />
                 <h2 className="text-xl font-bold mb-3 text-white text-center">{displayClubName}</h2>
