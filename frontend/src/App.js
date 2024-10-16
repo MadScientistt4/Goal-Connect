@@ -16,7 +16,7 @@ import SignUp from './components/SignUp/index.js';
 import Login from './components/Login/index';
 import MatchSummaryPage from "./components/Matches/MatchSummary.js";
 import PostNews from "./components/Clubs/PostNews.js";
-
+import ClubPage from "./components/Clubs/ClubPage.js";
 
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -55,7 +55,8 @@ const App = () => {
         <Route path='/login' element={<Login/>}> </Route>
         <Route path='/apply' element={<JobApplicationForm />} />
         <Route path='/shop' element={<ProductList />} />
-        <Route path='/clubs' element={<ClubsMenu />} />
+        <Route path="/clubs" element={<ClubsMenu />} />
+        <Route path="/clubs/:clubName" element={<ClubPage />} />
         <Route path='/match-summary' element={<MatchSummaryPage />} />
         <Route path='/post-news' element={<PostNews />} />
       </Routes>
