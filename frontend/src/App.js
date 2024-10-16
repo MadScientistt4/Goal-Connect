@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import React, { useRef } from 'react'
-import Navbar from './Navbar.js'
-import Hero from './Hero.js'
-import MatchCenter from './MatchCenter.js'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ClubDashboard from './ClubDashboard.js'
-import JobApplicationForm from './JobApplicationForm.js';
-=======
 import React, { useRef, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar.js";
@@ -22,7 +13,6 @@ import News from "./News";
 import ProductList from './components/e-commerce/product-list.js';
 import JobApplicationForm from './JobApplicationForm.js';
 import SignUp from './components/SignUp/index.js';
->>>>>>> ad9dc61ec8f1533d77c28f8814b54663b590112e
 
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -41,29 +31,6 @@ const App = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <Router>
-      <main className='bg-gradient-to-r from-background-dark to-[#1b202c]'>
-        <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn = {false}/>
-        <Routes>
-          <Route path="/" element={
-            <div>
-              <Hero scrollToMatchCenter={scrollToMatchCenter} />
-              <div ref={matchCenterRef}>
-                <MatchCenter />
-              </div>
-            </div>
-          } />
-          <Route path="/club-dashboard" element={<ClubDashboard />} />
-          <Route path="/apply" element={<JobApplicationForm />} />
-        </Routes>
-      </main>
-    </Router>
-  )
-}
-
-export default App
-=======
     <>
       <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={true} />
       <Routes>
@@ -89,6 +56,5 @@ export default App
     </>
   );
 };
->>>>>>> ad9dc61ec8f1533d77c28f8814b54663b590112e
 
 export default App;
