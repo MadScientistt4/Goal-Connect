@@ -1,4 +1,6 @@
 
+
+
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -92,53 +94,54 @@ const Instructors = () => {
 
   ];
 
-  const handlePayNow = async (course) => {
-    if (course.price === "₹800.00") {
-      const amountInPaise = 800 * 100; // Razorpay expects amount in paise
+const handlePayNow = async (course) => {
+  if (course.price === "₹800.00") {
+    const amountInPaise = 800 * 100; // Razorpay expects amount in paise
 
-      try {
-        // Call backend to create the Razorpay order
-        const response = await fetch("http://localhost:5000/create-order", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ amount: amountInPaise }),
-        });
+    try {
+      // Call backend to create the Razorpay order
+      const response = await fetch("http://localhost:5000/razorpay/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: amountInPaise }),
+      });
 
-        const orderData = await response.json();
+      const orderData = await response.json();
 
-        // Open Razorpay payment modal
-        const options = {
-          key: "rzp_test_iVFlHfIHXJjTX9", // Replace with your Razorpay key
-          amount: amountInPaise,
-          currency: "INR",
-          name: "Football Training",
-          description: `Payment for ${course.title}`,
-          order_id: orderData.id,
-          handler: function (response) {
-            console.log("Payment successful!", response);
-            alert("Payment successful!");
-            navigate("/registration"); // Redirect on success
-          },
-          prefill: {
-            name: "Customer Name",
-            email: "customer@example.com",
-            contact: "9999999999",
-          },
-          theme: {
-            color: "#3399cc",
-          },
-        };
+      // Open Razorpay payment modal
+      const options = {
+        key: "rzp_test_iVFlHfIHXJjTX9", // Replace with your Razorpay key
+        amount: amountInPaise,
+        currency: "INR",
+        name: "Football Training",
+        description: `Payment for ${course.title}`,
+        order_id: orderData.id,
+        handler: function (response) {
+          console.log("Payment successful!", response);
+          alert("Payment successful!");
+          // Redirect after payment success
+          navigate("/sessions"); // Redirects to Sessions page
+        },
+        prefill: {
+          name: "Customer Name",
+          email: "customer@example.com",
+          contact: "9999999999",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
 
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-      } catch (error) {
-        console.error("Payment failed", error);
-        alert("Something went wrong with the payment.");
-      }
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error("Payment failed", error);
+      alert("Something went wrong with the payment.");
     }
-  };
+  }
+};
 
 
 
