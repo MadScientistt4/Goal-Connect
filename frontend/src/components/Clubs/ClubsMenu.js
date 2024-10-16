@@ -1,10 +1,11 @@
-import ClubDetails from './ClubDetails'; // Ensure this path is correct
+import ClubDetails from "./ClubDetails"; // Ensure this path is correct
 import Squad from './Squad'; // Import the Squad component
 import React, { useState, useEffect } from 'react';
 import { newsItems } from './NewsItems';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Updated clubsData with color information
-const clubsData = [
+export const clubsData = [
     { name: 'East Bengal FC', logo: 'https://administrator.the-aiff.com/uploads/sm_EastBengalFClogowebp1_1680264050.png', color: 'red' },
     { name: 'Mohammedan Sporting Club', logo: 'https://administrator.the-aiff.com/logos/sm_8020-logo_small-1645793900.png', color: 'green' },
     { name: 'Bengaluru Football Club', logo: 'https://administrator.the-aiff.com/logos/sm_8021-logo_small-1578937550.png', color: 'blue' },
@@ -13,7 +14,7 @@ const clubsData = [
     // Additional clubs can be added here
 ];
 
-const clubs = [
+export const clubs = [
     {
         name: "East Bengal FC",
         address: "Emami East Bengal FC, Ground Floor, 687, Eastern Metropolitan Bypass, Anandapur, East Kolkata Twp, Kolkata, West Bengal 700107",
@@ -62,6 +63,7 @@ const clubs = [
 ];
 
 const ClubsMenu = () => {
+    const navigate = useNavigate();
     useEffect(() => {
         // Scroll to the top of the page when the component mounts
         window.scrollTo(0, 0);
@@ -78,7 +80,9 @@ const ClubsMenu = () => {
     // Function to handle club selection
     const handleClubSelect = (club) => {
         const clubDetails = clubs.find(c => c.name === club.name);
-        setSelectedClub({ ...clubDetails, color: club.color });
+        if (clubDetails) {
+            navigate(`/clubs/${encodeURIComponent(club.name.toLowerCase().replace(/ /g, '-'))}`);
+        }
     };
 
     // Ensure selectedClub is not null before accessing its properties
@@ -157,5 +161,3 @@ const ClubsMenu = () => {
 };
 
 export default ClubsMenu;
-
-
