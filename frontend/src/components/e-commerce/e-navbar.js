@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ShoppingBag, Search, X, Heart } from "lucide-react";
 
 function Navbar({ onSearch, cartItemCount, onCartClick, onClearSearch, favoriteCount, onFavoritesClick }) {
     const [searchTerm, setSearchTerm] = useState("");
+
+    
+    useEffect(() => {
+        // Scroll to the top of the page when the component mounts
+        window.scrollTo(0, 0);
+    }, []); // Empty dependency array means this effect runs once on mount
 
     const handleSearch = (e) => {
         e.preventDefault();

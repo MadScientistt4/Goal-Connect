@@ -14,6 +14,7 @@ import ProductList from './components/e-commerce/product-list.js';
 import JobApplicationForm from './components/JobApplicationForm.js';
 import SignUp from "./components/SignUp/index.js";
 import MatchSummaryPage from "./components/Matches/MatchSummary.js";
+import PostNews from "./components/Clubs/PostNews.js";
 
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -53,6 +54,7 @@ const App = () => {
         <Route path='/shop' element={<ProductList />} />
         <Route path='/clubs' element={<ClubsMenu />} />
         <Route path='/match-summary' element={<MatchSummaryPage />} />
+        <Route path='/post-news' element={<PostNews />} />
       </Routes>
       {showSessions && <Sessions />} {/* Render Sessions conditionally */}
     </>

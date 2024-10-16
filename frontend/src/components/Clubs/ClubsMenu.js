@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Sample club data
 const clubsData = [
@@ -21,6 +21,12 @@ const clubsData = [
 ];
 
 const ClubsMenu = () => {
+    
+    useEffect(() => {
+        // Scroll to the top of the page when the component mounts
+        window.scrollTo(0, 0);
+    }, []); // Empty dependency array means this effect runs once on mount
+    
     const [searchTerm, setSearchTerm] = useState('');
 
     // Filter clubs based on search term
