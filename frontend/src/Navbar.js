@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import { ReactComponent as FootballLogo } from '../src/assets/football-logo.svg';
 import { ReactComponent as ProfilePic } from '../src/assets/profile-pic.svg';
 import { ReactComponent as Hamburger } from '../src/assets/hamburger.svg';
@@ -34,14 +35,14 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
                 <span className='text-xl text-md max-[363px]:hidden'>Goal Connect</span>
             </div>
             <div className="right flex justify-center items-center gap-4 sm:gap-7 text-white">
-                <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={scrollToMatchCenter}>Match hub</span>
+                <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={scrollToMatchCenter}><Link to="/">Match hub</Link></span>
                 <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>News</span>
                 <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Clubs</span>
                 {/* Conditionally render Shop and Digital Football Academy based on loggedIn prop */}
                 {loggedIn && (
                     <>
                         <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Digital Football Academy</span>
-                        <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Shop</span>
+                        <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'><Link to="/shop">Shop</Link></span> 
                     </>
                 )}
                 {loggedIn ? <div className='login py-4 gap-2 rounded flex items-center justify-center cursor-pointer transition-all duration:75'><ProfilePic className='h-8 w-10' /></div>
