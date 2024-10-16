@@ -2,7 +2,7 @@
 
 **Team Name:** `<Goal Connect>`
 
-**Problem Statement:** `<Insert Problem Statement>`
+**Problem Statement:** In the rapidly evolving landscape of football in India, there is a growing demand for a comprehensive platform that enhances player performance tracking, fan engagement, and event management. The challenge is to develop a real-world solution that integrates real-time data analytics, interactive fan features, and an e-commerce component, all specifically tailored to the Indian football ecosystem. A multi-functional football portal should be developed to provide an immersive experience, including detailed player profiles, live match updates, virtual meetups, a football shop, and additional features. The solution must incorporate elements that reflect the unique culture of Indian football while ensuring seamless user interaction and engagement.
 
 ## 📜 Introduction
 
