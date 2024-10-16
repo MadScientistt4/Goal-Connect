@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Hero = ({ scrollToMatchCenter }) => {
     return (
@@ -10,11 +11,12 @@ const Hero = ({ scrollToMatchCenter }) => {
                     <span className="text-gray-300 sm:text-xl text-xl text-center sm:w-[60%]">Track player performances, support your favorite clubs, engage in live matches and much more all in one place.</span>
                 </div>
                 <div className='bottom-hero flex flex-col justify-center gap-1 md:gap-3 items-center text-xl text-slate-200 font-medium'>
-                    <button className='border border-white p-3 rounded hover:text-blue-300 hover:border-blue-300'>Sign up as a coach/player</button>
+                    <Link to="/signup" className='border border-white p-3 rounded hover:text-blue-300 hover:border-blue-300'>
+                        Sign up as a coach/player
+                    </Link>
                     <span className=''>or</span>
                     <div className='explore flex flex-col items-center cursor-pointer hover:text-blue-300 hover:border-blue-300 animate-pulse'>
                         <span className='text-blue-200' onClick={scrollToMatchCenter}>Explore now</span>
-                        {/* <span className='mt-[-5px]'>&darr;</span> */}
                     </div>
                 </div>
             </div>
