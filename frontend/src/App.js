@@ -17,13 +17,9 @@ import SignUp from './components/SignUp/index.js';
 import Login from './components/Login/index';
 import MatchSummaryPage from "./components/Matches/MatchSummary.js";
 import PostNews from "./components/Clubs/PostNews.js";
-<<<<<<< HEAD
 import CreateCampaign from "./components/Clubs/CreateCampaign.js";
-
-=======
 import ClubPage from "./components/Clubs/ClubPage.js";
 import Tournament from "./components/SearchTournament/Tournament.js";
->>>>>>> 17e16c4a5f7215e540a972ec71f2e1b121fd24e2
 
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -47,7 +43,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={
           <div>
-            <Hero scrollToMatchCenter={scrollToMatchCenter} />
+            <Hero scrollToMatchCenter={scrollToMatchCenter} loggedIn={true}/>
             <div ref={matchCenterRef}>
               <MatchCenter />
             </div>
