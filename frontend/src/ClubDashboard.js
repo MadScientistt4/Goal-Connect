@@ -18,7 +18,7 @@ const ClubDashboard = () => {
         <div className='relative flex items-center w-full justify-center'>
             {/* Background Image with opacity */}
             <div className="absolute inset-0 bg-background-job-form bg-cover bg-center opacity-50 z-0"></div>
-            <div className="mt-5 min-h-screen w-[60vw] max-[902px]:w-full bg-gray-900 bg-opacity-90 text-gray-200 p-6 relative z-10">
+            <div className="mt-5 min-h-screen w-[60vw] max-[902px]:w-full bg-gray-900 bg-opacity-90 text-gray-200 p-6 relative z-2">
                 {/* Header Section */}
                 <header className="flex justify-between items-center mb-10 max-[541px]:flex-col max-[541px]:gap-5 ">
                     {/* Club Logo and Name */}
