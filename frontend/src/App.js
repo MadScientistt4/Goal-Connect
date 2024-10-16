@@ -15,6 +15,7 @@ import JobApplicationForm from './components/JobApplicationForm.js';
 import SignUp from "./components/SignUp/index.js";
 import MatchSummaryPage from "./components/Matches/MatchSummary.js";
 
+
 const App = () => {
   const matchCenterRef = useRef(null);
   const [showSessions, setShowSessions] = useState(false); // State to manage Sessions visibility
