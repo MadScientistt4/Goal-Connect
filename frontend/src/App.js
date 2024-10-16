@@ -2,8 +2,10 @@ import React, { useRef } from 'react'
 import Navbar from './Navbar.js'
 import Hero from './Hero.js'
 import MatchCenter from './MatchCenter.js'
+import ProductList from './components/e-commerce/product-list.js'
 import JobApplicationForm from './JobApplicationForm.js'
 import SignUp from './components/SignUp/index.js'
+
 import { Routes, Route } from 'react-router-dom'
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -16,7 +18,7 @@ const App = () => {
   };
   return (
     <>
-      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={false}/>
+      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={true}/>
       <Routes>
         <Route>
           <Route path="/" element={
@@ -30,6 +32,7 @@ const App = () => {
         </Route>
         <Route path='/signup' element={<SignUp/>}></Route>
         <Route path='/apply' element={<JobApplicationForm/>}></Route>
+        <Route path='/shop' element={<ProductList/>}></Route>
       </Routes>
     </>
   )
