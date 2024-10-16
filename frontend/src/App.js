@@ -11,7 +11,7 @@ import RegistrationPage from "./components/registration.js";
 import Sessions from "./components/Sessions.js"; 
 import News from "./components/News.js"; 
 import ProductList from './components/e-commerce/product-list.js';
-import JobApplicationForm from './JobApplicationForm.js';
+import JobApplicationForm from './components/JobApplicationForm.js';
 import SignUp from './components/SignUp/index.js';
 import Login from './components/Login/index';
 import MatchSummaryPage from "./components/Matches/MatchSummary.js";
