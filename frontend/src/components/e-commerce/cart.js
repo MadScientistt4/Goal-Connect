@@ -18,7 +18,7 @@ function Cart({ items, setCart, onClose }) {
     
         try {
             // Call backend to create the Razorpay order
-            const response = await fetch("http://localhost:5000/create-order", {
+            const response = await fetch("http://localhost:5000/razorpay/create-order", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
