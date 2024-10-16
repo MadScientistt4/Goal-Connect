@@ -13,6 +13,7 @@ import News from "./News";
 import ProductList from './components/e-commerce/product-list.js';
 import JobApplicationForm from './JobApplicationForm.js';
 import SignUp from './components/SignUp/index.js';
+import Login from './components/Login/index';
 
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -48,6 +49,7 @@ const App = () => {
         <Route path="/registration" element={<RegistrationPage closeRegistration={closeRegistration} />} />
         <Route path="/News" element={<News />} />
         <Route path='/signup' element={<SignUp />} />
+        <Route path='/login' element={<Login/>}> </Route>
         <Route path='/apply' element={<JobApplicationForm />} />
         <Route path='/shop' element={<ProductList />} />
         <Route path='/clubs' element={<ClubsMenu />} />
