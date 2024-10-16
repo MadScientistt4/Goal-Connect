@@ -2,12 +2,13 @@ import React from 'react';
 import { ReactComponent as FootballLogo } from '../src/assets/football-logo.svg';
 import { ReactComponent as ProfilePic } from '../src/assets/profile-pic.svg';
 import { ReactComponent as Hamburger } from '../src/assets/hamburger.svg';
+import { Link } from 'react-router-dom'; 
+
 
 const Navbar = ({ scrollToMatchCenter }) => {
     let [menu, setMenu] = React.useState(false);
 
     const toggleMenu = () => {
-        console.log(menu);
         setMenu((old) => !old);
     };
 
@@ -15,6 +16,9 @@ const Navbar = ({ scrollToMatchCenter }) => {
         return (
             <div className="menu absolute text-white max-h-[85vh] bg-background-dark bg-opacity-[0.98] top-[15vh] w-[65vw] left-[20%] flex flex-col items-center justify-around rounded-[10%]">
                 <span className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4' onClick={scrollToMatchCenter}>Match hub</span>
+                <Link to="/crowdfunding" className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4'>
+                    <span>Crowdfunding</span>
+                </Link>
                 <span className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4'><span>News</span></span>
                 <span className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4'><span>Players</span></span>
                 <span className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4'><span>Digital Football Academy</span></span>
@@ -31,10 +35,11 @@ const Navbar = ({ scrollToMatchCenter }) => {
             </div>
             <div className="right flex justify-center items-center gap-4 sm:gap-7 text-white">
                 <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={scrollToMatchCenter}>Match hub</span>
-                <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>News</span>
+                <Link to="/crowdfunding" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Crowdfunding</Link>
+                <Link to="/News" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>News</Link>
                 <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Players</span>
                 <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Shop</span>
-                <span className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Digital Football Academy</span>
+                <Link to="/Digitalfootballacademy" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Digital Football Academy</Link>
                 <div className='login hover:border-gray-400 border border-gray-500 py-1 px-3 gap-2 rounded flex items-center justify-center cursor-pointer transition-all duration:75'>
                     <ProfilePic className='h-8 w-6'/>
                     <span className='text-xl'><span>Login</span></span>
