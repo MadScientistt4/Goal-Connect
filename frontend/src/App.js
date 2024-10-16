@@ -1,14 +1,17 @@
 import React, { useRef, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar.js";
 import Hero from "./Hero.js";
 import MatchCenter from "./MatchCenter.js";
-import { Routes, Route } from "react-router-dom";
 import ClubDashboard from "./ClubDashboard.js";
 import Crowdfunding from "./Crowdfunding";
 import Digitalfootballacademy from "./Digitalfootballacademy";
 import RegistrationPage from "./registration";
 import Sessions from "./Sessions"; 
 import News from "./News"; 
+import ProductList from './components/e-commerce/product-list.js';
+import JobApplicationForm from './JobApplicationForm.js';
+import SignUp from './components/SignUp/index.js';
 
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -28,27 +31,25 @@ const App = () => {
 
   return (
     <>
-      <Navbar scrollToMatchCenter={scrollToMatchCenter} />
+      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={true} />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              <Hero scrollToMatchCenter={scrollToMatchCenter} />
-              <div ref={matchCenterRef}>
-                <MatchCenter />
-              </div>
+        <Route path="/" element={
+          <div>
+            <Hero scrollToMatchCenter={scrollToMatchCenter} />
+            <div ref={matchCenterRef}>
+              <MatchCenter />
             </div>
-          }
-        />
+          </div>
+        }/>
         <Route path="/club-dashboard" element={<ClubDashboard />} />
         <Route path="/crowdfunding" element={<Crowdfunding />} />
         <Route path="/Digitalfootballacademy" element={<Digitalfootballacademy />} />
         <Route path="/registration" element={<RegistrationPage closeRegistration={closeRegistration} />} />
         <Route path="/News" element={<News />} />
-
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/apply' element={<JobApplicationForm />} />
+        <Route path='/shop' element={<ProductList />} />
       </Routes>
-
       {showSessions && <Sessions />} {/* Render Sessions conditionally */}
     </>
   );
