@@ -20,8 +20,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Initialize Razorpay
-
 
 // routes
 app.use('/auth', authRoutes);

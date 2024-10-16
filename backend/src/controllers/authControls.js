@@ -38,10 +38,9 @@ const loginUser = asyncHandler(async (req, res) => {
         { expiresIn: '7d' }
     )
 
-    // Create secure cookie with refresh token 
     res.cookie('jwt', refreshToken, {
-        httpOnly: true, //accessible only by web server 
-        sameSite: 'None', //cross-site cookie 
+        httpOnly: true,  
+        sameSite: 'None', 
         maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
@@ -81,12 +80,9 @@ const refresh = (req, res) => {
     )
 }
 
-// @desc Logout
-// @route POST /auth/logout
-// @access Public - just to clear cookie if exists
 const logout = (req, res) => {
     const cookies = req.cookies
-    if (!cookies?.jwt) return res.sendStatus(204) //No content
+    if (!cookies?.jwt) return res.sendStatus(204)
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None'})
     res.json({ message: 'Cookie cleared' })
 }
