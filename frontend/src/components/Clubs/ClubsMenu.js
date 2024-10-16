@@ -1,23 +1,63 @@
+import ClubDetails from './ClubDetails'; // Ensure this path is correct
+import Squad from './Squad'; // Import the Squad component
 import React, { useState, useEffect } from 'react';
 
-// Sample club data
+// Updated clubsData with color information
 const clubsData = [
-    { name: 'East Bengal FC', logo: 'https://administrator.the-aiff.com/uploads/sm_EastBengalFClogowebp1_1680264050.png' },
-    { name: 'Mohammedan Sporting Club', logo: 'https://administrator.the-aiff.com/logos/sm_8020-logo_small-1645793900.png' },
-    { name: 'Bengaluru Football Club', logo: 'https://administrator.the-aiff.com/logos/sm_8021-logo_small-1578937550.png' },
-    { name: 'Kerala Blasters Football Club', logo: 'https://administrator.the-aiff.com/logos/sm_8982-logo_small-1608191863.jpg' },
-    { name: 'Mumbai City FC', logo: 'https://administrator.the-aiff.com/uploads/sm_MCFC01_1691062308.png' },
-    { name: 'East Bengal FC', logo: 'https://administrator.the-aiff.com/uploads/sm_EastBengalFClogowebp1_1680264050.png' },
-    { name: 'Mohammedan Sporting Club', logo: 'https://administrator.the-aiff.com/logos/sm_8020-logo_small-1645793900.png' },
-    { name: 'Bengaluru Football Club', logo: 'https://administrator.the-aiff.com/logos/sm_8021-logo_small-1578937550.png' },
-    { name: 'Kerala Blasters Football Club', logo: 'https://administrator.the-aiff.com/logos/sm_8982-logo_small-1608191863.jpg' },
-    { name: 'Mumbai City FC', logo: 'https://administrator.the-aiff.com/uploads/sm_MCFC01_1691062308.png' },
-    { name: 'East Bengal FC', logo: 'https://administrator.the-aiff.com/uploads/sm_EastBengalFClogowebp1_1680264050.png' },
-    { name: 'Mohammedan Sporting Club', logo: 'https://administrator.the-aiff.com/logos/sm_8020-logo_small-1645793900.png' },
-    { name: 'Bengaluru Football Club', logo: 'https://administrator.the-aiff.com/logos/sm_8021-logo_small-1578937550.png' },
-    { name: 'Kerala Blasters Football Club', logo: 'https://administrator.the-aiff.com/logos/sm_8982-logo_small-1608191863.jpg' },
-    { name: 'Mumbai City FC', logo: 'https://administrator.the-aiff.com/uploads/sm_MCFC01_1691062308.png' },
-    // You can add more clubs here
+    { name: 'East Bengal FC', logo: 'https://administrator.the-aiff.com/uploads/sm_EastBengalFClogowebp1_1680264050.png', color: 'red' },
+    { name: 'Mohammedan Sporting Club', logo: 'https://administrator.the-aiff.com/logos/sm_8020-logo_small-1645793900.png', color: 'green' },
+    { name: 'Bengaluru Football Club', logo: 'https://administrator.the-aiff.com/logos/sm_8021-logo_small-1578937550.png', color: 'blue' },
+    { name: 'Kerala Blasters Football Club', logo: 'https://administrator.the-aiff.com/logos/sm_8982-logo_small-1608191863.jpg', color: 'yellow' },
+    { name: 'Mumbai City FC', logo: 'https://administrator.the-aiff.com/uploads/sm_MCFC01_1691062308.png', color: 'lightblue' },
+    // Additional clubs can be added here
+];
+
+const clubs = [
+    {
+        name: "East Bengal FC",
+        address: "Emami East Bengal FC, Ground Floor, 687, Eastern Metropolitan Bypass, Anandapur, East Kolkata Twp, Kolkata, West Bengal 700107",
+        founded: "01 Aug 1920",
+        president: "NA",
+        playersRegistered: 228,
+        logo: "https://administrator.the-aiff.com/uploads/sm_EastBengalFClogowebp1_1680264050.png",
+        image: "https://www.indiansuperleague.com/static-assets/images/club/overview/1102.png?v=101.38"
+    },
+    {
+        name: "Mohammedan Sporting Club",
+        address: "Mohammedan Sporting Club, 34, 1st Floor, Alimuddin Street, Kolkata, West Bengal 700016",
+        founded: "01 Jan 1891",
+        president: "NA",
+        playersRegistered: 230,
+        logo: "https://placehold.co/100x100",
+        image: "https://placehold.co/600x400"
+    },
+    {
+        name: "Bengaluru Football Club",
+        address: "Bengaluru FC, 103, 3rd Main, 3rd Cross, Domlur Layout, Bengaluru, Karnataka 560071",
+        founded: "20 Jul 2013",
+        president: "Parth Jindal",
+        playersRegistered: 180,
+        logo: "https://www.indiansuperleague.com/static-assets/images/club/538/656.png?v=101.39",
+        image: "https://www.indiansuperleague.com/static-assets/images/club/overview/656.png?v=101.39"
+    },
+    {
+        name: "Kerala Blasters Football Club",
+        address: "Jawaharlal Nehru Stadium, Kaloor, Kochi, Kerala 682017",
+        founded: "2014",
+        president: "N/A",
+        playersRegistered: 200,
+        logo: "https://placehold.co/100x100",
+        image: "https://placehold.co/600x400"
+    },
+    {
+        name: "Mumbai City FC",
+        address: "Mumbai City FC, 1st Floor, Manish Commercial Centre, 90, M.G. Road, Ghatkopar (East), Mumbai, Maharashtra 400077",
+        founded: "2014",
+        president: "N/A",
+        playersRegistered: 210,
+        logo: "https://placehold.co/100x100",
+        image: "https://placehold.co/600x400"
+    },
 ];
 
 const ClubsMenu = () => {
@@ -28,22 +68,43 @@ const ClubsMenu = () => {
     }, []); // Empty dependency array means this effect runs once on mount
     
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedClub, setSelectedClub] = useState(null);
 
     // Filter clubs based on search term
     const filteredClubs = clubsData.filter(club =>
         club.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    return (
-        <div className="relative min-h-[92vh] bg-cover bg-center bg-no-repeat bg-background-hero">
-            {/* Background overlay */}
-            <div className="absolute inset-0 bg-black bg-opacity-80 z-0"></div>
+    // Function to handle club selection
+    const handleClubSelect = (club) => {
+        const clubDetails = clubs.find(c => c.name === club.name);
+        setSelectedClub({...clubDetails, color: club.color});
+    };
 
-            {/* Main content */}
+    // Render club details and squad if a club is selected
+    if (selectedClub) {
+        return (
+            <div className={`relative min-h-[92vh] bg-${selectedClub.color}-900`}>
+                <div className={`absolute inset-0 bg-${selectedClub.color}-800 bg-opacity-80 z-0`}></div>
+                <div className="relative container mx-auto p-4 z-2">
+                    <ClubDetails club={selectedClub} />
+                    <Squad clubName={selectedClub.name} clubColor={selectedClub.color} />
+                    <button 
+                        onClick={() => setSelectedClub(null)} 
+                        className={`mt-4 bg-${selectedClub.color}-500 hover:bg-${selectedClub.color}-700 text-white font-bold py-2 px-4 rounded`}
+                    >
+                        Back to Clubs
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="relative min-h-[92vh] bg-gradient-to-br from-gray-900 to-blue-900">
+            <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
             <div className="relative container mx-auto p-4 z-2">
                 <h1 className='text-5xl font-bold mb-4 text-white'>Find Clubs</h1>
-
-                {/* Search bar */}
                 <div className="mb-4">
                     <input
                         type="text"
@@ -53,11 +114,13 @@ const ClubsMenu = () => {
                         className="w-full text-black p-2 border border-gray-300 rounded-md"
                     />
                 </div>
-
-                {/* Clubs Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                     {filteredClubs.map((club, index) => (
-                        <div key={index} className="flex flex-col items-center border border-gray-700 shadow-sm shadow-gray-800 bg-card-background p-4 rounded-lg">
+                        <div 
+                            key={index} 
+                            className={`flex flex-col items-center border border-${club.color}-700 shadow-sm shadow-${club.color}-800 bg-${club.color}-900 bg-opacity-50 p-4 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105`} 
+                            onClick={() => handleClubSelect(club)}
+                        >
                             <img
                                 src={club.logo}
                                 alt={`${club.name} Logo`}
@@ -73,3 +136,5 @@ const ClubsMenu = () => {
 };
 
 export default ClubsMenu;
+
+
