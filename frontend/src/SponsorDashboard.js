@@ -47,10 +47,10 @@ const SponsorDashboard = () => {
     sponsorLogo: null,
     logoPosition: '',
     amount: 0,
-    shirtColor: '#ffffff', // Default shirt color
   });
 
   const [successMessage, setSuccessMessage] = useState('');
+  const [nameError, setNameError] = useState('');
 
   const logoPositions = [
     { label: 'Front Center', price: 100 },
@@ -60,16 +60,19 @@ const SponsorDashboard = () => {
 
   const handleSponsorshipFormSubmit = (event) => {
     event.preventDefault();
+    if (sponsorshipDetails.sponsorName.length !== 5) {
+      setNameError('Sponsor name must be exactly 5 letters.');
+      return;
+    }
     setSuccessMessage(`Thank you! Your sponsorship for ${selectedClub.name} has been submitted.`);
-    // Resetting the form
     setSponsorshipDetails({
       sponsorName: '',
       sponsorLogo: null,
       logoPosition: '',
       amount: 0,
-      shirtColor: '#ffffff', // Reset shirt color
     });
     setSelectedClub(null);
+    setNameError('');
   };
 
   const handleLogoChange = (event) => {
@@ -87,14 +90,6 @@ const SponsorDashboard = () => {
       ...sponsorshipDetails,
       logoPosition: selectedPosition,
       amount: positionDetails ? positionDetails.price : 0,
-    });
-  };
-
-  const handleColorChange = (event) => {
-    const selectedColor = event.target.value;
-    setSponsorshipDetails({
-      ...sponsorshipDetails,
-      shirtColor: selectedColor,
     });
   };
 
@@ -134,20 +129,24 @@ const SponsorDashboard = () => {
               {/* Form Fields */}
               <div className="mb-4">
                 <label className="block text-gray-300 text-sm font-bold mb-2">
-                  Sponsor Name:
+                  Sponsor Name (5 letters only):
                 </label>
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   value={sponsorshipDetails.sponsorName}
-                  onChange={(event) =>
+                  onChange={(event) => {
+                    const value = event.target.value.slice(0, 5);
                     setSponsorshipDetails({
                       ...sponsorshipDetails,
-                      sponsorName: event.target.value,
-                    })
-                  }
+                      sponsorName: value,
+                    });
+                    setNameError(value.length === 5 ? '' : 'Sponsor name must be exactly 5 letters.');
+                  }}
+                  maxLength={5}
                   required
                 />
+                {nameError && <p className="text-red-500 text-xs italic mt-1">{nameError}</p>}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-300 text-sm font-bold mb-2">
@@ -161,19 +160,7 @@ const SponsorDashboard = () => {
                 />
               </div>
 
-              {/* Shirt Color */}
-              <div className="mb-4">
-                <label className="block text-gray-300 text-sm font-bold mb-2">
-                  Shirt Color:
-                </label>
-                <input
-                  type="color"
-                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={sponsorshipDetails.shirtColor}
-                  onChange={handleColorChange}
-                  required
-                />
-              </div>
+              
 
               <button className="bg-[#1E3A8A] hover:bg-[#1A2E66] text-white font-bold py-2 px-4 rounded w-full transition duration-300" type="submit">
                 Submit
