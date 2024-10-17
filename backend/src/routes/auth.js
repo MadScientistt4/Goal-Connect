@@ -11,27 +11,7 @@ router.post('/signup', createUser);
 router.post('/login', login);
 
 router.post('/logout', logout);
-/*
-router.get('/protected', protect, async (req, res) => {
-  try {
-    // Find the user by ID (added to req by the protect middleware)
-    const user = await User.find(req.user); // Exclude the password field
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
 
-    // Send the user data as the response
-    res.json({
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    });
-  } catch (error) {
-    console.error('Error fetching user:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
-});*/
 router.get('/protected', protect, async (req, res) => {
     try {
       // Use findOne to find the user by email, assuming req.user contains the email

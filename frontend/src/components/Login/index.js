@@ -18,7 +18,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const url = 'http://localhost:5000/apis/login';
+    const url = 'http://localhost:5000/auth/login';
     try {
       const res = await fetch(url, {
         method: 'POST',

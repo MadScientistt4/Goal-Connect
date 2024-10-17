@@ -15,12 +15,30 @@ const JobPostingForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Job Posting:', formData);
-    alert('Job Listing Posted Successfully!');
-    // Add your submit logic here (e.g., API call to post job data)
+  
+    try {
+      const response = await fetch('http://localhost:5000/apis/job-postings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        alert('Job Listing Posted Successfully!');
+        // Clear form or add further logic
+      } else {
+        alert('Failed to post the job');
+      }
+    } catch (error) {
+      console.error('Error posting job:', error);
+      alert('Error posting job');
+    }
   };
+  
 
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat relative" 

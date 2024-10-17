@@ -29,7 +29,7 @@ const SignUp = () => {
       body: JSON.stringify(formData),
     };
     
-    const url = 'http://localhost:5000/apis/signup';
+    const url = 'http://localhost:5000/auth/signup';
     try {
       const res = await fetch(url, options);
       const data = await res.json();

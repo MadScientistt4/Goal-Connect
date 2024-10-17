@@ -49,7 +49,7 @@ const App = () => {
       if (token) {
         try {
           // Get user data using the token
-          const res = await axios.get('http://localhost:5000/apis/protected', {
+          const res = await axios.get('http://localhost:5000/auth/protected', {
             headers: { Authorization: `Bearer ${token}` },
           });
           const { role } = res.data;
@@ -109,7 +109,7 @@ const App = () => {
         <Route path="/job-listings" element={<JobListings />} /> {/* Moved here */}
         <Route path="/register/:id" element={<TournamentRegistration />} />
         <Route path="/apply" element={
-          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole} >
             <JobApplicationForm />
           </ProtectRoute>
         } />

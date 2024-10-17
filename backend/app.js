@@ -9,7 +9,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const http = require("http");
 const socketIo = require("socket.io");
-
+const jobPostingRoutes = require('./src/routes/jobposting')
 const app = express();
 const server = http.createServer(app);
 
@@ -26,10 +26,10 @@ const io = socketIo(server, {
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(cookieParser());
-app.use('/apis', authRoutes);
+app.use('/auth', authRoutes);
 app.use('/scrape', scrapeRoutes);
 app.use('/razorpay', razorpayRoutes);
-
+app.use('/apis', jobPostingRoutes);
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);

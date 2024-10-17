@@ -46,6 +46,7 @@ router.get('/fetch/clubs', async (req, res) => {
     }
 });
 
+// Route to fetch all club data
 router.get('/clubs', async (req, res) => {
     try {
         const updatedClubs = await Club.find();
@@ -65,10 +66,13 @@ router.get('/fetch/fixtures', async () => {
   
     const page = await browser.newPage();
   
+    // Navigate to the page
     await page.goto('https://www.the-aiff.com/', { waitUntil: 'networkidle0' });
   
+    // Wait for the elements to load
     await page.waitForSelector('#fixture_scroll .item');
   
+    // Month abbreviations mapping to numbers
     const monthMapping = {
       'Jan': '01',
       'Feb': '02',
@@ -83,15 +87,16 @@ router.get('/fetch/fixtures', async () => {
       'Nov': '11',
       'Dec': '12'
     };
-
+  
+    // Extract the data
     const fixtures = await page.evaluate(() => {
       const fixtureElements = document.querySelectorAll('#fixture_scroll .item');
       const fixtureData = [];
   
       fixtureElements.forEach((element) => {
-        const date = element.querySelector('.match_date')?.textContent?.trim(); 
-        const day = element.querySelector('.day')?.textContent?.trim();         
-        const monthText = element.querySelector('.day-month')?.textContent.trim(); 
+        const date = element.querySelector('.match_date')?.textContent?.trim(); // Day of the month
+        const day = element.querySelector('.day')?.textContent?.trim();         // Day of the week (not used for comparison)
+        const monthText = element.querySelector('.day-month')?.textContent.trim(); // "Oct' 2024"
         
         const tournamentName = element.querySelector('.tournament-name a, .tournament-name span')?.textContent?.trim();
         const venue = element.querySelector('.venue')?.textContent?.trim();
@@ -111,7 +116,7 @@ router.get('/fetch/fixtures', async () => {
         fixtureData.push({
           date,
           day,
-          month: monthText,  
+          month: monthText,  // Storing the original month text
           tournamentName,
           venue,
           time,
@@ -121,42 +126,52 @@ router.get('/fetch/fixtures', async () => {
           team2Score,
           team1Logo,
           team2Logo,
-          status: null 
+          status: null // This will be calculated in the next step
         });
       });
   
       return fixtureData;
     });
   
-    
-    const today = moment(); 
+    // Process the data and determine if the match is upcoming, live, or in the past
+    const today = moment(); // Get the current date using moment.js
+  
     fixtures.forEach(fixture => {
-      const monthYearText = fixture.month.split("\n").pop().trim(); 
-      const cleanedMonthText = monthYearText.replace("'", "").trim(); 
-      
-      const [monthAbbreviation, year] = cleanedMonthText.split(" "); 
-      const month = monthMapping[monthAbbreviation];
-      const day = fixture.date.padStart(2, '0');
-
+      // Clean the monthText by removing the day of the week and trim
+      const monthYearText = fixture.month.split("\n").pop().trim(); // Get the part after the day of the week
+      const cleanedMonthText = monthYearText.replace("'", "").trim(); // Remove the apostrophe and trim spaces
+  
+      // Split into month abbreviation and year
+      const [monthAbbreviation, year] = cleanedMonthText.split(" "); // Now split the cleaned text
+      const month = monthMapping[monthAbbreviation]; // Map "Oct" to "10
+  
+      const day = fixture.date.padStart(2, '0'); // Ensure day is zero-padded
+  
+      // Construct a valid date string (YYYY-MM-DD)
       const matchDateString = `${year}-${month}-${day}`;
-      const matchDate = moment(matchDateString, 'YYYY-MM-DD'); 
+      const matchDate = moment(matchDateString, 'YYYY-MM-DD'); // Parse the constructed date
+  
+      // Determine if the match is upcoming, live, or past
       if (matchDate.isAfter(today, 'day')) {
           fixture.status = 'upcoming';
-          fixture.team1Score = null; 
-          fixture.team2Score = null; 
+          fixture.team1Score = null; // No score for upcoming matches
+          fixture.team2Score = null; // No score for upcoming matches
       } else if (matchDate.isSame(today, 'day')) {
           fixture.status = 'live';
+          // If the match is live, the score might be available
           if (!fixture.team1Score && !fixture.team2Score) {
-              fixture.status = 'upcoming'; 
+              fixture.status = 'upcoming'; // Handle cases where the match is still upcoming today
           }
       } else {
           fixture.status = 'past';
       }
   });
   
+    // Save the data to MongoDB
     await Fixture.insertMany(fixtures);
     console.log('Data saved to MongoDB with status');
     
+    // Close Puppeteer
     await browser.close();
   });
 
@@ -236,6 +251,6 @@ router.get('/players', async (req, res) => {
         console.error(error);
         res.status(500).send('An error occurred while fetching the player data.');
     }
-});
-*/
+});*/
+
 module.exports = router;
