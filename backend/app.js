@@ -27,6 +27,9 @@ const io = socketIo(server, {
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000", credentials: true })); // CORS for REST API
 app.use(cookieParser());
+app.use('/auth', authRoutes);
+app.use('/scrape', scrapeRoutes);
+app.use('/razorpay', razorpayRoutes);
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
@@ -58,7 +61,12 @@ app.post("/create-order", async (req, res) => {
 // Define a schema and model for posts (discussion forum)
 const postSchema = new mongoose.Schema({
   content: String,
-  replies: [{ content: String, createdAt: { type: Date, default: Date.now } }],
+  username: String, // Store the username of the post creator
+  replies: [{ 
+    content: String, 
+    username: String, // Store the username of the reply creator
+    createdAt: { type: Date, default: Date.now } 
+  }],
   createdAt: { type: Date, default: Date.now }
 });
 
@@ -72,17 +80,19 @@ app.get("/api/posts", async (req, res) => {
 
 // API endpoint to create a new post
 app.post("/api/posts", async (req, res) => {
-  const newPost = new Post({ content: req.body.content });
+  const { content, username } = req.body; // Accept the username
+  const newPost = new Post({ content, username }); // Include the username
   await newPost.save();
-  io.emit("newPost", newPost); // Emit new post event
+  io.emit("newPost", newPost); // Emit new post event with the username
   res.json(newPost);
 });
 
 // API endpoint to reply to a post
 app.post("/api/posts/:id/reply", async (req, res) => {
+  const { content, username } = req.body; // Accept the username
   const post = await Post.findById(req.params.id);
 
-  const newReply = { content: req.body.content, createdAt: new Date() };
+  const newReply = { content, username, createdAt: new Date() }; // Include the username in replies
   post.replies.push(newReply);
   await post.save();
 
@@ -106,9 +116,7 @@ app.delete('/api/posts/:id', async (req, res) => {
 });
 
 // Routes for authentication, scraping, and Razorpay
-app.use('/auth', authRoutes);
-app.use('/scrape', scrapeRoutes);
-app.use('/razorpay', razorpayRoutes);
+
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
