@@ -11,143 +11,152 @@ const Instructors = () => {
 
   const coursesData = [
     {
-      title: "The Basics",
-      description: "Learn:",
-      topics: ["Ball Control", "Ball Coordination", "First Touch", "Finishing and more"],
-      price: "Start for Free",
-      priceType: "button",
+      title: "Football Basics",
+      description: "Learn the fundamentals of football.",
+      price: "800",
+      topics: ["Dribbling", "Passing", "Shooting"],
     },
     {
-      title: "Advanced Passing",
-      description: "Learn:",
-      topics: ["Mid-range Passing", "Creative Passing", "One-touch Passing"],
-      price: "₹800.00",
-      priceType: "button",
+      title: "Advanced Tactics",
+      description: "Understand advanced game strategies.",
+      price: "1200",
+      topics: ["Formation", "Set Pieces", "Game Management"],
     },
     {
-      title: "Finishing Techniques",
-      description: "Learn:",
-      topics: ["Striking Accuracy", "Volleys", "Headers", "Finishing Under Pressure"],
-      price: "₹800.00",
-      priceType: "button",
+      title: "Football Basics",
+      description: "Learn the fundamentals of football.",
+      price: "800",
+      topics: ["Dribbling", "Passing", "Shooting"],
     },
     {
-      title: "Defensive Skills",
-      description: "Learn:",
-      topics: ["Tackling", "Positioning", "Marking", "Intercepting Passes"],
-      price: "₹800.00",
-      priceType: "button",
+      title: "Football Basics",
+      description: "Learn the fundamentals of football.",
+      price: "800",
+      topics: ["Dribbling", "Passing", "Shooting"],
     },
     {
-      title: "Goalkeeping",
-      description: "Learn:",
-      topics: ["Diving", "Catching", "One-on-One Situations", "Commanding the Box"],
-      price: "₹800.00",
-      priceType: "button",
+      title: "Football Basics",
+      description: "Learn the fundamentals of football.",
+      price: "800",
+      topics: ["Dribbling", "Passing", "Shooting"],
     },
     {
-      title: "Defensive Skills",
-      description: "Learn:",
-      topics: ["Tackling", "Positioning", "Marking", "Intercepting Passes"],
-      price: "₹800.00",
-      priceType: "button",
+      title: "Football Basics",
+      description: "Learn the fundamentals of football.",
+      price: "800",
+      topics: ["Dribbling", "Passing", "Shooting"],
     },
     {
-      title: "Defensive Skills",
-      description: "Learn:",
-      topics: ["Tackling", "Positioning", "Marking", "Intercepting Passes"],
-      price: "₹800.00",
-      priceType: "button",
+      title: "Football Basics",
+      description: "Learn the fundamentals of football.",
+      price: "800",
+      topics: ["Dribbling", "Passing", "Shooting"],
     },
     {
-      title: "Defensive Skills",
-      description: "Learn:",
-      topics: ["Tackling", "Positioning", "Marking", "Intercepting Passes"],
-      price: "₹800.00",
-      priceType: "button",
+      title: "Football Basics",
+      description: "Learn the fundamentals of football.",
+      price: "800",
+      topics: ["Dribbling", "Passing", "Shooting"],
     },
+   
   ];
 
   const instructorsData = [
     {
-      name: "Gavin Araujo",
+      name: "John Doe",
       title: "Head Coach",
-      teams: ["FC Goa U18s"],
-      licenses: ["AFC A License", "FIFA certified"],
+      teams: ["Team A", "Team B"],
+      licenses: ["UEFA A License"],
       contact: {
-        phone: "123-456-7890",
-        email: "gavin@example.com",
+        phone: "1234567890",
+        email: "john@example.com",
       },
     },
     {
-      name: "Shane Temudo",
-      title: "Head Coach",
-      teams: ["FC Goa U15s"],
-      licenses: ["AFC B License", "FIFA certified"],
+      name: "Jane Smith",
+      title: "Assistant Coach",
+      teams: ["Team C"],
+      licenses: ["UEFA B License"],
       contact: {
-        phone: "987-654-3210",
-        email: "shane@example.com",
+        phone: "0987654321",
+        email: "jane@example.com",
       },
     },
     {
-      name: "Asdf Tyre",
-      title: "Head Coach",
-      teams: ["FC Goa U15s"],
-      licenses: ["AFC B License", "FIFA certified"],
+      name: "Jane Smith",
+      title: "Assistant Coach",
+      teams: ["Team C"],
+      licenses: ["UEFA B License"],
       contact: {
-        phone: "787-483-7484",
-        email: "asdf@example.com",
+        phone: "0987654321",
+        email: "jane@example.com",
       },
     },
   ];
 
   const [showContactInfo, setShowContactInfo] = useState(
-    Array(instructorsData.length).fill(false)
+    Array.isArray(instructorsData) ? Array(instructorsData.length).fill(false) : []
   );
 
+  const [purchasedCourses, setPurchasedCourses] = useState([]);
+
+  useEffect(() => {
+    // Fetch purchased courses from local storage on component mount
+    const storedCourses = JSON.parse(localStorage.getItem("purchasedCourses")) || [];
+    setPurchasedCourses(storedCourses);
+  }, []);
+
   const handlePayNow = async (course) => {
-    if (course.price === "₹800.00") {
-      const amountInPaise = 800 * 100;
+    const amountInPaise = course.price === "Start for Free" ? 0 : parseInt(course.price) * 100;
 
-      try {
-        const response = await fetch("http://localhost:5000/razorpay/create-order", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ amount: amountInPaise }),
-        });
+    try {
+      const response = await fetch("http://localhost:5000/razorpay/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: amountInPaise }),
+      });
 
-        const orderData = await response.json();
+      const orderData = await response.json();
 
-        const options = {
-          key: "rzp_test_iVFlHfIHXJjTX9",
-          amount: amountInPaise,
-          currency: "INR",
-          name: "Football Training",
-          description: `Payment for ${course.title}`,
-          order_id: orderData.id,
-          handler: function (response) {
-            console.log("Payment successful!", response);
-            alert("Payment successful!");
-            navigate("/sessions");
-          },
-          prefill: {
-            name: "Customer Name",
-            email: "customer@example.com",
-            contact: "9999999999",
-          },
-          theme: {
-            color: "#3399cc",
-          },
-        };
+      const options = {
+        key: "rzp_test_iVFlHfIHXJjTX9", // Use your test/live Razorpay key here
+        amount: amountInPaise,
+        currency: "INR",
+        name: "Football Training",
+        description: `Payment for ${course.title}`,
+        order_id: orderData.id,
+        handler: function (response) {
+          console.log("Payment successful!", response);
+          alert("Payment successful!");
 
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-      } catch (error) {
-        console.error("Payment failed", error);
-        alert("Something went wrong with the payment.");
-      }
+          // Store the purchased course in local storage
+          const storedCourses = JSON.parse(localStorage.getItem("purchasedCourses")) || [];
+          const updatedCourses = [...storedCourses, course];
+          localStorage.setItem("purchasedCourses", JSON.stringify(updatedCourses));
+
+          // Update state to show the purchased courses immediately
+          setPurchasedCourses(updatedCourses);
+
+          // Redirect to the sessions page
+          navigate("/sessions");
+        },
+        prefill: {
+          name: "Customer Name",
+          email: "customer@example.com",
+          contact: "9999999999",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error("Payment failed", error);
+      alert("Something went wrong with the payment.");
     }
   };
 
@@ -157,78 +166,111 @@ const Instructors = () => {
     );
   };
 
+  const resetPurchasedCourses = () => {
+    localStorage.removeItem("purchasedCourses");
+    setPurchasedCourses([]);
+    alert("Purchased courses have been reset!");
+  };
+
   return (
-    <div className="w-[100vw] flex flex-col items-center py-10 bg-black">
+    <div className="flex flex-col items-center py-10 bg-black">
       {/* Courses Section */}
       <h1 className="text-4xl font-bold mb-6 text-white">Browse Courses</h1>
       <p className="text-sm mb-10 text-gray-400">ALL COURSES HAVE LIFETIME ACCESS</p>
 
       <div className="flex flex-wrap justify-center gap-8">
-        {coursesData.map((course, index) => (
-          <div
-            key={index}
-            className="border border-gray-600 p-6 w-80 h-auto flex flex-col justify-between bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:scale-105"
-          >
-            <div>
-              <h2 className="text-xl font-bold mb-3 text-white">{course.title}</h2>
-              <p className="text-sm text-gray-300 mb-2">{course.description}</p>
-              <ul className="text-sm text-gray-300 list-disc list-inside mb-4">
-                {course.topics.map((topic, topicIndex) => (
-                  <li key={topicIndex}>{topic}</li>
-                ))}
-              </ul>
-            </div>
-            <button
-              onClick={() => {
-                if (course.price === "₹800.00") {
-                  handlePayNow(course);
-                } else {
-                  navigate("/registration");
-                }
-              }}
-              className="bg-orange-600 text-white py-2 px-5 rounded mt-4 hover:bg-orange-500 transition duration-300"
+        {coursesData.length > 0 ? (
+          coursesData.map((course, index) => (
+            <div
+              key={index}
+              className="border border-gray-600 p-6 w-80 h-auto flex flex-col justify-between bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:scale-105"
             >
-              {course.price}
-            </button>
-          </div>
-        ))}
+              <div>
+                <h2 className="text-xl font-bold mb-3 text-white">{course.title}</h2>
+                <p className="text-sm text-gray-300 mb-2">{course.description}</p>
+                <ul className="text-sm text-gray-300 list-disc list-inside mb-4">
+                  {course.topics.map((topic, topicIndex) => (
+                    <li key={topicIndex}>{topic}</li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                onClick={() => handlePayNow(course)}
+                className="bg-orange-600 text-white py-2 px-5 rounded mt-4 hover:bg-orange-500 transition duration-300"
+              >
+                ₹{course.price}
+              </button>
+            </div>
+          ))
+        ) : (
+          <p className="text-white">No courses available at this time.</p>
+        )}
       </div>
 
-      {/* Instructors Section */}
-      <h1 className="text-4xl font-bold mb-4 text-white mt-5">Our Instructors</h1>
-      <p className="text-sm mb-8 text-white">Meet our coaches</p>
-      <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-        {instructorsData.map((instructor, index) => (
-          <div
-            key={index}
-            className="border border-gray-400 p-4 w-80 h-96 flex flex-col justify-between bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300 hover:scale-105 transform"
+      {/* Purchased Courses Section */}
+      {purchasedCourses.length > 0 && (
+        <>
+          <h2 className="text-4xl font-bold mb-6 text-white mt-12">Purchased Courses</h2>
+          <button
+            onClick={resetPurchasedCourses}
+            className="bg-red-600 text-white py-2 px-5 mb-4 rounded hover:bg-red-500 transition duration-300"
           >
-            <div>
-              <h2 className="text-xl font-bold mb-2">{instructor.name}</h2>
-              <p className="text-sm">{instructor.title}</p>
-              <ul className="text-sm list-disc list-inside">
-                {instructor.teams.map((team, teamIndex) => (
-                  <li key={teamIndex}>{team}</li>
-                ))}
-                {instructor.licenses.map((license, licenseIndex) => (
-                  <li key={licenseIndex}>{license}</li>
-                ))}
-              </ul>
-            </div>
-            <button
-              className="bg-orange-500 text-white py-2 px-4 rounded mt-4 hover:bg-orange-400 transition duration-300"
-              onClick={() => toggleContactInfo(index)}
-            >
-              Contact Us
-            </button>
-            {showContactInfo[index] && (
-              <div className="mt-4 bg-gray-100 p-2 rounded">
-                <p className="text-sm text-black">Phone: {instructor.contact.phone}</p>
-                <p className="text-sm text-black">Email: {instructor.contact.email}</p>
+            Reset Purchased Courses
+          </button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {purchasedCourses.map((course, index) => (
+              <div
+                key={index}
+                className="border border-gray-600 p-6 bg-gray-700 rounded-lg shadow-lg cursor-pointer"
+              >
+                <h3 className="text-xl font-bold text-white">{course.title}</h3>
+                <p className="text-sm text-gray-300 mb-4">{course.description}</p>
+                <p className="text-sm text-gray-300">Price: ₹{course.price}</p>
               </div>
-            )}
+            ))}
           </div>
-        ))}
+        </>
+      )}
+
+      {/* Instructors Section */}
+      <h1 className="text-4xl font-bold mb-4 text-white">Our Instructors</h1>
+      <p className="text-sm mb-8 text-white">Meet our coaches</p>
+      <div className="flex space-x-4 mb-8">
+        {instructorsData.length > 0 ? (
+          instructorsData.map((instructor, index) => (
+            <div
+              key={index}
+              className="border border-gray-400 p-4 w-80 h-96 flex flex-col justify-between bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300 hover:scale-105 transform"
+            >
+              <div>
+                <h2 className="text-xl font-bold mb-2">{instructor.name}</h2>
+                <p className="text-sm">{instructor.title}</p>
+                <ul className="text-sm list-disc list-inside">
+                  {instructor.teams.map((team, teamIndex) => (
+                    <li key={teamIndex}>{team}</li>
+                  ))}
+                  {instructor.licenses.map((license, licenseIndex) => (
+                    <li key={licenseIndex}>{license}</li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                className="bg-orange-500 text-white py-2 px-4 rounded mt-4 hover:bg-orange-400 transition duration-300"
+                onClick={() => toggleContactInfo(index)}
+              >
+                Contact Us
+              </button>
+              {showContactInfo[index] && (
+                <div className="mt-4 bg-gray-100 p-2 rounded">
+                  <p className="text-sm text-black">Phone: {instructor.contact.phone}</p>
+                  <p className="text-sm text-black">Email: {instructor.contact.email}</p>
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <p className="text-black">No instructors available at this time.</p>
+        )}
       </div>
     </div>
   );

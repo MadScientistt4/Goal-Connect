@@ -1,29 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ClubDetails from './ClubDetails';
 import Squad from './Squad';
-import { clubs, clubsData } from "./ClubsMenu";
+import { ClubsContext } from './ClubsContext';
+import { clubs } from "./ClubsMenu"; // Static clubs data
 import { newsItems } from './NewsItems';
 
 const ClubPage = () => {
     const { clubName } = useParams();
     const decodedClubName = decodeURIComponent(clubName).replace(/-/g, ' ');
-    const club = clubs.find(c => c.name.toLowerCase() === decodedClubName.toLowerCase());
-    const clubData = clubsData.find(c => c.name.toLowerCase() === decodedClubName.toLowerCase());
 
+    // Use the context to get clubsData
+    const { clubsData } = useContext(ClubsContext);
+
+    // Find the club in static data and context data
+    const club = clubs.find(c => c.name.toLowerCase() === decodedClubName.toLowerCase());
+    const clubData = clubsData.find(c => c.fullName.toLowerCase() === decodedClubName.toLowerCase());
+
+    // If the club is not found in either static or context data, show an error message
     if (!club || !clubData) {
         return <div>Club not found</div>;
     }
 
+    // Get club-specific news
     const clubNews = newsItems[club.name]?.newsItems || [];
 
     return (
         <div className={`relative min-h-[92vh] bg-${clubData.color}-900`}>
             <div className={`absolute inset-0 bg-${clubData.color}-800 bg-opacity-80 z-0`}></div>
             <div className="relative container mx-auto p-4 z-2">
+                {/* Render club details */}
                 <ClubDetails club={club} />
+
+                {/* Render club squad */}
                 <Squad clubName={club.name} clubColor={clubData.color} />
-                
+
                 {/* News Section */}
                 <section className="mt-8">
                     <div className="flex justify-between items-center mb-4">
