@@ -158,7 +158,7 @@ const Instructors = () => {
   };
 
   return (
-    <div className="flex flex-col items-center py-10 bg-black">
+    <div className="w-[100vw] flex flex-col items-center py-10 bg-black">
       {/* Courses Section */}
       <h1 className="text-4xl font-bold mb-6 text-white">Browse Courses</h1>
       <p className="text-sm mb-10 text-gray-400">ALL COURSES HAVE LIFETIME ACCESS</p>
@@ -195,9 +195,9 @@ const Instructors = () => {
       </div>
 
       {/* Instructors Section */}
-      <h1 className="text-4xl font-bold mb-4 text-white">Our Instructors</h1>
+      <h1 className="text-4xl font-bold mb-4 text-white mt-5">Our Instructors</h1>
       <p className="text-sm mb-8 text-white">Meet our coaches</p>
-      <div className="flex space-x-4 mb-8">
+      <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
         {instructorsData.map((instructor, index) => (
           <div
             key={index}
