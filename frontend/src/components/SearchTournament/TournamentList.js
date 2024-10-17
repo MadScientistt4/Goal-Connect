@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 function TournamentList({ tournaments }) {
     return (
@@ -67,9 +68,12 @@ function TournamentList({ tournaments }) {
                         </div>
                     </div>
                     <div className="bg-gray-100 px-4 py-2 mt-auto">
-                        <button className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
-                            Open
-                        </button>
+                        <Link
+                            to={`/register/${tournament.id}`}
+                            className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 inline-block text-center"
+                        >
+                            Participate
+                        </Link>
                     </div>
                 </div>
             ))}

@@ -9,14 +9,12 @@ import {
     Tooltip,
     Legend,
 } from "chart.js"; 
-import { Routes, Route, Link } from 'react-router-dom';
-import JobListings from './JobListings'; // Import JobListings component
-
+import { Link } from 'react-router-dom';
 
 // Register the components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function App() {
+function PlayerDashboard() {
     const [totalEarnings, setTotalEarnings] = useState(10000);
     const [lastMonthEarnings, setLastMonthEarnings] = useState(2500);
     const [upcomingEventsEarnings, setUpcomingEventsEarnings] = useState(1000);
@@ -111,7 +109,7 @@ function App() {
                                 type="number"
                                 name="totalEarnings"
                                 value={totalEarnings}
-                                onChange={(e) => setTotalEarnings(e.target.value)}
+                                onChange={(e) => setTotalEarnings(parseFloat(e.target.value))}
                                 className="bg-gray-700 text-white border border-gray-600 rounded p-1 w-1/2"
                             />
                         </div>
@@ -121,7 +119,7 @@ function App() {
                                 type="number"
                                 name="lastMonthEarnings"
                                 value={lastMonthEarnings}
-                                onChange={(e) => setLastMonthEarnings(e.target.value)}
+                                onChange={(e) => setLastMonthEarnings(parseFloat(e.target.value))}
                                 className="bg-gray-700 text-white border border-gray-600 rounded p-1 w-1/2"
                             />
                         </div>
@@ -131,7 +129,7 @@ function App() {
                                 type="number"
                                 name="upcomingEventsEarnings"
                                 value={upcomingEventsEarnings}
-                                onChange={(e) => setUpcomingEventsEarnings(e.target.value)}
+                                onChange={(e) => setUpcomingEventsEarnings(parseFloat(e.target.value))}
                                 className="bg-gray-700 text-white border border-gray-600 rounded p-1 w-1/2"
                             />
                         </div>
@@ -170,4 +168,4 @@ function App() {
     );
 }
 
-export default App;
+export default PlayerDashboard;

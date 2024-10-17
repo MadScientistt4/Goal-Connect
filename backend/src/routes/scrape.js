@@ -171,6 +171,8 @@ router.get('/fixtures', async (req, res) => {
     }
 });
 
+/*
+// Route to fetch player data
 router.get('/players', async (req, res) => {
     try {
         const clubs = await Club.find();
@@ -235,5 +237,5 @@ router.get('/players', async (req, res) => {
         res.status(500).send('An error occurred while fetching the player data.');
     }
 });
-
+*/
 module.exports = router;

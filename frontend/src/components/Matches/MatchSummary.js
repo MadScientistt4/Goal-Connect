@@ -4,10 +4,18 @@ import DiscussionForum from './DiscussionForum';
 import Polls from './Polls';
 import Highlights from './Highlights';
 import FanLeaderboard from './FanLeaderboard';
-
+import { useLocation } from 'react-router-dom';
 import manImage from '../../assets/messi.png'
 
 const MatchSummaryPage = () => {
+
+    const location = useLocation();
+    const matchState = location.state || 'No day provided'; // Fallback if state is null
+
+    useEffect(() => {
+        console.log('Match state:', matchState); // Log the passed state
+    }, [matchState]);
+
     const matchData = {
         teams: {
             home: 'Siphir Venglun FC',
@@ -61,32 +69,38 @@ const MatchSummaryPage = () => {
                         <div className="p-4 flex-shrink-0">
                             <FanLeaderboard />
                         </div>
-                        <div className="p-4 flex-shrink-0">
+                        {
+                            matchState.status === "past" ? <div className="p-4 flex-shrink-0">
                             <div className="bg-blue-700 w-full text-white shadow-lg p-4 rounded-lg">
                                 <h3 className="text-lg font-semibold text-center mb-4">Player of the Match</h3>
                                 <div className="text-center">
                                     <img
                                         src={matchData.playerOfTheMatch.image}
                                         alt={matchData.playerOfTheMatch.name}
-                                        className="mx-auto w-24 h-24 rounded-full object-cover mb-2"
+                                        className="mx-auto w-[10rem] h-[10rem] object-contain mb-2"
                                     />
                                     <p className="font-bold">{matchData.playerOfTheMatch.name}</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> : null
+                        }
+                        
                     </aside>
 
                     {/* Center content */}
                     <main className="flex-1 flex flex-col p-4 overflow-y-auto">
                         <div className="mb-6 flex-shrink-0">
-                            <MatchStatistics matchData={matchData} />
+                            <MatchStatistics matchData={matchData} matchPassed={matchState}/>
                         </div>
-                        <div className="mb-6 flex-shrink-0">
+                        {matchState.status === "past" ? <div className="mb-6 flex-shrink-0">
                             <Highlights />
-                        </div>
-                        <div className="mt-auto">
+                        </div> : null}
+                        {
+                            matchState.status === "live" ? <div className="mt-auto">
                             <DiscussionForum />
-                        </div>
+                        </div> : null
+                        }
+                        
                     </main>
 
                     {/* Right sidebar */}

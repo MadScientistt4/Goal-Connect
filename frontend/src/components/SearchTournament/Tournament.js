@@ -15,13 +15,17 @@ function Tournament() {
     const handleSearchInputChange = (e) => {
         const term = e.target.value.toLowerCase();
         setSearchTerm(term);
-        const filtered = tournaments.filter((tournament) => tournament.name.toLowerCase().includes(term));
+        const filtered = tournaments.filter((tournament) =>
+            tournament.name.toLowerCase().includes(term)
+        );
         setSearchResults(filtered);
     };
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
-        const filtered = tournaments.filter((tournament) => tournament.name.toLowerCase().includes(searchTerm));
+        const filtered = tournaments.filter((tournament) =>
+            tournament.name.toLowerCase().includes(searchTerm)
+        );
         setSearchResults(filtered);
     };
 
@@ -61,9 +65,6 @@ function Tournament() {
                             </button>
                         </form>
                     </div>
-                </div>
-                <div className="w-full">
-                    <TournamentSearch onSearch={handleSearch} />
                 </div>
 
                 <div className="bg-white rounded-lg shadow-lg p-6 mb-8">

@@ -23,11 +23,12 @@ import SponsorDashboard from "./SponsorDashboard.js";
 import Sessions from "./components/Sessions.js";
 import PlayerProfile from "./components/Player-Profile/profile.js";
 import JobListingForm from "./components/Clubs/JobListingForm.js";
-import PlayerDashboard from "./components/Clubs/PlayerDashboard.js"; 
+import PlayerDashboard from "./components/Clubs/PlayerDashboard.js"; // Ensure this is imported correctly
 import ProtectRoute from './components/ProtectRoute/index.js';
-import JobListings from './components/Clubs/JobListings.js'; 
+import JobListings from './components/Clubs/JobListings.js'; // Make sure this import is correct
+import ScoutPlayer from './components/Clubs/ScoutPlayer.js';
+import TournamentRegistration from "./components/SearchTournament/TournamentRegistration";
 import axios from 'axios';
-
 const App = () => {
   const matchCenterRef = useRef(null);
 
@@ -105,7 +106,8 @@ const App = () => {
         <Route path="/news" element={<News />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/job-listings" element={<JobListings />} /> 
+        <Route path="/job-listings" element={<JobListings />} /> {/* Moved here */}
+        <Route path="/register/:id" element={<TournamentRegistration />} />
         <Route path="/apply" element={
           <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <JobApplicationForm />
@@ -158,6 +160,16 @@ const App = () => {
         <Route path="/form" element={
           <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <JobListingForm />
+          </ProtectRoute>
+        } />
+        <Route path="/scout-players" element={
+          <ProtectRoute loggedIn={isLoggedIn}>
+            <JobListingForm />
+          </ProtectRoute>
+        } />
+        <Route path="/scout-players" element={
+          <ProtectRoute loggedIn={isLoggedIn}>
+            <ScoutPlayer />
           </ProtectRoute>
         } />
       </Routes>
