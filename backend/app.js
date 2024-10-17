@@ -31,6 +31,7 @@ app.use('/auth', authRoutes);
 app.use('/scrape', scrapeRoutes);
 app.use('/razorpay', razorpayRoutes);
 
+
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
@@ -116,10 +117,8 @@ app.delete('/api/posts/:id', async (req, res) => {
 });
 
 // Routes for authentication, scraping, and Razorpay
-
-
 // Connect to DB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('connected to database');
     // listen to port

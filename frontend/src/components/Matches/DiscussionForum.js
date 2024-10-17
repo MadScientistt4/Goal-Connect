@@ -93,42 +93,40 @@ function DiscussionForum() {
 
   if (!isUsernameSet) {
     return (
-      <div className="p-4">
-        <h2 className="text-xl font-bold">Enter a Username</h2>
+      <div className="p-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold mb-4 text-white">Join the Discussion</h2>
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Enter your username"
-          className="border border-gray-300 rounded-md px-2 py-1 mt-2 text-black"
+          className="w-full px-4 py-2 rounded-md border-2 border-white bg-transparent text-white placeholder-gray-300 focus:outline-none focus:border-yellow-400 transition duration-300"
         />
         <button
           onClick={handleUsernameSubmit}
-          className="mt-2 bg-blue-500 text-white rounded-md px-4 py-2"
+          className="mt-4 w-full bg-yellow-400 text-blue-900 font-bold py-2 px-4 rounded-md hover:bg-yellow-300 transition duration-300"
         >
-          Submit
+          Enter Forum
         </button>
       </div>
     );
   }
 
   return (
-    <div className="bg-white shadow rounded-lg p-4 mt-8 flex flex-col">
-      <h2 className="text-xl font-bold mb-4">Discussion Forum</h2>
-      <div className="space-y-4 max-h-96 overflow-y-auto mb-4">
+    <div className="bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg rounded-lg p-6 mt-8">
+      <h2 className="text-3xl font-bold mb-6 text-white">Live Chat</h2>
+      <div className="space-y-6 max-h-96 overflow-y-auto mb-6 pr-4 custom-scrollbar">
         {posts.map((post) => (
-          <div key={post._id} className="bg-gray-100 p-3 rounded-lg shadow">
-            <p className="text-gray-800">
-              <strong>{post.username}</strong>: {post.content}
+          <div key={post._id} className="bg-white bg-opacity-10 p-4 rounded-lg shadow backdrop-filter backdrop-blur-lg">
+            <p className="text-white">
+              <span className="font-semibold text-yellow-300">{post.username}</span>: {post.content}
             </p>
             <div>
               <button
-                onClick={() =>
-                  setActivePostId(post._id === activePostId ? null : post._id)
-                }
-                className="text-blue-500 underline mt-2"
+                onClick={() => setActivePostId(post._id === activePostId ? null : post._id)}
+                className="text-yellow-300 hover:text-yellow-100 transition duration-300 mt-2 font-medium"
               >
-                Reply
+                {activePostId === post._id ? "Cancel Reply" : "Reply"}
               </button>
               {activePostId === post._id && (
                 <form
@@ -143,11 +141,11 @@ function DiscussionForum() {
                     value={replyContent}
                     onChange={(e) => setReplyContent(e.target.value)}
                     placeholder="Write your reply..."
-                    className="border border-gray-300 rounded-md px-2 py-1 w-full text-black"
+                    className="w-full px-3 py-2 bg-white bg-opacity-20 rounded-md text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                   />
                   <button
                     type="submit"
-                    className="mt-2 bg-blue-500 text-white rounded-md px-2 py-1"
+                    className="mt-2 bg-yellow-400 text-blue-900 px-4 py-2 rounded-md hover:bg-yellow-300 transition duration-300"
                   >
                     Post Reply
                   </button>
@@ -155,12 +153,9 @@ function DiscussionForum() {
               )}
               {post.replies &&
                 post.replies.map((reply, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-200 p-2 rounded-md mt-2 ml-4"
-                  >
-                    <p className="text-black">
-                      <strong>{reply.username}</strong>: {reply.content}
+                  <div key={index} className="bg-white bg-opacity-5 p-3 rounded-md mt-2 ml-4">
+                    <p className="text-white">
+                      <span className="font-semibold text-yellow-200">{reply.username}</span>: {reply.content}
                     </p>
                   </div>
                 ))}
@@ -169,19 +164,19 @@ function DiscussionForum() {
         ))}
       </div>
 
-      <form onSubmit={handlePostSubmit} className="mb-6">
+      <form onSubmit={handlePostSubmit} className="mt-6">
         <textarea
           value={newPost}
           onChange={(e) => setNewPost(e.target.value)}
-          placeholder="Write your post..."
-          className="w-full px-4 py-2 mb-2 border border-gray-300 rounded-md resize-none text-black"
+          placeholder="Share your thoughts on the match..."
+          className="w-full px-4 py-3 mb-4 bg-white bg-opacity-20 rounded-lg resize-none text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
           rows="4"
         ></textarea>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
+          className="w-full bg-yellow-400 text-blue-900 font-bold px-6 py-3 rounded-lg hover:bg-yellow-300 transition duration-300"
         >
-          Post
+          Post Comment
         </button>
       </form>
     </div>
