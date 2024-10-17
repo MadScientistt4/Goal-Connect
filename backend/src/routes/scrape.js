@@ -185,6 +185,7 @@ router.get('/fixtures', async (req, res) => {
         res.status(500).json({ success: false, message: 'Failed to fetch clubs' });
     }
 });
+
 /*
 // Route to fetch player data
 router.get('/players', async (req, res) => {
