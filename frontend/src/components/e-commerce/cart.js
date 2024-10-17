@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 
 
 
-function Cart({ items, setCart, onClose }) {
+function Cart({ items = [], setCart, onClose }) {
     const removeFromCart = (productId) => {
         setCart((prev) => prev.filter((item) => item.id !== productId));
     };
