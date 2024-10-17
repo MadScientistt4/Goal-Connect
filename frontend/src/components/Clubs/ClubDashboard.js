@@ -2,9 +2,7 @@ import React from 'react';
 import clubLogo from '../../assets/sample-club-logo.png';
 import nikeLogo from '../../assets/nike.png';
 import adidasLogo from '../../assets/adidas.png';
-import player1 from '../../assets/chhetri.jpg'; // Sample player image
-import player2 from '../../assets/chhetri.jpg'; // Sample player image
-import player3 from '../../assets/chhetri.jpg'; // Sample player image
+
 import { Link } from 'react-router-dom';
 
 
@@ -19,20 +17,6 @@ const clubInfo = {
 };
 
 // Sample data for players
-const players = [
-    { id: 1, name: 'Kanye West', position: 'Forward', image: player1 },
-    { id: 2, name: 'Arijit Singh', position: 'Midfielder', image: player2 },
-    { id: 3, name: 'Akshay Kumar', position: 'Defender', image: player3 },
-    { id: 4, name: 'Dwayne Johnson', position: 'Defender', image: player3 },
-    { id: 5, name: 'Messi', position: 'Defender', image: player3 },
-    { id: 6, name: 'Tame Impala', position: 'Defender', image: player3 },
-    { id: 7, name: 'Honey singh', position: 'Defender', image: player3 },
-    { id: 8, name: 'Samay Raina', position: 'Defender', image: player3 },
-    { id: 9, name: 'Tanmay Bhat', position: 'Defender', image: player3 },
-    { id: 10, name: 'Madhur Virli', position: 'Defender', image: player3 },
-    { id: 11, name: 'Sunil Chettri', position: 'Defender', image: player3 },
-    // Add more players as needed
-];
 
 const ClubDashboard = () => {
     return (
@@ -55,7 +39,7 @@ const ClubDashboard = () => {
                     {/* Create Crowdfunding Campaign Button */}
                     <Link to="/crowdfunding">
                         <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-md shadow-lg transition duration-300">
-                            Create Crowdfunding Campaign
+                            View Crowdfunding Campaign
                         </button>
                     </Link>
                 </header>
@@ -129,29 +113,15 @@ const ClubDashboard = () => {
                     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
                         <p>Search for players, view their profiles, and add them to your scouting list.</p>
                         {/* Button to Scout for Players */}
-                        <button className="bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded mt-4 transition duration-300">
-                            Scout Players
-                        </button>
+                        <Link to="/scout-players">
+                            <button className="bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded mt-4 transition duration-300">
+                                Scout Players
+                            </button>
+                        </Link>
                     </div>
                 </section>
 
-                {/* Team Section */}
-                <section className="mb-2">
-                    <h2 className="text-2xl font-semibold mb-4">Our Team</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {players.map(player => (
-                            <div key={player.id} className="bg-gray-800 p-4 cursor-pointer hover:scale-105 transition-all rounded-lg shadow-lg flex flex-col items-center">
-                                <img
-                                    src={player.image}
-                                    alt={`${player.name}'s Profile`}
-                                    className="w-[10rem] h-[10rem] object-contain mb-2"
-                                />
-                                <h3 className="text-lg font-semibold">{player.name}</h3>
-                                <p className="text-gray-400">{player.position}</p>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+                
             </div>
         </div>
     );
