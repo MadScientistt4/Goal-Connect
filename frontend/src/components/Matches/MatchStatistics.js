@@ -1,29 +1,33 @@
 import React from 'react';
 
 
-const MatchStatistics = ({ matchData }) => {
-    const { teams, score, date, time, stadium, events, lineup, bench, playerOfTheMatch } = matchData;
-
+const MatchStatistics = ({ matchData, matchPassed }) => {
+    const {events, lineup, bench } = matchData;
+    console.log(matchPassed)
+    console.log(matchPassed)
     return (
         <div className="flex flex-col gap-4 items-center justify-between mx-auto max-w-5xl shadow-lg text-white">
             {/* Left Panel - Match Details & Events */}
             <div className="w-full shadow-lg border border-gray-700 bg-card-background px-4 pt-2 pb-4 rounded-lg">
                 {/* Match Header */}
                 <div className="text-center text-white p-2 rounded-lg mb-4">
-                    <h2 className="text-lg text-red-200 font-bold">THIS MATCH HAS FINISHED</h2>
-                    <p className="text-sm">{date} - {time} - {stadium}</p>
+                    {matchPassed.status === "live" ? <h2 className="text-lg text-red-200 font-bold">LIVE</h2>
+                    :
+                    <h2 className="text-lg text-green-200 font-bold">{matchPassed.status === "live" ? "LIVE MATCH GOING ON" : "MATCH FINISHED"}</h2>}
+                    
+                    <p className="text-sm">{matchPassed.date} {matchPassed.month} - {matchPassed.venue}</p>
                 </div>
 
                 {/* Score */}
                 <div className="flex-col sm:flex sm:flex-row sm:justify-between justify-center items-center mb-6">
                     <div className="text-center sm:text-left">
-                        <h3 className="text-xl font-bold">{teams.home}</h3>
+                        <h3 className="text-xl font-bold">{matchPassed.team1Name}</h3>
                     </div>
                     <div className="text-center text-3xl font-bold">
-                        {score.home} - {score.away}
+                        {matchPassed.team1Score} - {matchPassed.team2Score}
                     </div>
                     <div className="text-center sm:text-right">
-                        <h3 className="text-xl font-bold">{teams.away}</h3>
+                        <h3 className="text-xl font-bold">{matchPassed.team2Name}</h3>
                     </div>
                 </div>
 
@@ -37,7 +41,7 @@ const MatchStatistics = ({ matchData }) => {
                                 {event.yellowCard && `🟨 Yellow Card: ${event.player}`}
                                 {event.redCard && `🟥 Red Card: ${event.player}`}
                             </div>
-                            <div className="text-gray-300 text-sm">{event.team}</div>
+                            <div className="text-gray-300 text-sm">{matchPassed.team1Name}</div>
                         </div>
                     ))}
                 </div>

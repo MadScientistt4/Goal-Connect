@@ -13,19 +13,18 @@ const socketIo = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 
-// Add CORS options to allow requests from the frontend (localhost:3000)
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000", // Allow your frontend origin
-    methods: ["GET", "POST"], // Allow specific methods
-    allowedHeaders: ["Content-Type"], // Allow specific headers
-    credentials: true // Allow credentials (cookies, etc.)
+    origin: "http://localhost:3000", 
+    methods: ["GET", "POST"], 
+    allowedHeaders: ["Content-Type"], 
+    credentials: true 
   }
 });
 
 // middleware
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true })); // CORS for REST API
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(cookieParser());
 app.use('/auth', authRoutes);
 app.use('/scrape', scrapeRoutes);
@@ -43,7 +42,6 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// Razorpay order route
 app.post("/create-order", async (req, res) => {
   const { amount } = req.body;
   try {
@@ -59,13 +57,12 @@ app.post("/create-order", async (req, res) => {
   }
 });
 
-// Define a schema and model for posts (discussion forum)
 const postSchema = new mongoose.Schema({
   content: String,
-  username: String, // Store the username of the post creator
+  username: String, 
   replies: [{ 
     content: String, 
-    username: String, // Store the username of the reply creator
+    username: String, 
     createdAt: { type: Date, default: Date.now } 
   }],
   createdAt: { type: Date, default: Date.now }
@@ -73,35 +70,31 @@ const postSchema = new mongoose.Schema({
 
 const Post = mongoose.model("Post", postSchema);
 
-// API endpoint to get posts
 app.get("/api/posts", async (req, res) => {
   const posts = await Post.find();
   res.json(posts);
 });
 
-// API endpoint to create a new post
 app.post("/api/posts", async (req, res) => {
-  const { content, username } = req.body; // Accept the username
-  const newPost = new Post({ content, username }); // Include the username
+  const { content, username } = req.body; 
+  const newPost = new Post({ content, username }); 
   await newPost.save();
-  io.emit("newPost", newPost); // Emit new post event with the username
+  io.emit("newPost", newPost); 
   res.json(newPost);
 });
 
-// API endpoint to reply to a post
 app.post("/api/posts/:id/reply", async (req, res) => {
-  const { content, username } = req.body; // Accept the username
+  const { content, username } = req.body; 
   const post = await Post.findById(req.params.id);
 
-  const newReply = { content, username, createdAt: new Date() }; // Include the username in replies
+  const newReply = { content, username, createdAt: new Date() }; 
   post.replies.push(newReply);
   await post.save();
 
-  io.emit("newReply", post); // Emit the updated post with new reply
+  io.emit("newReply", post); 
   res.json(post);
 });
 
-// Route to delete a specific post by ID
 app.delete('/api/posts/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -109,19 +102,16 @@ app.delete('/api/posts/:id', async (req, res) => {
     if (!deletedPost) {
       return res.status(404).send('Post not found');
     }
-    io.emit("deletedPost", id); // Emit event for post deletion
+    io.emit("deletedPost", id); 
     res.status(200).send(deletedPost);
   } catch (error) {
     res.status(500).send('Server error');
   }
 });
 
-// Routes for authentication, scraping, and Razorpay
-// Connect to DB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('connected to database');
-    // listen to port
     server.listen(process.env.PORT, () => {
       console.log('listening for requests on port', process.env.PORT);
     });
@@ -130,11 +120,9 @@ mongoose.connect(process.env.MONGO_URI)
     console.log(err);
   });
 
-// Socket.io connection event
 io.on("connection", (socket) => {
   console.log("New client connected");
 
-  // Handle disconnection
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
