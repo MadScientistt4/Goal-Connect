@@ -38,6 +38,7 @@ const SponsorDashboard = () => {
       logo: 'https://via.placeholder.com/150?text=Club+F+Logo',
       description: 'Club F is celebrated for its inclusivity and diverse programs.',
     },
+    
   ]);
 
   const [selectedClub, setSelectedClub] = useState(null);
@@ -46,6 +47,7 @@ const SponsorDashboard = () => {
     sponsorLogo: null,
     logoPosition: '',
     amount: 0,
+    shirtColor: '#ffffff', // Default shirt color
   });
 
   const [successMessage, setSuccessMessage] = useState('');
@@ -58,7 +60,6 @@ const SponsorDashboard = () => {
 
   const handleSponsorshipFormSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission logic here
     setSuccessMessage(`Thank you! Your sponsorship for ${selectedClub.name} has been submitted.`);
     // Resetting the form
     setSponsorshipDetails({
@@ -66,6 +67,7 @@ const SponsorDashboard = () => {
       sponsorLogo: null,
       logoPosition: '',
       amount: 0,
+      shirtColor: '#ffffff', // Reset shirt color
     });
     setSelectedClub(null);
   };
@@ -85,6 +87,14 @@ const SponsorDashboard = () => {
       ...sponsorshipDetails,
       logoPosition: selectedPosition,
       amount: positionDetails ? positionDetails.price : 0,
+    });
+  };
+
+  const handleColorChange = (event) => {
+    const selectedColor = event.target.value;
+    setSponsorshipDetails({
+      ...sponsorshipDetails,
+      shirtColor: selectedColor,
     });
   };
 
@@ -121,6 +131,7 @@ const SponsorDashboard = () => {
               Sponsorship Form for {selectedClub.name}
             </h2>
             <form onSubmit={handleSponsorshipFormSubmit}>
+              {/* Form Fields */}
               <div className="mb-4">
                 <label className="block text-gray-300 text-sm font-bold mb-2">
                   Sponsor Name:
@@ -149,29 +160,22 @@ const SponsorDashboard = () => {
                   required
                 />
               </div>
+
+              {/* Shirt Color */}
               <div className="mb-4">
                 <label className="block text-gray-300 text-sm font-bold mb-2">
-                  Logo Position:
+                  Shirt Color:
                 </label>
-                <select
+                <input
+                  type="color"
                   className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={sponsorshipDetails.logoPosition}
-                  onChange={handlePositionChange}
+                  value={sponsorshipDetails.shirtColor}
+                  onChange={handleColorChange}
                   required
-                >
-                  <option value="">Select Position</option>
-                  {logoPositions.map((position) => (
-                    <option key={position.label} value={position.label}>
-                      {position.label} (₹{position.price})
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
-              
-              <button
-                className="bg-[#1E3A8A] hover:bg-[#1A2E66] text-white font-bold py-2 px-4 rounded w-full transition duration-300"
-                type="submit"
-              >
+
+              <button className="bg-[#1E3A8A] hover:bg-[#1A2E66] text-white font-bold py-2 px-4 rounded w-full transition duration-300" type="submit">
                 Submit
               </button>
             </form>
@@ -187,35 +191,81 @@ const SponsorDashboard = () => {
 
         {/* Shirt Preview Section */}
         {selectedClub && (
-          <div className="mb-4">
-            <h2 className="text-2xl font-bold mb-2 text-white">Shirt Preview</h2>
-            <div className="relative w-full h-48 bg-gray-900 border border-gray-700 flex items-center justify-center">
+          <div className="mb-4 flex justify-center space-x-4">
+            <div className="relative w-32 h-48 border border-gray-700 flex items-center justify-center">
+              <img
+                src="https://img.freepik.com/free-photo/simple-black-t-shirt-worn-by-man_53876-102772.jpg?size=626&ext=jpg"
+                alt="Shirt Outline 1"
+                className="w-full h-auto absolute"
+                style={{ top: '0', left: '50%', transform: 'translate(-50%, 0)' }}
+              />
+
+              {/* Sponsor Logo */}
               {sponsorshipDetails.sponsorLogo && (
                 <img
                   src={URL.createObjectURL(sponsorshipDetails.sponsorLogo)}
-                  alt="Sponsor Logo"
-                  className="absolute w-1/4 h-1/4"
+                  alt="Sponsor Logo 1"
+                  className="absolute w-2/6 h-auto"
                   style={{
                     left: '50%',
-                    top: '50%',
+                    top: '25%',
                     transform: 'translate(-50%, -50%)',
                   }}
                 />
               )}
-              <span className="text-gray-400">Preview</span>
-            </div>
-          </div>
-        )}
 
-        {/* Payment Option Section */}
-        {selectedClub && (
-          <div className="mb-4">
-            <h2 className="text-2xl font-bold mb-2 text-white">Payment Option</h2>
-            <button
-              className="bg-[#1E3A8A] hover:bg-[#1A2E66] text-white font-bold py-2 px-4 rounded w-full transition duration-300"
-            >
-              Pay ₹{sponsorshipDetails.amount}
-            </button>
+               <div
+                className="absolute text-white font-bold text-lg"
+                style={{
+                  left: '50%',
+                  bottom: '50%', // Adjust this value to position the name correctly on the shirt
+                  transform: 'translate(-50%, 0)',
+                  textAlign: 'center',
+                }}
+              >
+                {sponsorshipDetails.sponsorName}
+              </div>
+
+              <span className="text-gray-400 absolute bottom-0">Preview 1</span>
+            </div>
+
+            {/* Second Shirt Preview */}
+            <div className="relative w-40 h-48 border border-gray-700 flex items-center justify-center">
+              <img
+                src="https://img.freepik.com/free-psd/back-view-man-blank-black-t-shirt-grey-background_1142-61454.jpg?size=626&ext=jpg&ga=GA1.1.371358497.1729142906&semt=ais_hybrid"
+                alt="Shirt Outline 2"
+                className="w-full h-auto absolute"
+                style={{ top: '0', left: '50%', transform: 'translate(-50%, 0)' }}
+              />
+
+              {/* Sponsor Logo */}
+              {sponsorshipDetails.sponsorLogo && (
+                <img
+                  src={URL.createObjectURL(sponsorshipDetails.sponsorLogo)}
+                  alt="Sponsor Logo 2"
+                  className="absolute w-1/6 h-auto"
+                  style={{
+                    left: '52%',
+                    top: '30%',
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                />
+              )}
+
+<div
+                className="absolute text-white font-bold text-lg"
+                style={{
+                  left: '52%',
+                  bottom: '50%', // Adjust this value to position the name correctly on the shirt
+                  transform: 'translate(-50%, 0)',
+                  textAlign: 'center',
+                }}
+              >
+                {sponsorshipDetails.sponsorName}
+              </div>
+
+              <span className="text-gray-400 absolute bottom-0">Preview 2</span>
+            </div>
           </div>
         )}
       </div>
