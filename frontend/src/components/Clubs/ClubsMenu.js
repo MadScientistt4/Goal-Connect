@@ -67,7 +67,7 @@ const ClubsMenu = () => {
         };
 
         fetchClubsData();
-        console.log(clubsData)
+        setClubsData(clubsData)
     }, []);
 
     useEffect(() => {

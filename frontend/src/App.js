@@ -30,7 +30,7 @@ import ScoutPlayer from './components/Clubs/ScoutPlayer.js';
 import TournamentRegistration from "./components/SearchTournament/TournamentRegistration";
 const App = () => {
   const matchCenterRef = useRef(null);
-  const userRole = "Player"
+  const userRole = "Club"
 
   const scrollToMatchCenter = () => {
     if (matchCenterRef.current) {
