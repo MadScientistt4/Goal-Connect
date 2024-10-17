@@ -197,7 +197,7 @@ const Polls = () => {
                             value={option}
                             onChange={(e) => handleNewPollOptionChange(index, e.target.value)}
                             placeholder={`Option ${index + 1}`}
-                            className="flex-grow p-2 border border-gray-300 rounded-l text-blacks"
+                            className="flex-grow p-2 border border-gray-300 rounded-l text-black"
                         />
                         <button
                             onClick={() => removeNewPollOption(index)}

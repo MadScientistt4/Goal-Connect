@@ -1,7 +1,7 @@
 export const squads = [
     {
         id: 1,
-        name: "BENGALURU FOOTBALL CLUB",
+        name: "BENGALURU FC",
         players: {
             goalkeepers: [
                 {

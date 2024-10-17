@@ -45,11 +45,14 @@ const Navbar = ({ scrollToMatchCenter, loggedIn, userRole}) => {
             {loggedIn && (
                 <>
                     <Link to="/DigitalFootballAcademy" className='text-xl border-b border-b-gray-500 text-center py-6 w-full flex items-center justify-center'>Digital Football Academy</Link>
-                    <Link to="/shop" className='text-xl text-center py-6 w-full flex items-center justify-center'>Shop</Link>
+                    <Link to="/shop" className='text-xl text-center border-b border-b-gray-500 py-6 w-full flex items-center justify-center'>Shop</Link>
                 </>
             )}
-            {
-                userRole === "club" ? <Link to="/DigitalFootballAcademy" className='text-xl border-b border-b-gray-500 text-center py-6 w-full flex items-center justify-center'>Digital Football Academy</Link> : null
+            {userRole !== "User" ? <Link 
+                to={
+                    userRole === "Club" ? "/club-dashboard" : userRole === "Sponsor" ? "/sponsor-dashboard" : "/player-dashboard"
+                } 
+                className='text-xl text-center py-6 w-full flex items-center justify-center border-t-gray-500'>{userRole} Dashboard</Link> : null
             }
         </div>
     );
@@ -59,24 +62,31 @@ const Navbar = ({ scrollToMatchCenter, loggedIn, userRole}) => {
             <Link to="/">
                 <div className="left flex justify-center items-center gap-3 text-white">
                     <FootballLogo className='w-9 h-9' />
-                    <span className='text-xl text-md max-[363px]:hidden'>Goal Connect</span>
+                    <span className='text-xl max-[1074px]:text-[0.8rem] text-xl max-[1074px]:text-[0.8rem] max-[363px]:hidden'>Goal Connect</span>
                 </div>
             </Link>
 
             {/* Right - Links and Menu */}
             <div className="right flex justify-center items-center gap-4 sm:gap-7 text-white">
-                <Link to="/" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={scrollToMatchCenter}>Match hub</Link>
-                <Link to="/News" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>News</Link>
-                <Link to="/clubs" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={handleClubsClick}>Clubs</Link> {/* Navigate to Clubs */}
+                <Link to="/" className='hidden md:block text-xl max-[1074px]:text-[0.8rem] hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={scrollToMatchCenter}>Match hub</Link>
+                <Link to="/News" className='hidden md:block text-xl max-[1074px]:text-[0.8rem] hover:text-blue-300 transition-all duration:75 cursor-pointer'>News</Link>
+                <Link to="/clubs" className='hidden md:block text-xl max-[1074px]:text-[0.8rem] hover:text-blue-300 transition-all duration:75 cursor-pointer' onClick={handleClubsClick}>Clubs</Link> {/* Navigate to Clubs */}
 
                 {/* Conditionally render Shop and Digital Football Academy based on loggedIn prop */}
                 {loggedIn && (
                     <>
-                        <Link to="/DigitalFootballAcademy" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Digital Football Academy</Link>
-                        <Link to="/shop" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Shop</Link>
-                        <Link to="/crowdfunding" className='hidden md:block text-xl hover:text-blue-300 transition-all duration:75 cursor-pointer'>Contribute</Link>
+                        <Link to="/DigitalFootballAcademy" className='hidden md:block text-xl max-[1074px]:text-[0.8rem] hover:text-blue-300 transition-all duration:75 cursor-pointer'>Digital Football Academy</Link>
+                        <Link to="/shop" className='hidden md:block text-xl max-[1074px]:text-[0.8rem] hover:text-blue-300 transition-all duration:75 cursor-pointer'>Shop</Link>
+                        <Link to="/crowdfunding" className='hidden md:block text-xl max-[1074px]:text-[0.8rem] hover:text-blue-300 transition-all duration:75 cursor-pointer'>Contribute</Link>
                     </>
                 )}
+                
+                {userRole !== "User" ? <Link 
+                to={
+                    userRole === "Club" ? "/club-dashboard" : userRole === "Sponsor" ? "/sponsor-dashboard" : "/player-dashboard"
+                } 
+                className='hidden md:block text-xl max-[1074px]:text-[0.8rem] hover:text-blue-300 transition-all duration:75 cursor-pointer'>{userRole} Dashboard</Link> : null}
+
 
                 {/* Profile/Login */}
                 {loggedIn ? (
@@ -88,13 +98,13 @@ const Navbar = ({ scrollToMatchCenter, loggedIn, userRole}) => {
                         <Link to="/login">
                             <div className='login hover:border-gray-400 border border-gray-500 py-1 px-3 gap-2 rounded flex items-center justify-center cursor-pointer transition-all duration:75'>
                                 {/* <ProfilePic className='h-8 w-6' /> */}
-                                <span className='text-xl'>Login</span>
+                                <span className='text-xl max-[1074px]:text-[0.8rem]'>Login</span>
                             </div>
                         </Link>
                         <Link to="/signup">
                             <div className='login hover:border-gray-400 border border-gray-500 py-1 px-3 gap-2 rounded flex items-center justify-center cursor-pointer transition-all duration:75'>
                                 {/* <ProfilePic className='h-8 w-6' /> */}
-                                <span className='text-xl'>Sign up</span>
+                                <span className='text-xl max-[1074px]:text-[0.8rem]'>Sign up</span>
                             </div>
                         </Link>
                     </>
