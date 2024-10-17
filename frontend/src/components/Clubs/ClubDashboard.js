@@ -129,9 +129,11 @@ const ClubDashboard = () => {
                     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
                         <p>Search for players, view their profiles, and add them to your scouting list.</p>
                         {/* Button to Scout for Players */}
-                        <button className="bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded mt-4 transition duration-300">
-                            Scout Players
-                        </button>
+                        <Link to="/scout-players">
+                            <button className="bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded mt-4 transition duration-300">
+                                Scout Players
+                            </button>
+                        </Link>
                     </div>
                 </section>
 
