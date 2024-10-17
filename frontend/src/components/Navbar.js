@@ -18,33 +18,33 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
     };
 
     const Menu = () => (
-        <div className="menu absolute text-white max-h-[85vh] bg-background-dark bg-opacity-[0.98] top-[15vh] w-[65vw] left-[20%] flex flex-col items-center justify-around rounded-[10%]">
+        <div className="menu absolute text-white bg-background-dark bg-opacity-[0.98] top-[20vh] w-[65vw] left-[20%] flex flex-col items-center justify-around rounded-lg">
             <Link
                 to="/"
-                className="text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4"
+                className="text-xl border-b border-b-gray-500 text-center py-6 w-full flex items-center justify-center border-t-gray-500"
                 onClick={scrollToMatchCenter}
             >
                 Match hub
             </Link>
             <Link
                 to="/crowdfunding"
-                className="text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4"
+                className="text-xl border-b border-b-gray-500 text-center py-6 w-full flex items-center justify-center border-t-gray-500"
             >
                 Crowdfunding
             </Link>
             <Link
                 to="/news"
-                className="text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4"
+                className="text-xl border-b border-b-gray-500 text-center py-6 w-full flex items-center justify-center border-t-gray-500"
             >
                 News
             </Link>
-            <Link to="/clubs" className="text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center border-t-gray-500 p-4">
+            <Link to="/clubs" className="text-xl border-b border-b-gray-500 text-center py-6 w-full flex items-center justify-center border-t-gray-500">
                 Clubs
             </Link>
             {loggedIn && (
                 <>
-                    <Link to="/DigitalFootballAcademy" className='text-xl border-b border-b-gray-500 text-center w-full py-10 h-full flex items-center justify-center p-4'>Digital Football Academy</Link>
-                    <Link to="/shop" className='text-xl text-center w-full py-10 h-full flex items-center justify-center p-4'>Shop</Link>
+                    <Link to="/DigitalFootballAcademy" className='text-xl border-b border-b-gray-500 text-center py-6 w-full flex items-center justify-center'>Digital Football Academy</Link>
+                    <Link to="/shop" className='text-xl text-center py-6 w-full flex items-center justify-center'>Shop</Link>
                 </>
             )}
         </div>

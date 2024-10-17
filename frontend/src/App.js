@@ -5,6 +5,7 @@ import Hero from "./components/Home/Hero.js";
 import MatchCenter from "./components/Home/MatchCenter.js";
 import ClubDashboard from "./components/Clubs/ClubDashboard.js";
 import ClubsMenu from './components/Clubs/ClubsMenu.js';
+import ClubTemp from './components/Clubs/ClubTemp.js';
 import Crowdfunding from "./components/Crowdfunding.js";
 import Digitalfootballacademy from "./components/Digitalfootballacademy.js";
 import RegistrationPage from "./components/registration.js";
@@ -101,6 +102,9 @@ const App = () => {
         </ProtectedRoute>} />
         <Route path="/sessions" element={<ProtectedRoute loggedIn={isLoggedIn}>
           <Sessions />
+        </ProtectedRoute>} />
+        <Route path="/club-temp" element={<ProtectedRoute loggedIn={isLoggedIn}>
+          <ClubTemp />
         </ProtectedRoute>} />
         <Route path="/player/:playerName" element={<PlayerProfile />} />
         <Route path="/form" element={

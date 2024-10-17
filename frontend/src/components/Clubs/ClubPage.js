@@ -14,7 +14,7 @@ const ClubPage = () => {
     const { clubsData } = useContext(ClubsContext);
 
     // Find the club in static data and context data
-    const club = clubs.find(c => c.name.toLowerCase() === decodedClubName.toLowerCase());
+    const club = clubs.find(c => c.fullName.toLowerCase() === decodedClubName.toLowerCase());
     const clubData = clubsData.find(c => c.fullName.toLowerCase() === decodedClubName.toLowerCase());
 
     // If the club is not found in either static or context data, show an error message

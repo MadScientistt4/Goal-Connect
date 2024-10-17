@@ -100,7 +100,8 @@ const ClubsMenu = () => {
                     {filteredClubs.map((club, index) => (
                         <Link
                             key={index}
-                            to={`/clubs/${encodeURIComponent(club.fullName.toLowerCase().replace(/ /g, '-'))}`} // Link to the club page
+                            to={`/club-temp`}
+                            state={{club}} // Link to the club page
                             className="flex flex-col items-center border shadow-sm bg-card-background bg-opacity-100 p-4 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105"
                         >
                             <img
