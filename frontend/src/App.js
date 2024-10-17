@@ -27,7 +27,7 @@ import PlayerDashboard from "./components/Clubs/PlayerDashboard.js"; // Ensure t
 import ProtectedRoute from './components/ProtectedRoute.js';
 import JobListings from './components/Clubs/JobListings.js'; // Make sure this import is correct
 import ScoutPlayer from './components/Clubs/ScoutPlayer.js';
-
+import TournamentRegistration from "./components/SearchTournament/TournamentRegistration";
 const App = () => {
   const matchCenterRef = useRef(null);
   const userRole = "Player"
@@ -76,6 +76,7 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/job-listings" element={<JobListings />} /> {/* Moved here */}
+        <Route path="/register/:id" element={<TournamentRegistration />} />
         <Route path="/apply" element={
           <ProtectedRoute loggedIn={isLoggedIn}>
             <JobApplicationForm />
