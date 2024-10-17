@@ -92,6 +92,7 @@ const App = () => {
             <CreateCampaign />
           </ProtectedRoute>
         } />
+        <Route path="/clubs/:clubName" element={<ClubPage />}/>
         <Route path="/tournaments" element={<ProtectedRoute loggedIn={isLoggedIn}>
           <Tournament />
         </ProtectedRoute>} />
