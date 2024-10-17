@@ -1,7 +1,5 @@
 import React from 'react';
-import DiscussionForum from './DiscussionForum'; // Adjust path if necessary
 
-// import manImage from './assets/messi.png';
 
 const MatchStatistics = ({ matchData }) => {
     const { teams, score, date, time, stadium, events, lineup, bench, playerOfTheMatch } = matchData;
@@ -74,18 +72,7 @@ const MatchStatistics = ({ matchData }) => {
                     </div>
                 </div>
 
-                {/* Player of the Match */}
-                <div className="bg-blue-700 w-full max-w-[20rem] text-white shadow-lg p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-center mb-4">Player of the Match</h3>
-                    <div className="text-center">
-                        <img
-                            src={playerOfTheMatch.image}
-                            alt={playerOfTheMatch.name}
-                            className="mx-auto max-w-[10rem] w-full mb-2"
-                        />
-                        <p className="font-bold">{playerOfTheMatch.name}</p>
-                    </div>
-                </div>
+                
             </div>
         </div>
     );
