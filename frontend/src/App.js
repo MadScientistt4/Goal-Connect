@@ -26,6 +26,7 @@ import JobListingForm from "./components/Clubs/JobListingForm.js";
 import PlayerDashboard from "./components/Clubs/PlayerDashboard.js"; // Ensure this is imported correctly
 import ProtectedRoute from './components/ProtectedRoute.js';
 import JobListings from './components/Clubs/JobListings.js'; // Make sure this import is correct
+import ScoutPlayer from './components/Clubs/ScoutPlayer.js';
 
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -127,6 +128,11 @@ const App = () => {
         <Route path="/form" element={
           <ProtectedRoute loggedIn={isLoggedIn}>
             <JobListingForm />
+          </ProtectedRoute>
+        } />
+        <Route path="/scout-players" element={
+          <ProtectedRoute loggedIn={isLoggedIn}>
+            <ScoutPlayer />
           </ProtectedRoute>
         } />
       </Routes>
