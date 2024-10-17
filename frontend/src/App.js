@@ -17,6 +17,7 @@ import MatchSummaryPage from "./components/Matches/MatchSummary.js";
 import PostNews from "./components/Clubs/PostNews.js";
 import CreateCampaign from "./components/Clubs/CreateCampaign.js";
 import ClubPage from "./components/Clubs/ClubPage.js";
+import ClubTemp from "./components/Clubs/ClubTemp.js";
 import Tournament from "./components/SearchTournament/Tournament.js";
 import SponsorDashboard from "./SponsorDashboard.js";
 import Sessions from "./components/Sessions.js";
@@ -28,7 +29,7 @@ import JobListings from './components/Clubs/JobListings.js'; // Make sure this i
 
 const App = () => {
   const matchCenterRef = useRef(null);
-  const userRole = "User"
+  const userRole = "Player"
 
   const scrollToMatchCenter = () => {
     if (matchCenterRef.current) {
@@ -40,7 +41,7 @@ const App = () => {
 
   return (
     <>
-      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={isLoggedIn} />
+      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={isLoggedIn} userRole = {userRole}/>
       <Routes>
         <Route path="/" element={
           <div>
@@ -115,6 +116,11 @@ const App = () => {
         <Route path="/sessions" element={
           <ProtectedRoute loggedIn={isLoggedIn}>
             <Sessions />
+          </ProtectedRoute>
+        } />
+        <Route path="/club-temp" element={
+          <ProtectedRoute loggedIn={isLoggedIn}>
+            <ClubTemp />
           </ProtectedRoute>
         } />
         <Route path="/player/:playerName" element={<PlayerProfile />} />
