@@ -6,7 +6,8 @@ const SignUp = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    role: 'User' // Default role
   });
 
   const handleInputChange = (e) => {
@@ -19,6 +20,7 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const options = {
       method: 'POST',
       headers: {
@@ -26,22 +28,25 @@ const SignUp = () => {
       },
       body: JSON.stringify(formData),
     };
+    
     const url = 'http://localhost:5000/apis/signup';
     try {
       const res = await fetch(url, options);
       const data = await res.json();
-      console.log('data submitted:', data);
-      navigate("/");
+  
+      if (data.token) {
+        // Store the JWT token in localStorage
+        localStorage.setItem('token', data.token);
+        console.log('Login successful, token stored:', data.token);
+      }
+  
+      navigate("/",{ state: { recheckLogin: true } });
+      window.location.reload(); // Navigate to home or dashboard after successful login
     } catch (err) {
       console.log(err);
-    } finally {
-      setFormData({
-        name: '',
-        email: '',
-        password: ''
-      });
     }
   };
+  
 
   return (
     <div className="relative flex items-center bg-background-hero justify-center h-[92vh] bg-cover bg-center" >
@@ -84,6 +89,20 @@ const SignUp = () => {
               placeholder="Enter your password"
               required
             />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-200">Role</label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleInputChange}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="User">User</option>
+              <option value="Player">Player</option>
+              <option value="Club">Club</option>
+              <option value="Sponsor">Sponsor</option>
+            </select>
           </div>
 
           <button

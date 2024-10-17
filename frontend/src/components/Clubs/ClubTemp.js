@@ -19,21 +19,6 @@ const clubInfo = {
 };
 
 // Sample data for players
-const players = [
-    { id: 1, name: 'Sunil Chhetri', position: 'Forward', image: player1 },
-    { id: 2, name: 'Arijit Singh', position: 'Midfielder', image: player2 },
-    { id: 3, name: 'Akshay Kumar', position: 'Defender', image: player3 },
-    { id: 4, name: 'Dwayne Johnson', position: 'Defender', image: player3 },
-    { id: 5, name: 'Messi', position: 'Defender', image: player3 },
-    { id: 6, name: 'Tame Impala', position: 'Defender', image: player3 },
-    { id: 7, name: 'Honey Singh', position: 'Defender', image: player3 },
-    { id: 8, name: 'Samay Raina', position: 'Defender', image: player3 },
-    { id: 9, name: 'Tanmay Bhat', position: 'Defender', image: player3 },
-    { id: 10, name: 'Madhur Virli', position: 'Defender', image: player3 },
-    { id: 11, name: 'Sunil Chhetri', position: 'Defender', image: player3 },
-    // Add more players as needed
-];
-
 
 const ClubDashboard = () => {
     const location = useLocation();
@@ -48,6 +33,9 @@ const ClubDashboard = () => {
     let clubName = clubInfoReceived.fullName
 
     const clubSquad = squads.find(club => club.name === clubName.toUpperCase());
+    if (!clubSquad) {
+        return <div>Club squad information not available for {clubName}.</div>;
+    }
     console.log(clubSquad)
     let playerData = clubSquad.players
     let coachData = clubSquad.coach
@@ -104,11 +92,11 @@ const ClubDashboard = () => {
                     <h2 className="text-6xl font-semibold mb-2">Our Team</h2>
                     <div className='flex flex-col justify-center'>
                         <h1 className='text-3xl my-4 text-left'>Coaches</h1>
-                        <Link key = {coachData.id} to={`/player/${encodeURIComponent(coachData.name.toUpperCase())}`}>
-                        <div className='card max-w-[15rem] flex flex-wrap border border-gray-600 rounded p-5'>
-                            <h1 className='text-md '>{coachData.name}</h1>
-                            <img src={coachData.image} className='rounded text-md' alt={coachData.name}></img>
-                        </div>
+                        <Link key={coachData.id} to={`/player/${encodeURIComponent(coachData.name.toUpperCase())}`}>
+                            <div className='card max-w-[15rem] flex flex-wrap border border-gray-600 rounded p-5'>
+                                <h1 className='text-md '>{coachData.name}</h1>
+                                <img src={coachData.image} className='rounded text-md' alt={coachData.name}></img>
+                            </div>
                         </Link>
                     </div>
                     <div className='category flex flex-col w-full'>

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { AiOutlineClose } from 'react-icons/ai'; // Importing an icon for the close button
-
+import { AiOutlineClose } from 'react-icons/ai';
 const RegistrationPage = ({ closeRegistration }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phones: [''], // Start with one phone number field
+    phones: [''], 
     age: '',
   });
 
@@ -13,27 +12,23 @@ const RegistrationPage = ({ closeRegistration }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Handle form input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Handle phone number change
   const handlePhoneChange = (index, value) => {
     const newPhones = [...formData.phones];
     newPhones[index] = value;
     setFormData((prevData) => ({ ...prevData, phones: newPhones }));
   };
 
-  // Add another phone field (up to 2)
   const addPhoneField = () => {
     if (formData.phones.length < 2) {
       setFormData((prevData) => ({ ...prevData, phones: [...prevData.phones, ''] }));
     }
   };
 
-  // Validate form fields
   const validateForm = () => {
     if (!formData.name || !formData.email || !formData.age) {
       setError('All fields are required.');
@@ -51,7 +46,6 @@ const RegistrationPage = ({ closeRegistration }) => {
     return true;
   };
 
-  // Handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -60,14 +54,13 @@ const RegistrationPage = ({ closeRegistration }) => {
     setTimeout(() => {
       setSubmitted(true);
       setLoading(false);
-    }, 500); // Simulated delay for form submission
+    }, 500); 
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
       <div className="relative bg-gray-800 p-6 rounded-lg shadow-lg w-96">
         
-        {/* Close button in the registration form */}
         <button 
           onClick={closeRegistration} 
           className="absolute top-2 right-2 text-white hover:text-gray-400"

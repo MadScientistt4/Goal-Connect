@@ -5,10 +5,9 @@ import Polls from './Polls';
 import Highlights from './Highlights';
 import FanLeaderboard from './FanLeaderboard';
 import { useLocation } from 'react-router-dom';
-import manImage from '../../assets/messi.png'
+import manImage from '../../assets/messi.png';
 
 const MatchSummaryPage = () => {
-
     const location = useLocation();
     const matchState = location.state || 'No day provided'; // Fallback if state is null
 
@@ -53,58 +52,63 @@ const MatchSummaryPage = () => {
     }, []);
 
     return (
-        <div className="text-white relative w-full h-screen bg-cover bg-center bg-background-match-summary overflow-hidden">
+        <div className="text-white relative w-full min-h-screen bg-cover bg-center bg-background-match-summary overflow-hidden">
+            {/* Background overlay */}
             <div className="absolute inset-0 bg-black opacity-80"></div>
 
-            <div className="relative z-2 h-full flex flex-col">
+            <div className="relative z-2 flex flex-col min-h-screen">
                 {/* Header */}
-                <header className="bg-gray-900 p-4">
-                    <h1 className="text-3xl font-bold text-center">Match Summary</h1>
+                <header className="bg-gray-900 p-4 text-center">
+                    <h1 className="text-2xl sm:text-3xl font-bold">Match Summary</h1>
                 </header>
 
                 {/* Main content area */}
-                <div className="flex-1 flex overflow-hidden">
+                <div className="flex flex-col md:flex-row flex-grow overflow-hidden">
                     {/* Left sidebar */}
-                    <aside className="w-1/4 flex flex-col bg-gray-800 overflow-y-auto">
-                        <div className="p-4 flex-shrink-0">
-                            <FanLeaderboard />
-                        </div>
+                    <aside className="w-full md:w-1/4 flex flex-col bg-gray-800 overflow-y-auto p-4">
+                        <FanLeaderboard />
                         {
-                            matchState.status === "past" ? <div className="p-4 flex-shrink-0">
-                            <div className="bg-blue-700 w-full text-white shadow-lg p-4 rounded-lg">
-                                <h3 className="text-lg font-semibold text-center mb-4">Player of the Match</h3>
-                                <div className="text-center">
-                                    <img
-                                        src={matchData.playerOfTheMatch.image}
-                                        alt={matchData.playerOfTheMatch.name}
-                                        className="mx-auto w-[10rem] h-[10rem] object-contain mb-2"
-                                    />
-                                    <p className="font-bold">{matchData.playerOfTheMatch.name}</p>
+                            matchState.status === "past" ? (
+                                <div className="mt-4">
+                                    <div className="bg-blue-700 w-full text-white shadow-lg p-4 rounded-lg">
+                                        <h3 className="text-lg font-semibold text-center mb-4">Player of the Match</h3>
+                                        <div className="text-center">
+                                            <img
+                                                src={matchData.playerOfTheMatch.image}
+                                                alt={matchData.playerOfTheMatch.name}
+                                                className="mx-auto w-[8rem] sm:w-[10rem] h-[8rem] sm:h-[10rem] object-contain mb-2"
+                                            />
+                                            <p className="font-bold">{matchData.playerOfTheMatch.name}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div> : null
+                            ) : null
                         }
-                        
                     </aside>
 
                     {/* Center content */}
                     <main className="flex-1 flex flex-col p-4 overflow-y-auto">
-                        <div className="mb-6 flex-shrink-0">
-                            <MatchStatistics matchData={matchData} matchPassed={matchState}/>
+                        <div className="mb-6">
+                            <MatchStatistics matchData={matchData} matchPassed={matchState} />
                         </div>
-                        {matchState.status === "past" ? <div className="mb-6 flex-shrink-0">
-                            <Highlights />
-                        </div> : null}
                         {
-                            matchState.status === "live" ? <div className="mt-auto">
-                            <DiscussionForum />
-                        </div> : null
+                            matchState.status === "past" ? (
+                                <div className="mb-6">
+                                    <Highlights />
+                                </div>
+                            ) : null
                         }
-                        
+                        {
+                            matchState.status === "live" ? (
+                                <div className="mt-auto">
+                                    <DiscussionForum />
+                                </div>
+                            ) : null
+                        }
                     </main>
 
                     {/* Right sidebar */}
-                    <aside className="w-1/4 bg-gray-800 p-4 overflow-y-auto">
+                    <aside className="w-full md:w-1/4 bg-gray-800 p-4 overflow-y-auto mt-4 md:mt-0">
                         <Polls />
                     </aside>
                 </div>

@@ -1,34 +1,18 @@
 const jwt = require('jsonwebtoken');
 
-function generateAccessToken(user){
-    jwt.sign(
+const generateAccessToken = (user) => {
+  return jwt.sign(
     {
-        name: user.name,
-        email: user.email,
-        role: user.role
+      _id: user._id,        // Include _id for efficient lookups
+      name: user.name,
+      email: user.email,
+      role: user.role
     },
-    process.env.SECRET_REFRESH_TOKEN,
-    { expiresIn: '1d' }
-)
+    process.env.SECRET_ACCESS_TOKEN,
+    { expiresIn: '1d' }     // Token expires in 1 day
+  );
 }
 
-const refreshToken = jwt.sign(
-    {
-        email: user.email,
-    },
-    process.env.SECRET_REFRESH_TOKEN,
-    { expiresIn: '1d' }
-)
-
-res.cookie('jwt', refreshToken, {
-    httpOnly: true,
-    sameSite: 'None',
-    maxAge: 1 * 24 * 60 * 60
-})
-
-res.json({accessToken})
-
 module.exports = {
-    generateAccessToken,
-    generateAccessToken
+  generateAccessToken
 }

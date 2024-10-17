@@ -9,17 +9,17 @@ const data = squads.flatMap(squad =>
         position: player.position || "Unknown",
         goals: player.goals || 0,
         jerseyNumber: player.jerseyNumber,
-        minutes: player.matchesPlayed * 90, // Approximation
+        minutes: player.matchesPlayed * 90, 
         goalConversionPercentage: player.goals ? (player.goals / player.shotsOnTarget * 100).toFixed(2) : 0,
         appearances: player.matchesPlayed,
         assists: player.assists || 0,
         age: player.age || "Unknown",
-        country: "IN", // Assuming all players are from India
+        country: "IN", 
         height: player.height || "Unknown",
         fullImage: player.image,
         stats: {
             appearances: player.matchesPlayed,
-            minutes: player.matchesPlayed * 90, // Approximation
+            minutes: player.matchesPlayed * 90, 
             cleanSheets: player.cleanSheets || 0,
             recoveries: player.recoveries || 0,
             tackles: player.tackles || 0,
@@ -38,7 +38,7 @@ const data = squads.flatMap(squad =>
             goals: player.goals || 0,
             assists: player.assists || 0,
             chancesCreated: player.chancesCreated || 0,
-            // Add more stats as needed
+            
         },
     }))
 );

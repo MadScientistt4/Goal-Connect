@@ -10,8 +10,7 @@ function DiscussionForum() {
   const [replyContent, setReplyContent] = useState("");
   const [activePostId, setActivePostId] = useState(null);
   const [username, setUsername] = useState("");
-  const [isUsernameSet, setIsUsernameSet] = useState(false); // Track if username is set
-
+  const [isUsernameSet, setIsUsernameSet] = useState(false); 
   const MAX_POSTS = 6;
 
   useEffect(() => {

@@ -1,15 +1,15 @@
 const authService = require('../services/login');
 
-async function loginUser(req, res) {
+async function login(req, res) {
     try {
         const { email, password } = req.body; 
-        console.log(req.body);
-        const token = await authService.login(email, password);
+        console.log(req.body);  // Check the incoming request body for debugging
+        const token = await authService.loginUser(email, password);
         res.json({ token: token });
     } catch (err) {
         console.log("Error: ", err.message);
-        res.status(401).json({ message: "Invalid credentials" });
+        res.status(401).json({ message: err.message });  // Send the specific error message to the client
     }
 }
 
-module.exports = { loginUser };
+module.exports = { login };

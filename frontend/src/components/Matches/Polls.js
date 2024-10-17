@@ -50,7 +50,7 @@ const Polls = () => {
             if (poll.id === pollId) {
                 return {
                     ...poll,
-                    options: poll.options.map(opt => 
+                    options: poll.options.map(opt =>
                         opt.label === selectedPoll[pollId] ? { ...opt, votes: opt.votes + 1 } : opt
                     )
                 };
@@ -92,7 +92,7 @@ const Polls = () => {
     };
 
     const handleNewPollOptionChange = (index, value) => {
-        const updatedOptions = newPollOptions.map((option, i) => 
+        const updatedOptions = newPollOptions.map((option, i) =>
             i === index ? value : option
         );
         setNewPollOptions(updatedOptions);
@@ -152,11 +152,11 @@ const Polls = () => {
                                     </div>
                                 );
                             })}
-                            <div className="flex justify-between mt-4">
+                            <div className="flex flex-col sm:flex-row justify-between mt-4 space-y-2 sm:space-y-0 sm:space-x-2">
                                 {!pollSubmitted[poll.id] ? (
                                     <button
                                         onClick={() => handlePollSubmit(poll.id)}
-                                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors flex items-center"
+                                        className="bg-blue-500 text-white w-full sm:w-auto px-4 py-2 rounded hover:bg-blue-600 transition-colors flex items-center justify-center"
                                         disabled={!selectedPoll[poll.id]}
                                     >
                                         <FaVoteYea className="mr-2" /> Submit Vote
@@ -164,14 +164,14 @@ const Polls = () => {
                                 ) : (
                                     <button
                                         onClick={() => resetPoll(poll.id)}
-                                        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors flex items-center"
+                                        className="bg-gray-500 text-white w-full sm:w-auto px-4 py-2 rounded hover:bg-gray-600 transition-colors flex items-center justify-center"
                                     >
                                         <FaUndo className="mr-2" /> Reset Vote
                                     </button>
                                 )}
                                 <button
                                     onClick={() => toggleResults(poll.id)}
-                                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors flex items-center"
+                                    className="bg-green-500 text-white w-full sm:w-auto px-4 py-2 rounded hover:bg-green-600 transition-colors flex items-center justify-center"
                                 >
                                     <FaChartBar className="mr-2" /> {showResults[poll.id] ? 'Hide' : 'Show'} Results
                                 </button>
