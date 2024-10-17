@@ -55,8 +55,14 @@ const products = [
 ];
 
 function ProductList() {
-    const [favorites, setFavorites] = useState([]);
-    const [cart, setCart] = useState([]);
+    const [favorites, setFavorites] = useState(() => {
+        const savedFavorites = localStorage.getItem('favorites');
+        return savedFavorites ? JSON.parse(savedFavorites) : [];
+    });
+    const [cart, setCart] = useState(() => {
+        const savedCart = localStorage.getItem('cart');
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
     const [filteredProducts, setFilteredProducts] = useState(products);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
@@ -66,6 +72,14 @@ function ProductList() {
     useEffect(() => {
         setIsSidebarOpen(isCartOpen || isFavoritesOpen);
     }, [isCartOpen, isFavoritesOpen]);
+
+    useEffect(() => {
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }, [favorites]);
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
 
     const toggleFavorite = (product) => {
         setFavorites((prev) =>
@@ -128,7 +142,7 @@ function ProductList() {
             />
             {isCartOpen && <Cart items={cart} setCart={setCart} onClose={closeCart} />}
             {isFavoritesOpen && (
-                <div className="fixed right-0 top-[64px] h-[calc(100vh-64px)] w-64 bg-white shadow-lg p-4 overflow-y-auto z-50">
+                <div className="fixed right-0 top-[64px] h-[calc(100vh-64px)] w-full sm:w-64 bg-white shadow-lg p-4 overflow-y-auto z-50">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-bold text-gray-800">Your Favorites</h2>
                         <button onClick={closeFavorites} className="text-gray-500 hover:text-gray-700">
@@ -150,7 +164,7 @@ function ProductList() {
                 </div>
             )}
             <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                     {filteredProducts.map((product) => (
                         <div
                             key={product.id}
@@ -161,11 +175,11 @@ function ProductList() {
                             onMouseLeave={() => setHoveredProduct(null)}
                         >
                             <div className="p-4">
-                                <h2 className="text-xl font-bold mb-2 text-gray-800">{product.name}</h2>
+                                <h2 className="text-lg sm:text-xl font-bold mb-2 text-gray-800">{product.name}</h2>
                             </div>
                             <div className="p-4">
-                                <img src={product.image} alt={product.name} className="w-full h-48 object-cover mb-4" />
-                                <p className="text-lg font-semibold text-gray-800">₹{product.price.toFixed(2)}</p>
+                                <img src={product.image} alt={product.name} className="w-full h-40 sm:h-48 object-cover mb-4" />
+                                <p className="text-base sm:text-lg font-semibold text-gray-800">₹{product.price.toFixed(2)}</p>
                             </div>
                             <div className="p-4 flex justify-between">
                                 <button
@@ -181,10 +195,10 @@ function ProductList() {
                                     />
                                 </button>
                                 <button
-                                    className="flex items-center px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                    className="flex items-center px-3 sm:px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm sm:text-base"
                                     onClick={() => addToCart(product)}
                                 >
-                                    <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+                                    <ShoppingCart className="mr-1 sm:mr-2 h-4 w-4" /> Add to Cart
                                 </button>
                             </div>
                         </div>
