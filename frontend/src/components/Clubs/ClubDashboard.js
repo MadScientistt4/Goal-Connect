@@ -102,20 +102,25 @@ const ClubDashboard = () => {
                             </button>
                         </Link>
                     </div>
+                    <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+                        <h3 className="text-xl font-semibold mb-4">Create a new Campaign</h3>
+                        <p className="mb-4">Raise funds with the help of your fans.</p>
 
 
-                    {/* Create Crowdfunding Campaign */}
-                    <Link to={{
-                        pathname: "/create-campaign",
-                        state: {
-                            clubName: clubInfo.name,
-                            clubLogo: clubInfo.logo
-                        }
-                    }}>
-                        <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded transition duration-300">
-                            Start Campaign
-                        </button>
-                    </Link>
+                        {/* Create Crowdfunding Campaign */}
+                        <Link to={{
+                            pathname: "/create-campaign",
+                            state: {
+                                clubName: clubInfo.name,
+                                clubLogo: clubInfo.logo
+                            }
+                        }}>
+                            <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded transition duration-300">
+                                Start Campaign
+                            </button>
+                        </Link>
+                    </div>
+
                 </section>
 
                 {/* Player Scouting Section */}
