@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import MatchStatistics from './MatchStatistics.js';
 // import { ReactComponent as BackgroundImage } from '../src/assets/background-hero-alt.jpeg';
 // import MatchCenter from '../Home/MatchCenter';
+import DiscussionForum from './DiscussionForum';
+
 import manImage from '../../assets/messi.png'
 
 // Sample data for fans, match stats, polls, and highlights
@@ -107,6 +109,7 @@ const MatchSummaryPage = () => {
                 <div className='left sm:border-r sm:border-r-gray-500 sm:pr-3'>
                     <h1 className="text-5xl font-bold mb-4 text-left">Match Summary</h1>
                     <MatchStatistics matchData={matchData} />
+                    <DiscussionForum />
                     <section className="w-full mb-8 mt-4 sm:mt-4">
                         <h2 className="text-2xl font-semibold mb-4">Polls</h2>
                         <div className="bg-card-background border border-gray-700 shadow rounded-lg p-4">
@@ -196,8 +199,10 @@ const MatchSummaryPage = () => {
                             </tbody>
                         </table>
                     </div>
+                    
                 </section>
             </div>
+            
         </div>
     );
 };
