@@ -27,7 +27,7 @@ import ProtectedRoute from './components/ProtectedRoute'; // Corrected the impor
 
 const App = () => {
   const matchCenterRef = useRef(null);
-  const userRole = "club"
+  const userRole = "User"
 
   // Function to scroll to MatchCenter
   const scrollToMatchCenter = () => {

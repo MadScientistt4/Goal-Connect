@@ -5,8 +5,8 @@ import adidasLogo from '../../assets/adidas.png';
 import player1 from '../../assets/chhetri.jpg'; // Sample player image
 import player2 from '../../assets/chhetri.jpg'; // Sample player image
 import player3 from '../../assets/chhetri.jpg'; // Sample player image
-import { useLocation } from 'react-router-dom';
-
+import { useLocation, Link } from 'react-router-dom';
+import { squads } from "./Squaddata";
 
 // Sample data for club name, logo, and sponsors
 const clubInfo = {
@@ -20,17 +20,9 @@ const clubInfo = {
 
 // Sample data for players
 const players = [
-    { id: 1, name: 'Kanye West', position: 'Forward', image: player1 },
+    { id: 1, name: 'Sunil Chhetri', position: 'Forward', image: player1 },
     { id: 2, name: 'Arijit Singh', position: 'Midfielder', image: player2 },
     { id: 3, name: 'Akshay Kumar', position: 'Defender', image: player3 },
-    { id: 4, name: 'Dwayne Johnson', position: 'Defender', image: player3 },
-    { id: 5, name: 'Messi', position: 'Defender', image: player3 },
-    { id: 6, name: 'Tame Impala', position: 'Defender', image: player3 },
-    { id: 7, name: 'Honey singh', position: 'Defender', image: player3 },
-    { id: 8, name: 'Samay Raina', position: 'Defender', image: player3 },
-    { id: 9, name: 'Tanmay Bhat', position: 'Defender', image: player3 },
-    { id: 10, name: 'Madhur Virli', position: 'Defender', image: player3 },
-    { id: 11, name: 'Sunil Chettri', position: 'Defender', image: player3 },
     // Add more players as needed
 ];
 
@@ -42,7 +34,27 @@ const ClubDashboard = () => {
     if (!clubInfoReceived) {
         return <div>Club information not available.</div>;
     }
-    console.log(clubInfoReceived)
+    console.log(clubInfoReceived);
+
+    const clubName = clubInfoReceived.fullName;
+
+    // Attempt to find the club squad
+    const clubSquad = squads.find(club => club.name === clubName.toUpperCase());
+    
+    // Check if the clubSquad is undefined
+    if (!clubSquad) {
+        return <div>No data available for this club.</div>;
+    }
+
+    console.log(clubSquad);
+    const playerData = clubSquad.players;
+    const coachData = clubSquad.coach;
+    const forwards = playerData.forwards || []; // Fallback to empty array if undefined
+    const goalkeepers = playerData.goalkeepers || []; // Fallback to empty array if undefined
+    const defenders = playerData.defenders || []; // Fallback to empty array if undefined
+    const midfielders = playerData.midfielders || []; // Fallback to empty array if undefined
+    console.log(playerData, coachData);
+
     return (
         <div className='relative flex items-center w-full justify-center'>
             {/* Background Image with opacity */}
@@ -59,12 +71,11 @@ const ClubDashboard = () => {
                         />
                         <h1 className="text-4xl md:text-5xl font-bold">{clubInfoReceived.fullName}</h1>
                     </div>
-
-                    {/* Create Crowdfunding Campaign Button */}
                 </header>
+
                 <div className='flex flex-col justify-center items-center mb-5'>
                     <h1 className='text-3xl font-normal mb-2 text-center'>Venue</h1>
-                    <img src = {clubInfoReceived.bannerImg} className = "border rounded-lg sm:w-1/2" alt = "image not loading"></img>
+                    <img src={clubInfoReceived.bannerImg} className="border rounded-lg sm:w-1/2" alt="not loading" />
                     <h1 className='mt-1 text-sm text-center'>{clubInfoReceived.venue}</h1>
                 </div>
 
@@ -84,22 +95,39 @@ const ClubDashboard = () => {
                         ))}
                     </div>
                 </section>
+
                 {/* Team Section */}
                 <section className="mb-2">
-                    <h2 className="text-3xl font-semibold mb-4">Our Team</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                        {players.map(player => (
-                            <div key={player.id} className="bg-gray-800 p-4 cursor-pointer hover:scale-105 transition-all rounded-lg shadow-lg flex flex-col items-center">
-                                <img
-                                    src={player.image}
-                                    alt={`${player.name}'s Profile`}
-                                    className="w-[15rem] h-[15rem] object-contain mb-2"
-                                />
-                                <h3 className="text-lg font-semibold">{player.name}</h3>
-                                <p className="text-gray-400">{player.position}</p>
+                    <h2 className="text-6xl font-semibold mb-2">Our Team</h2>
+                    <div className='flex flex-col justify-center'>
+                        <h1 className='text-3xl my-4 text-left'>Coaches</h1>
+                        <Link key={coachData.id} to={`/player/${encodeURIComponent(coachData.name.toUpperCase())}`}>
+                            <div className='card max-w-[15rem] flex flex-wrap border border-gray-600 rounded p-5'>
+                                <h1 className='text-md '>{coachData.name}</h1>
+                                <img src={coachData.image} className='rounded text-md' alt={coachData.name}></img>
                             </div>
-                        ))}
+                        </Link>
                     </div>
+                    {/* Render player categories */}
+                    {['Forwards', 'Midfielders', 'Defenders', 'Goalkeepers'].map((category, index) => {
+                        const playersList = playerData[category.toLowerCase()] || []; // Use the correct key for players
+                        return (
+                            <div className='category flex flex-col w-full' key={index}>
+                                <h1 className='text-3xl my-4 text-left'>{category}</h1>
+                                <div className='flex gap-5 flex-wrap'>
+                                    {playersList.map(player => (
+                                        <Link
+                                            key={player.id} to={`/player/${encodeURIComponent(player.name.toUpperCase())}`}>
+                                            <div className='player-card max-w-[15rem] flex-col flex-wrap border border-gray-600 rounded p-5'>
+                                                <h1 className='text-md text-center'>{player.name}</h1>
+                                                <img src={player.image} className='text-md' alt={player.name}></img>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })}
                 </section>
             </div>
         </div>
