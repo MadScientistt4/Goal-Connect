@@ -7,7 +7,7 @@ import ClubDashboard from "./components/Clubs/ClubDashboard.js";
 import ClubsMenu from './components/Clubs/ClubsMenu.js';
 import Crowdfunding from "./components/Crowdfunding.js";
 import Digitalfootballacademy from "./components/Digitalfootballacademy.js";
-//import RegistrationPage from "./components/registration.js";
+import RegistrationPage from "./components/registration.js";
 import News from "./components/News.js"; 
 import ProductList from './components/e-commerce/product-list.js';
 import JobApplicationForm from './components/JobApplicationForm.js';
@@ -46,7 +46,7 @@ const App = () => {
         <Route path="/club-dashboard" element={<ClubDashboard />} />
         <Route path="/crowdfunding" element={<Crowdfunding />} />
         <Route path="/Digitalfootballacademy" element={<Digitalfootballacademy />} />
-        {/* <Route path="/registration" element={<RegistrationPage />} /> */}
+         <Route path="/registration" element={<RegistrationPage />} /> 
         <Route path="/News" element={<News />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
