@@ -1,8 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import { squads } from "./Squaddata";
+import { useNavigate } from "react-router-dom";
 
 const PlayerCard = ({ player, position, clubColor }) => {
+  const navigate = useNavigate();
+
   const getStatLabel = (position) => {
     switch (position) {
       case "GOALKEEPERS":
@@ -30,7 +33,10 @@ const PlayerCard = ({ player, position, clubColor }) => {
               alt={player.name}
               className="w-full h-56 object-cover object-top rounded-lg"
             />
-            <h3 className="text-xl font-semibold text-white mt-4">
+            <h3 
+              className="text-xl font-semibold text-white mt-4 cursor-pointer hover:underline"
+              onClick={() => navigate(`/player/${encodeURIComponent(player.name)}`)}
+            >
               {player.name}
             </h3>
           </div>

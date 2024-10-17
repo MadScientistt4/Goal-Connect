@@ -20,6 +20,7 @@ import ClubPage from "./components/Clubs/ClubPage.js";
 import Tournament from "./components/SearchTournament/Tournament.js";
 import SponsorDashboard from "./SponsorDashboard.js";
 import Sessions from "./components/Sessions"; // Corrected import
+import PlayerProfile from "./components/Player-Profile/profile";
 
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -60,6 +61,7 @@ const App = () => {
         <Route path="/tournaments" element={<Tournament />} />
         <Route path="/sponsor-dashboard" element={<SponsorDashboard />} />
         <Route path="/sessions" element={<Sessions />} />
+        <Route path="/player/:playerName" element={<PlayerProfile />} />
       </Routes>
     </>
   );
