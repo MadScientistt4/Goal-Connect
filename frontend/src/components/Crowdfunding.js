@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const predefinedClubsData = [
-  // Predefined clubs as before...
   {
     title: "City FC",
     description: "Support us in training young players and enhancing facilities.",
@@ -10,7 +9,6 @@ const predefinedClubsData = [
     fundingGoal: "₹500,000",
     currentFunding: "₹200,000",
   },
-  // Other predefined clubs...
 ];
 
 const Crowdfunding = () => {
@@ -19,10 +17,8 @@ const Crowdfunding = () => {
   const { clubName, clubLogo, customMessage } = location.state || {};
 
   useEffect(() => {
-    // Retrieve stored campaigns from localStorage
     const storedCampaigns = JSON.parse(localStorage.getItem('campaigns')) || [];
     
-    // Combine predefined clubs with the ones from localStorage
     setClubsData([...predefinedClubsData, ...storedCampaigns]);
   }, []);
 
@@ -45,10 +41,8 @@ const Crowdfunding = () => {
             return null;
           }
 
-          // Check if the club's logo and name should be replaced with the ones from the form
-          const displayClubName = club.title === "Your Custom Club" ? clubName : club.title; // Use custom club name if applicable
-          const displayClubLogo = club.logo === "url-to-logo" ? clubLogo : club.logo; // Use custom club logo if applicable
-
+          const displayClubName = club.title === "Your Custom Club" ? clubName : club.title;
+          const displayClubLogo = club.logo === "url-to-logo" ? clubLogo : club.logo; 
           return (
             <div key={index} className="border border-gray-600 p-6 flex flex-col justify-between bg-gray-800 rounded-lg shadow-lg hover:shadow-xl cursor-pointer transition-all ease-in-out duration-300 transform transition-all hover:scale-105">
               <div>
@@ -65,7 +59,6 @@ const Crowdfunding = () => {
                   </div>
                   <p className="text-sm text-green-400">{club.currentFunding} raised</p>
                 </div>
-                {/* Display custom message if available */}
                 {club.customMessage && (
                   <p className="text-sm text-yellow-400 text-center italic mb-4">
                     {club.customMessage}

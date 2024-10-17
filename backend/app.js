@@ -27,7 +27,7 @@ const io = socketIo(server, {
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000", credentials: true })); // CORS for REST API
 app.use(cookieParser());
-app.use('/auth', authRoutes);
+app.use('/apis', authRoutes);
 app.use('/scrape', scrapeRoutes);
 app.use('/razorpay', razorpayRoutes);
 

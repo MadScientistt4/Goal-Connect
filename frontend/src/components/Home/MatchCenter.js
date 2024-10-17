@@ -4,7 +4,6 @@ import MatchContainer from '../../components/Home/MatchContainer.js';
 const MatchCenter = () => {
     let [showPast, setShowPast] = React.useState(true);
 
-    // Define a function to toggle the value of showPast
     const toggleShowPast = () => {
         setShowPast(prev => !prev);
     };

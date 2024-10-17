@@ -13,7 +13,10 @@ const FixtureSchema = new mongoose.Schema({
     team2Score: String,
     team1Logo: String,
     team2Logo: String,
-    status: String, // Field to indicate match status (upcoming, live, past)
+    status: {
+      type: String,
+      enum: ["live","upcoming","past"]
+    }
   });
 const Fixture = mongoose.model('Matches', FixtureSchema);
 

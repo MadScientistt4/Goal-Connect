@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import {ReactComponent as Liverpool} from '../../assets/liverpool.svg'
 import {ReactComponent as Chelsea} from '../../assets/chelsea.svg'
-// import MatchSummary from '../Matches/MatchSummary'
+
 import { useNavigate } from 'react-router-dom';
 
 

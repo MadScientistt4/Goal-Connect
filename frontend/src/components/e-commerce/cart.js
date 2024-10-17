@@ -14,10 +14,8 @@ function Cart({ items = [], setCart, onClose }) {
     const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     const handlePayNow = async () => {
-        const amountInPaise = total * 100; // Razorpay expects amount in paise (smallest unit)
-    
+        const amountInPaise = total * 100; 
         try {
-            // Call backend to create the Razorpay order
             const response = await fetch("http://localhost:5000/razorpay/create-order", {
                 method: "POST",
                 headers: {
@@ -28,7 +26,6 @@ function Cart({ items = [], setCart, onClose }) {
             
             const orderData = await response.json();
     
-            // Open Razorpay payment modal
             const options = {
                 key: "rzp_test_iVFlHfIHXJjTX9", // Replace with your Razorpay key
                 amount: amountInPaise, // Amount in paise

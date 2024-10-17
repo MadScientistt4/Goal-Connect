@@ -1,24 +1,27 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
-const verifyJWT = (req, res, next) => {
-    const authHeader = req.headers.authorization || req.headers.Authorization
+const protect = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-    if (!authHeader?.startsWith('Bearer ')) {
-        return res.status(401).json({ message: 'Unauthorized' })
+  if (!token) {
+    return res.status(401).json({ message: 'Authorization token not found' });
+  }
+
+  jwt.verify(token, process.env.SECRET_ACCESS_TOKEN, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid token' });
     }
+    
+    // Attach user details from the token to the request
+    req.user = {
+      _id: decoded._id,     // You can now use _id or email for lookup
+      email: decoded.email,
+      role: decoded.role
+    };
 
-    const token = authHeader.split(' ')[1]
+    next();
+  });
+};
 
-    jwt.verify(
-        token,
-        process.env.ACCESS_TOKEN_SECRET,
-        (err, decoded) => {
-            if (err) return res.status(403).json({ message: 'Forbidden' })
-            req.user = decoded.UserInfo.email
-            req.roles = decoded.UserInfo.roles
-            next()
-        }
-    )
-}
-
-module.exports = verifyJWT 
+module.exports = { protect };

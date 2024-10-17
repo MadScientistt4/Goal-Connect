@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react"; 
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.js";
 import Hero from "./components/Home/Hero.js";
@@ -23,21 +23,52 @@ import SponsorDashboard from "./SponsorDashboard.js";
 import Sessions from "./components/Sessions.js";
 import PlayerProfile from "./components/Player-Profile/profile.js";
 import JobListingForm from "./components/Clubs/JobListingForm.js";
-import PlayerDashboard from "./components/Clubs/PlayerDashboard.js"; // Ensure this is imported correctly
-import ProtectedRoute from './components/ProtectedRoute.js';
-import JobListings from './components/Clubs/JobListings.js'; // Make sure this import is correct
+import PlayerDashboard from "./components/Clubs/PlayerDashboard.js"; 
+import ProtectRoute from './components/ProtectRoute/index.js';
+import JobListings from './components/Clubs/JobListings.js'; 
+import axios from 'axios';
 
 const App = () => {
   const matchCenterRef = useRef(null);
-  const userRole = "Player"
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+
+  // Function to scroll to match center
   const scrollToMatchCenter = () => {
     if (matchCenterRef.current) {
       matchCenterRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-  let isLoggedIn = true;
+  // Check for token and get user role
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          // Get user data using the token
+          const res = await axios.get('http://localhost:5000/apis/protected', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const { role } = res.data;
+          console.log(res);
+          setIsLoggedIn(true); // User is logged in
+          setUserRole(role);
+          console.log(isLoggedIn);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          setIsLoggedIn(false);
+          setUserRole(null); // Token is invalid or expired
+        }
+      } else {
+        setIsLoggedIn(false);
+        setUserRole(null) // No token found
+      }
+    };
+    
+    checkLoginStatus();
+  }, []);
 
   return (
     <>
@@ -52,82 +83,82 @@ const App = () => {
           </div>
         } />
         <Route path="/club-dashboard" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <ClubDashboard />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/crowdfunding" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <Crowdfunding />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/digitalfootballacademy" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <Digitalfootballacademy />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/registration" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <RegistrationPage />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/news" element={<News />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/job-listings" element={<JobListings />} /> {/* Moved here */}
+        <Route path="/job-listings" element={<JobListings />} /> 
         <Route path="/apply" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <JobApplicationForm />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/shop" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <ProductList />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/clubs" element={<ClubsMenu />} />
         <Route path="/clubs/:clubName" element={<ClubPage />} />
         <Route path="/match-summary" element={<MatchSummaryPage />} />
         <Route path="/post-news" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <PostNews />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/create-campaign" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <CreateCampaign />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/player-dashboard" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole} allowedRoles={['Player']}>
             <PlayerDashboard />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/tournaments" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole} allowedRoles={['Club']}>
             <Tournament />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/sponsor-dashboard" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole} allowedRoles={['Sponsor']}>
             <SponsorDashboard />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/sessions" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <Sessions />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/club-temp" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <ClubTemp />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
         <Route path="/player/:playerName" element={<PlayerProfile />} />
         <Route path="/form" element={
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <JobListingForm />
-          </ProtectedRoute>
+          </ProtectRoute>
         } />
       </Routes>
     </>

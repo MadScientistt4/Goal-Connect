@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 const Instructors = () => {
   useEffect(() => {
-    // Scroll to the top of the page when the component mounts
     window.scrollTo(0, 0);
   }, []);
 
@@ -101,7 +100,6 @@ const Instructors = () => {
   const [purchasedCourses, setPurchasedCourses] = useState([]);
 
   useEffect(() => {
-    // Fetch purchased courses from local storage on component mount
     const storedCourses = JSON.parse(localStorage.getItem("purchasedCourses")) || [];
     setPurchasedCourses(storedCourses);
   }, []);
@@ -121,7 +119,7 @@ const Instructors = () => {
       const orderData = await response.json();
 
       const options = {
-        key: "rzp_test_iVFlHfIHXJjTX9", // Use your test/live Razorpay key here
+        key: "rzp_test_iVFlHfIHXJjTX9", 
         amount: amountInPaise,
         currency: "INR",
         name: "Football Training",
@@ -131,15 +129,12 @@ const Instructors = () => {
           console.log("Payment successful!", response);
           alert("Payment successful!");
 
-          // Store the purchased course in local storage
           const storedCourses = JSON.parse(localStorage.getItem("purchasedCourses")) || [];
           const updatedCourses = [...storedCourses, course];
           localStorage.setItem("purchasedCourses", JSON.stringify(updatedCourses));
 
-          // Update state to show the purchased courses immediately
           setPurchasedCourses(updatedCourses);
 
-          // Redirect to the sessions page
           navigate("/sessions");
         },
         prefill: {
@@ -174,7 +169,7 @@ const Instructors = () => {
 
   return (
     <div className="flex flex-col items-center py-10 bg-black">
-      {/* Courses Section */}
+    
       <h1 className="text-4xl font-bold mb-6 text-white">Browse Courses</h1>
       <p className="text-sm mb-10 text-gray-400">ALL COURSES HAVE LIFETIME ACCESS</p>
 
@@ -207,7 +202,6 @@ const Instructors = () => {
         )}
       </div>
 
-      {/* Purchased Courses Section */}
       {purchasedCourses.length > 0 && (
         <>
           <h2 className="text-4xl font-bold mb-6 text-white mt-12">Purchased Courses</h2>
@@ -232,7 +226,6 @@ const Instructors = () => {
         </>
       )}
 
-      {/* Instructors Section */}
       <h1 className="text-4xl font-bold mb-4 text-white">Our Instructors</h1>
       <p className="text-sm mb-8 text-white">Meet our coaches</p>
       <div className="flex space-x-4 mb-8">

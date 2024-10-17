@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [error, setError] = useState(null); // Optional error handling
+  const navigate = useNavigate(); // Use the hook correctly
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -18,24 +17,36 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    };
+
     const url = 'http://localhost:5000/apis/login';
     try {
-      const res = await fetch(url, options);
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData), // Send the formData as a string
+      });
+
+      // Parse the response as JSON
       const data = await res.json();
-      console.log('data submitted:', data);
-      navigate("/");
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Login failed'); // Handle errors from the server
+      }
+
+      // Store the token
+      localStorage.setItem('token', data.token);
+      console.log('Login successful, token stored:', data.token);
+
+      // Navigate to the home page
+      navigate('/',{ state: { recheckLogin: true } });
+      window.location.reload();
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
+      setError(err.message); // Display error to the user (optional)
     } finally {
       setFormData({
-        name: '',
         email: '',
         password: ''
       });
@@ -47,6 +58,7 @@ const Login = () => {
       <div className="absolute inset-0 bg-black opacity-70"></div>
       <div className="relative bg-card-background p-8 rounded-lg shadow-lg max-w-sm w-full border border-gray-500 z-2">
         <h2 className="text-4xl font-bold text-center text-white">Login</h2>
+        {error && <p className="text-red-500">{error}</p>} {/* Show error if exists */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-200">Email</label>

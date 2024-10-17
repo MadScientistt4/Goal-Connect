@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
-
+import { useNavigate, useLocation } from "react-router-dom"; 
 const Sessions = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Use useLocation to receive passed data
+  const location = useLocation(); 
   const [purchasedCourses, setPurchasedCourses] = useState([]);
-  const [filteredSessions, setFilteredSessions] = useState([]); // State to store filtered sessions
+  const [filteredSessions, setFilteredSessions] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
   const sessionsData = [
@@ -95,15 +94,13 @@ const Sessions = () => {
     const courses = JSON.parse(localStorage.getItem("purchasedCourses")) || [];
     setPurchasedCourses(courses);
 
-    // If there is a purchased course passed from the previous page
     if (location.state && location.state.purchasedCourse) {
-      // Filter the sessions that match the purchased course
       const filtered = sessionsData.filter(
         (session) => session.title === location.state.purchasedCourse.title
       );
-      setFilteredSessions(filtered); // Update the state with the filtered session(s)
+      setFilteredSessions(filtered); 
     } else {
-      setFilteredSessions(sessionsData); // Show all sessions if no course was passed
+      setFilteredSessions(sessionsData); 
     }
   }, [location.state]);
 
@@ -121,7 +118,7 @@ const Sessions = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center bg-black">
-      {/* Sessions Section */}
+      
       <h1 className="text-5xl font-bold mb-6 text-white">Sessions</h1>
       <button
         onClick={handleBackToCourses}
@@ -148,7 +145,6 @@ const Sessions = () => {
         )}
       </div>
 
-      {/* Sessions Grid */}
       <h2 className="text-4xl font-bold mt-8 mb-4 text-white">Available Sessions</h2>
       <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredSessions.length > 0 ? (
@@ -174,7 +170,6 @@ const Sessions = () => {
         )}
       </div>
 
-      {/* Modal for Video */}
       {selectedVideo && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg">
