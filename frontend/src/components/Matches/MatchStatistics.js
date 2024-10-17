@@ -1,4 +1,6 @@
 import React from 'react';
+import DiscussionForum from './DiscussionForum'; // Adjust path if necessary
+
 // import manImage from './assets/messi.png';
 
 const MatchStatistics = ({ matchData }) => {
