@@ -22,8 +22,28 @@ function Navbar({ onSearch, cartItemCount, onCartClick, onClearSearch, favoriteC
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
-        onMobileMenuClick();
+        if (onMobileMenuClick) {
+            onMobileMenuClick();
+        }
     };
+
+    const [favorites, setFavorites] = useState(() => {
+        const savedFavorites = localStorage.getItem('favorites');
+        return savedFavorites ? JSON.parse(savedFavorites) : [];
+    });
+    
+    const [cart, setCart] = useState(() => {
+        const savedCart = localStorage.getItem('cart');
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }, [favorites]);
+    
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
 
     return (
         <nav className="bg-blue-600 text-white py-4 mb-6">

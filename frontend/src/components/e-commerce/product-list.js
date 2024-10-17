@@ -130,6 +130,11 @@ function ProductList() {
         setIsFavoritesOpen(false);
     };
 
+    const handleMobileMenuClick = () => {
+        // You can add any specific logic here if needed
+        console.log("Mobile menu clicked");
+    };
+
     return (
         <div className="relative">
             <Navbar
@@ -139,6 +144,7 @@ function ProductList() {
                 onCartClick={toggleCart}
                 favoriteCount={favorites.length}
                 onFavoritesClick={toggleFavorites}
+                onMobileMenuClick={handleMobileMenuClick}
             />
             {isCartOpen && <Cart items={cart} setCart={setCart} onClose={closeCart} />}
             {isFavoritesOpen && (
