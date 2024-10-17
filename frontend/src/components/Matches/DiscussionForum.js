@@ -56,18 +56,22 @@ function DiscussionForum() {
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     if (newPost.trim() && username.trim()) {
+      // Ensure that the post count is within limits
       if (posts.length >= MAX_POSTS) {
         const oldestPostId = posts[0]._id;
-        await axios.delete(`http://localhost:5000/api/posts/${oldestPostId}`);
+        await axios.delete(`http://localhost:5000/api/posts/${oldestPostId}`)
+          .catch((error) => console.error("Error deleting oldest post:", error));
       }
       await axios.post("http://localhost:5000/api/posts", {
         content: newPost,
-        username, // Include the username when posting
-      });
+        username,
+      })
+      .then(() => fetchPosts())
+      .catch((error) => console.error("Error posting new post:", error));
       setNewPost("");
-      fetchPosts();
     }
   };
+  
 
   const handleReplySubmit = async (postId) => {
     if (replyContent.trim() && username.trim()) {
