@@ -2,46 +2,51 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 
-const socket = io("http://localhost:5000"); // Adjust the URL as needed
+const socket = io("http://localhost:5000");
 
 function DiscussionForum() {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState("");
   const [replyContent, setReplyContent] = useState("");
   const [activePostId, setActivePostId] = useState(null);
+  const [username, setUsername] = useState("");
+  const [isUsernameSet, setIsUsernameSet] = useState(false); // Track if username is set
 
-  const MAX_POSTS = 6; // Maximum number of posts allowed
+  const MAX_POSTS = 6;
 
   useEffect(() => {
-    fetchPosts();
-
-    socket.on("newPost", (post) => {
-      setPosts((prevPosts) => {
-        const updatedPosts = [...prevPosts, post];
-        return updatedPosts.length > MAX_POSTS
-          ? updatedPosts.slice(1) // Remove the oldest post when exceeding limit
-          : updatedPosts;
+    if (isUsernameSet) {
+      fetchPosts();
+      socket.on("newPost", (post) => {
+        setPosts((prevPosts) => {
+          const updatedPosts = [...prevPosts, post];
+          return updatedPosts.length > MAX_POSTS
+            ? updatedPosts.slice(1)
+            : updatedPosts;
+        });
       });
-    });
 
-    socket.on("newReply", (updatedPost) => {
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post._id === updatedPost._id ? updatedPost : post
-        )
-      );
-    });
+      socket.on("newReply", (updatedPost) => {
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post._id === updatedPost._id ? updatedPost : post
+          )
+        );
+      });
 
-    socket.on("deletedPost", (postId) => {
-      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
-    });
+      socket.on("deletedPost", (postId) => {
+        setPosts((prevPosts) =>
+          prevPosts.filter((post) => post._id !== postId)
+        );
+      });
 
-    return () => {
-      socket.off("newPost");
-      socket.off("newReply");
-      socket.off("deletedPost");
-    };
-  }, []);
+      return () => {
+        socket.off("newPost");
+        socket.off("newReply");
+        socket.off("deletedPost");
+      };
+    }
+  }, [isUsernameSet]);
 
   const fetchPosts = async () => {
     const response = await axios.get("http://localhost:5000/api/posts");
@@ -50,35 +55,68 @@ function DiscussionForum() {
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
-    if (newPost.trim()) {
+    if (newPost.trim() && username.trim()) {
       if (posts.length >= MAX_POSTS) {
         const oldestPostId = posts[0]._id;
-        await axios.delete(`http://localhost:5000/api/posts/${oldestPostId}`); // Delete the oldest post
+        await axios.delete(`http://localhost:5000/api/posts/${oldestPostId}`);
       }
-      await axios.post("http://localhost:5000/api/posts", { content: newPost });
+      await axios.post("http://localhost:5000/api/posts", {
+        content: newPost,
+        username, // Include the username when posting
+      });
       setNewPost("");
-      fetchPosts(); // Refresh posts after submitting a new one
+      fetchPosts();
     }
   };
 
   const handleReplySubmit = async (postId) => {
-    if (replyContent.trim()) {
-      await axios.post(`http://localhost:5000/api/posts/${postId}/reply`, { content: replyContent });
+    if (replyContent.trim() && username.trim()) {
+      await axios.post(`http://localhost:5000/api/posts/${postId}/reply`, {
+        content: replyContent,
+        username, // Include the username when replying
+      });
       setReplyContent("");
       setActivePostId(null);
-      fetchPosts(); // Refresh posts after submitting a reply
+      fetchPosts();
     }
   };
+
+  const handleUsernameSubmit = () => {
+    if (username.trim()) {
+      setIsUsernameSet(true); // Set username and allow access to the forum
+    }
+  };
+
+  if (!isUsernameSet) {
+    return (
+      <div className="p-4">
+        <h2 className="text-xl font-bold">Enter a Username</h2>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Enter your username"
+          className="border border-gray-300 rounded-md px-2 py-1 mt-2 text-black"
+        />
+        <button
+          onClick={handleUsernameSubmit}
+          className="mt-2 bg-blue-500 text-white rounded-md px-4 py-2"
+        >
+          Submit
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white shadow rounded-lg p-4 mt-8 flex flex-col">
       <h2 className="text-xl font-bold mb-4">Discussion Forum</h2>
-
-      {/* Posts Section */}
       <div className="space-y-4 max-h-96 overflow-y-auto mb-4">
         {posts.map((post) => (
           <div key={post._id} className="bg-gray-100 p-3 rounded-lg shadow">
-            <p className="text-gray-800">{post.content}</p>
+            <p className="text-gray-800">
+              <strong>{post.username}</strong>: {post.content}
+            </p>
             <div>
               <button
                 onClick={() =>
@@ -111,11 +149,15 @@ function DiscussionForum() {
                   </button>
                 </form>
               )}
-              {/* Replies Section */}
               {post.replies &&
                 post.replies.map((reply, index) => (
-                  <div key={index} className="bg-gray-200 p-2 rounded-md mt-2 ml-4">
-                    <p>{reply.content}</p>
+                  <div
+                    key={index}
+                    className="bg-gray-200 p-2 rounded-md mt-2 ml-4"
+                  >
+                    <p className="text-black">
+                      <strong>{reply.username}</strong>: {reply.content}
+                    </p>
                   </div>
                 ))}
             </div>
@@ -123,7 +165,6 @@ function DiscussionForum() {
         ))}
       </div>
 
-      {/* Input Section */}
       <form onSubmit={handlePostSubmit} className="mb-6">
         <textarea
           value={newPost}
@@ -132,7 +173,6 @@ function DiscussionForum() {
           className="w-full px-4 py-2 mb-2 border border-gray-300 rounded-md resize-none text-black"
           rows="4"
         ></textarea>
-
         <button
           type="submit"
           className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
