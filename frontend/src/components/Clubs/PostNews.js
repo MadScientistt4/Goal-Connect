@@ -1,39 +1,52 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { updateNewsItems } from './NewsItems'; // Import update function
 
 const PostNewsForm = () => {
-    const location = useLocation();
-    const { clubName } = location.state || {}; // Retrieve the club name from navigation state
-
     const [newsTitle, setNewsTitle] = useState('');
     const [newsContent, setNewsContent] = useState('');
-    const [thumbnail, setThumbnail] = useState(''); // Add thumbnail state for the news
+    const [thumbnail, setThumbnail] = useState(null); // State for thumbnail image file
 
-    const handleSubmit = (e) => {
+    // Handle file upload
+    const handleThumbnailChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setThumbnail(file); // Store file in state
+        }
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Create a new news item object
-        const newNewsItem = {
-            thumbnail, // You can handle file/image uploads separately
-            title: newsTitle,
-            description: newsContent,
-        };
+        const formData = new FormData();
+        formData.append('title', newsTitle);
+        formData.append('content', newsContent);
+        if (thumbnail) {
+            formData.append('thumbnail', thumbnail); // Append image file
+        }
 
-        // Call the update function to add the news to the relevant club
-        updateNewsItems(clubName, newNewsItem);
+        // Send POST request to backend
+        try {
+            const response = await fetch('http://localhost:5000/apis/news', {
+                method: 'POST',
+                body: formData, // Send FormData object
+            });
 
-        // Reset form fields
-        setNewsTitle('');
-        setNewsContent('');
-        setThumbnail('');
-
-        console.log('News item added:', newNewsItem);
+            if (response.ok) {
+                alert('News item added successfully!');
+                setNewsTitle('');
+                setNewsContent('');
+                setThumbnail(null);
+            } else {
+                alert('Failed to add news item.');
+            }
+        } catch (error) {
+            console.error('Error submitting news:', error);
+            alert('An error occurred while submitting the news.');
+        }
     };
 
     return (
         <div className="max-w-2xl mx-auto mt-8 bg-gray-900 p-6 rounded-lg">
-            <h1 className="text-2xl font-bold mb-6 text-white">Post News for {clubName}</h1>
+            <h1 className="text-2xl font-bold mb-6 text-white">Post News</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label htmlFor="title" className="block text-white mb-2">News Title</label>
@@ -60,14 +73,13 @@ const PostNewsForm = () => {
                     ></textarea>
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="thumbnail" className="block text-white mb-2">Thumbnail URL</label>
+                    <label htmlFor="thumbnail" className="block text-white mb-2">Upload Thumbnail</label>
                     <input
                         id="thumbnail"
-                        type="text"
-                        value={thumbnail}
-                        onChange={(e) => setThumbnail(e.target.value)}
-                        className="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600"
-                        placeholder="Enter thumbnail URL (optional)"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleThumbnailChange}
+                        className="w-full p-2 bg-gray-800 text-white border border-gray-600"
                     />
                 </div>
                 <button type="submit" className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-md">

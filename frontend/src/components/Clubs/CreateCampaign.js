@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 
 const CreateCampaign = () => {
@@ -20,7 +20,7 @@ const CreateCampaign = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Ensure all fields are filled
@@ -29,24 +29,34 @@ const CreateCampaign = () => {
             return;
         }
 
-        // Save form data in localStorage
         const campaignData = {
             title: clubName,
             logo: clubLogo,
             description: "This is a custom crowdfunding campaign.",
             fundingGoal: `₹${amount}`,
-            currentFunding: "₹0", // Start at ₹0 for new campaign
+            currentFunding: "₹0",
             customMessage: customMessage,
         };
 
-        // Get any existing campaigns from localStorage
-        const existingCampaigns = JSON.parse(localStorage.getItem('campaigns')) || [];
+        try {
+            const response = await fetch('http://localhost:5000/apis/campaigns', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(campaignData),
+            });
 
-        // Add new campaign to existing ones
-        localStorage.setItem('campaigns', JSON.stringify([...existingCampaigns, campaignData]));
-
-        // Redirect to crowdfunding page
-        navigate('/crowdfunding', { state: { clubName: clubName, clubLogo: clubLogo } });
+            if (response.ok) {
+                alert('Campaign created successfully!');
+                navigate('/crowdfunding', { state: { clubName: clubName, clubLogo: clubLogo } });
+            } else {
+                alert('Failed to create campaign.');
+            }
+        } catch (error) {
+            console.error('Error creating campaign:', error);
+            alert('An error occurred while creating the campaign.');
+        }
     };
 
     return (
@@ -54,7 +64,6 @@ const CreateCampaign = () => {
             <div className="w-full max-w-md bg-gray-800 text-white p-6 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold mb-4">Create Crowdfunding Campaign</h2>
                 <form onSubmit={handleSubmit}>
-                    {/* Club Name Input */}
                     <div className="mb-4">
                         <label className="block text-gray-300 text-sm mb-2" htmlFor="clubName">
                             Club Name
@@ -70,7 +79,6 @@ const CreateCampaign = () => {
                         />
                     </div>
 
-                    {/* Club Logo Upload */}
                     <div className="mb-4">
                         <label className="block text-gray-300 text-sm mb-2" htmlFor="clubLogo">
                             Club Logo
@@ -85,14 +93,12 @@ const CreateCampaign = () => {
                         />
                     </div>
 
-                    {/* Preview Club Logo */}
                     {clubLogo && (
                         <div className="mb-4">
                             <img src={clubLogo} alt="Club Logo Preview" className="w-24 h-24 object-contain mx-auto" />
                         </div>
                     )}
 
-                    {/* Contribution Amount Input */}
                     <div className="mb-4">
                         <label className="block text-gray-300 text-sm mb-2" htmlFor="amount">
                             Contribution Amount
@@ -108,7 +114,6 @@ const CreateCampaign = () => {
                         />
                     </div>
 
-                    {/* Custom Message Input */}
                     <div className="mb-4">
                         <label className="block text-gray-300 text-sm mb-2" htmlFor="customMessage">
                             Custom Message
@@ -124,7 +129,6 @@ const CreateCampaign = () => {
                         />
                     </div>
 
-                    {/* Submit Button */}
                     <button
                         type="submit"
                         className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded transition duration-300"

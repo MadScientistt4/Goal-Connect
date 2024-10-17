@@ -137,8 +137,8 @@ const App = () => {
           </ProtectRoute>
         } />
         <Route path="/tournaments" element={
-          <ProtectRoute loggedIn={isLoggedIn} role={userRole} allowedRoles={['Club']}>
-            <Tournament />
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole} allowedRoles={['Club','Player']}>
+            <Tournament />x``
           </ProtectRoute>
         } />
         <Route path="/sponsor-dashboard" element={

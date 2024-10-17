@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-// Define predefined clubs data here
-const predefinedClubsData = [
-  {
-    title: "City FC",
-    description: "Support us in training young players and enhancing facilities.",
-    logo: "https://upload.wikimedia.org/wikipedia/sco/thumb/e/eb/Manchester_City_FC_badge.svg/2048px-Manchester_City_FC_badge.svg.png",
-    fundingGoal: "₹500,000",
-    currentFunding: "₹200,000",
-  },
-  {
-    title: "United FC",
-    description: "Help us build new training grounds for the community.",
-    logo: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
-    fundingGoal: "₹1,000,000",
-    currentFunding: "₹650,000",
-  },
-  // Add more predefined clubs if needed...
-];
-
 const Crowdfunding = () => {
-  const [clubsData, setClubsData] = useState(predefinedClubsData);
+  const [clubsData, setClubsData] = useState([]);
   const location = useLocation();
   const { customMessage } = location.state || {};
   const [contributionAmount, setContributionAmount] = useState('');
   const [selectedClub, setSelectedClub] = useState(null);
+
+  // Fetch campaigns from the backend
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/apis/campaigns'); // Adjust the API URL if necessary
+        if (response.ok) {
+          const data = await response.json();
+          setClubsData(data); // Set the fetched campaigns
+        } else {
+          console.error('Failed to fetch campaigns');
+        }
+      } catch (error) {
+        console.error('Error fetching campaigns:', error);
+      }
+    };
+
+    fetchCampaigns();
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   const handleContributeClick = (club) => {
     setSelectedClub(club);
@@ -85,7 +85,7 @@ const Crowdfunding = () => {
 
   const updateFunding = (club, amount) => {
     const updatedClubsData = clubsData.map((c) => {
-      if (c.title === club.title) {
+      if (c._id === club._id) {
         // Update the club's current funding
         const newFunding = parseInt(c.currentFunding.replace(/₹|,/g, '')) + parseInt(amount);
         return { ...c, currentFunding: `₹${newFunding.toLocaleString('en-IN')}` };

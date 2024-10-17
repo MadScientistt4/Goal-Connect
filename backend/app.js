@@ -10,6 +10,8 @@ const cookieParser = require('cookie-parser');
 const http = require("http");
 const socketIo = require("socket.io");
 const jobPostingRoutes = require('./src/routes/jobposting')
+const campaignRoutes = require('./src/routes/campaigns');
+const newsRoutes = require('./src/routes/news');
 const app = express();
 const server = http.createServer(app);
 
@@ -30,7 +32,8 @@ app.use('/auth', authRoutes);
 app.use('/scrape', scrapeRoutes);
 app.use('/razorpay', razorpayRoutes);
 app.use('/apis', jobPostingRoutes);
-
+app.use('/apis', campaignRoutes);
+app.use('/apis', newsRoutes);
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
