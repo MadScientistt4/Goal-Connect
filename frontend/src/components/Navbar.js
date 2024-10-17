@@ -5,7 +5,7 @@ import { ReactComponent as ProfilePic } from "../assets/profile-pic.svg"
 import { ReactComponent as Hamburger } from "../assets/hamburger.svg"
 import { useNavigate } from 'react-router-dom';
 
-const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
+const Navbar = ({ scrollToMatchCenter, loggedIn, userRole}) => {
     let [menu, setMenu] = React.useState(false);
     const navigate = useNavigate(); // Using useNavigate hook for navigation
 
@@ -38,7 +38,8 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
             >
                 News
             </Link>
-            <Link to="/clubs" className="text-xl border-b border-b-gray-500 text-center py-6 w-full flex items-center justify-center border-t-gray-500">
+            <Link to="/clubs" className="text-xl border-b border-b-gray-500 te
+            xt-center py-6 w-full flex items-center justify-center border-t-gray-500">
                 Clubs
             </Link>
             {loggedIn && (
@@ -47,6 +48,9 @@ const Navbar = ({ scrollToMatchCenter, loggedIn }) => {
                     <Link to="/shop" className='text-xl text-center py-6 w-full flex items-center justify-center'>Shop</Link>
                 </>
             )}
+            {
+                userRole === "club" ? <Link to="/DigitalFootballAcademy" className='text-xl border-b border-b-gray-500 text-center py-6 w-full flex items-center justify-center'>Digital Football Academy</Link> : null
+            }
         </div>
     );
 

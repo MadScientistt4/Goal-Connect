@@ -27,6 +27,7 @@ import ProtectedRoute from './components/ProtectedRoute'; // Corrected the impor
 
 const App = () => {
   const matchCenterRef = useRef(null);
+  const userRole = "club"
 
   // Function to scroll to MatchCenter
   const scrollToMatchCenter = () => {
@@ -37,7 +38,7 @@ const App = () => {
   let isLoggedIn = true;
   return (
     <>
-      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={isLoggedIn} />
+      <Navbar scrollToMatchCenter={scrollToMatchCenter} loggedIn={isLoggedIn} userRole = {userRole}/>
       <Routes>
         <Route path="/" element={
           <div>
