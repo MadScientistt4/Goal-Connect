@@ -7,7 +7,7 @@ import ClubDashboard from "./components/Clubs/ClubDashboard.js";
 import ClubsMenu from './components/Clubs/ClubsMenu.js';
 import Crowdfunding from "./components/Crowdfunding.js";
 import Digitalfootballacademy from "./components/Digitalfootballacademy.js";
-//import RegistrationPage from "./components/registration.js";
+import RegistrationPage from "./components/registration.js";
 import News from "./components/News.js"; 
 import ProductList from './components/e-commerce/product-list.js';
 import JobApplicationForm from './components/JobApplicationForm.js';
@@ -20,6 +20,8 @@ import ClubPage from "./components/Clubs/ClubPage.js";
 import Tournament from "./components/SearchTournament/Tournament.js";
 import SponsorDashboard from "./SponsorDashboard.js";
 import Sessions from "./components/Sessions"; // Corrected import
+import PlayerProfile from "./components/Player-Profile/profile";
+import JobListingForm from "./components/Clubs/JobListingForm"; // Corrected the import
 
 const App = () => {
   const matchCenterRef = useRef(null);
@@ -46,7 +48,7 @@ const App = () => {
         <Route path="/club-dashboard" element={<ClubDashboard />} />
         <Route path="/crowdfunding" element={<Crowdfunding />} />
         <Route path="/Digitalfootballacademy" element={<Digitalfootballacademy />} />
-        {/* <Route path="/registration" element={<RegistrationPage />} /> */}
+        <Route path="/registration" element={<RegistrationPage />} /> 
         <Route path="/News" element={<News />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
@@ -60,6 +62,8 @@ const App = () => {
         <Route path="/tournaments" element={<Tournament />} />
         <Route path="/sponsor-dashboard" element={<SponsorDashboard />} />
         <Route path="/sessions" element={<Sessions />} />
+        <Route path="/player/:playerName" element={<PlayerProfile />} />
+        <Route path="/form" element={<JobListingForm />} /> {/* Corrected path casing */}
       </Routes>
     </>
   );

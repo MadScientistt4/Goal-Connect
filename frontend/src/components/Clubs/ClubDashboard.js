@@ -7,6 +7,7 @@ import player2 from '../../assets/chhetri.jpg'; // Sample player image
 import player3 from '../../assets/chhetri.jpg'; // Sample player image
 import { Link } from 'react-router-dom';
 
+
 // Sample data for club name, logo, and sponsors
 const clubInfo = {
     name: 'East Bengal FC',
@@ -82,9 +83,9 @@ const ClubDashboard = () => {
                     <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
                         <h3 className="text-xl font-semibold mb-4">Create Job Posting</h3>
                         <p className="mb-4">Post job listings for various roles in your club.</p>
-                        <button className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded transition duration-300">
+                        <Link to="/Form" className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded transition duration-300">
                             Create Job Posting
-                        </button>
+                        </Link>
 
                     </div>
 
