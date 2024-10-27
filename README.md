@@ -1,3 +1,13 @@
+# Goal-Connect
+
+This project was made during the Manipal Hackathon "M#"
+
+Winning the award for Best Hack and $10k
+
+Link to the Hackathon repo "https://github.com/ManipalHackathon2024/Goal-Connect"
+
+I have made some changes following the hackathon to make the website more dynamic
+
 # Manipal Hackathon 2024 README Template
 
 **Team Name:** `<Goal Connect>`
