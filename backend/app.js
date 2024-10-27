@@ -14,6 +14,7 @@ const campaignRoutes = require('./src/routes/campaigns');
 const newsRoutes = require('./src/routes/news');
 const app = express();
 const server = http.createServer(app);
+const playerRoutes = require('./src/routes/player')
 
 const io = socketIo(server, {
   cors: {
@@ -34,6 +35,7 @@ app.use('/razorpay', razorpayRoutes);
 app.use('/apis', jobPostingRoutes);
 app.use('/apis', campaignRoutes);
 app.use('/apis', newsRoutes);
+app.use('/apis', playerRoutes);
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();

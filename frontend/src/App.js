@@ -84,9 +84,7 @@ const App = () => {
           </div>
         } />
         <Route path="/club-dashboard" element={
-          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <ClubDashboard />
-          </ProtectRoute>
         } />
         <Route path="/crowdfunding" element={
           <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
@@ -152,7 +150,7 @@ const App = () => {
           </ProtectRoute>
         } />
         <Route path="/club-temp" element={
-          <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
+          <ProtectRoute loggedIn={isLoggedIn} role={userRole} allowedRoles={['Club', 'Player']}>
             <ClubTemp />
           </ProtectRoute>
         } />

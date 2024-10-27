@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+/*import React, { useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ClubDetails from './ClubDetails';
 import Squad from './Squad';
 import { ClubsContext } from './ClubsContext';
-import { clubs } from "./ClubsMenu"; // Static clubs data
+import ClubsMenu from "./ClubsMenu"; // Static clubs data
 import { newsItems } from './NewsItems';
 
 const ClubPage = () => {
@@ -29,13 +29,11 @@ const ClubPage = () => {
         <div className={`relative min-h-[92vh] bg-${clubData.color}-900`}>
             <div className={`absolute inset-0 bg-${clubData.color}-800 bg-opacity-80 z-0`}></div>
             <div className="relative container mx-auto p-4 z-2">
-                {/* Render club details */}
+                
                 <ClubDetails club={club} />
 
-                {/* Render club squad */}
                 <Squad clubName={club.name} clubColor={clubData.color} />
 
-                {/* News Section */}
                 <section className="mt-8">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-2xl font-bold text-white">Club News</h2>
@@ -70,4 +68,4 @@ const ClubPage = () => {
     );
 };
 
-export default ClubPage;
+export default ClubPage;*/

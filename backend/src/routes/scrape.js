@@ -5,6 +5,7 @@ const cheerio = require('cheerio');
 const mongoose = require('mongoose');
 const puppeteer = require('puppeteer');
 const Club = require('../models/Club');
+const Player = require("../models/Player")
 const Fixture = require('../models/Fixture')
 const moment = require('moment');
 
@@ -21,14 +22,14 @@ router.get('/fetch/clubs', async (req, res) => {
             const logoImg = baseURL + ($(element).find('.club-logo img').attr('data-src') || $(element).find('.club-logo img').attr('src'));
             const bannerImg = baseURL + ($(element).find('.club-head img').attr('data-src') || $(element).find('.club-head img').attr('src'));
             const link = baseURL + $(element).find('a.btn').attr('href');
-            
+
             const existingClub = await Club.findOne({ fullName });
 
             if (!existingClub) {
                 await Club.create({ shortName, fullName, venue, logoImg, bannerImg, link });
             } else {
-                if (existingClub.shortName !== shortName || existingClub.venue !== venue || 
-                    existingClub.logoImg !== logoImg || existingClub.bannerImg !== bannerImg || 
+                if (existingClub.shortName !== shortName || existingClub.venue !== venue ||
+                    existingClub.logoImg !== logoImg || existingClub.bannerImg !== bannerImg ||
                     existingClub.link !== link) {
                     await Club.updateOne(
                         { fullName },
@@ -38,7 +39,7 @@ router.get('/fetch/clubs', async (req, res) => {
             }
         });
 
-        res.status(200).json({ message: 'Club data scraped and saved successfully.'});
+        res.status(200).json({ message: 'Club data scraped and saved successfully.' });
 
     } catch (error) {
         console.error(error);
@@ -57,200 +58,259 @@ router.get('/clubs', async (req, res) => {
     }
 });
 
-
-router.get('/fetch/fixtures', async () => {
-    const browser = await puppeteer.launch({
-      headless: true,
-      ignoreHTTPSErrors: true,
-    });
-  
-    const page = await browser.newPage();
-  
-    // Navigate to the page
-    await page.goto('https://www.the-aiff.com/', { waitUntil: 'networkidle0' });
-  
-    // Wait for the elements to load
-    await page.waitForSelector('#fixture_scroll .item');
-  
-    // Month abbreviations mapping to numbers
-    const monthMapping = {
-      'Jan': '01',
-      'Feb': '02',
-      'Mar': '03',
-      'Apr': '04',
-      'May': '05',
-      'Jun': '06',
-      'Jul': '07',
-      'Aug': '08',
-      'Sep': '09',
-      'Oct': '10',
-      'Nov': '11',
-      'Dec': '12'
-    };
-  
-    // Extract the data
-    const fixtures = await page.evaluate(() => {
-      const fixtureElements = document.querySelectorAll('#fixture_scroll .item');
-      const fixtureData = [];
-  
-      fixtureElements.forEach((element) => {
-        const date = element.querySelector('.match_date')?.textContent?.trim(); // Day of the month
-        const day = element.querySelector('.day')?.textContent?.trim();         // Day of the week (not used for comparison)
-        const monthText = element.querySelector('.day-month')?.textContent.trim(); // "Oct' 2024"
-        
-        const tournamentName = element.querySelector('.tournament-name a, .tournament-name span')?.textContent?.trim();
-        const venue = element.querySelector('.venue')?.textContent?.trim();
-  
-        const team1Name = element.querySelectorAll('.team-name.text-center')[0]?.textContent?.trim();
-        const team2Name = element.querySelectorAll('.team-name.text-center')[1]?.textContent?.trim();
-  
-        const scoreText = element.querySelector('.score-info span')?.textContent?.trim();
-        
-        const time = scoreText?.includes(':') ? scoreText : null;
-        const team1Score = scoreText?.includes('-') ? scoreText.split('-')[0]?.trim() : null;
-        const team2Score = scoreText?.includes('-') ? scoreText.split('-')[1]?.trim() : null;
-      
-        const team1Logo = element.querySelector('.team-info .image img')?.src || null;
-        const team2Logo = element.querySelectorAll('.team-info .image img')[1]?.src || null;
-  
-        fixtureData.push({
-          date,
-          day,
-          month: monthText,  // Storing the original month text
-          tournamentName,
-          venue,
-          time,
-          team1Name,
-          team2Name,
-          team1Score,
-          team2Score,
-          team1Logo,
-          team2Logo,
-          status: null // This will be calculated in the next step
-        });
-      });
-  
-      return fixtureData;
-    });
-  
-    // Process the data and determine if the match is upcoming, live, or in the past
-    const today = moment(); // Get the current date using moment.js
-  
-    fixtures.forEach(fixture => {
-      // Clean the monthText by removing the day of the week and trim
-      const monthYearText = fixture.month.split("\n").pop().trim(); // Get the part after the day of the week
-      const cleanedMonthText = monthYearText.replace("'", "").trim(); // Remove the apostrophe and trim spaces
-  
-      // Split into month abbreviation and year
-      const [monthAbbreviation, year] = cleanedMonthText.split(" "); // Now split the cleaned text
-      const month = monthMapping[monthAbbreviation]; // Map "Oct" to "10
-  
-      const day = fixture.date.padStart(2, '0'); // Ensure day is zero-padded
-  
-      // Construct a valid date string (YYYY-MM-DD)
-      const matchDateString = `${year}-${month}-${day}`;
-      const matchDate = moment(matchDateString, 'YYYY-MM-DD'); // Parse the constructed date
-  
-      // Determine if the match is upcoming, live, or past
-      if (matchDate.isAfter(today, 'day')) {
-          fixture.status = 'upcoming';
-          fixture.team1Score = null; // No score for upcoming matches
-          fixture.team2Score = null; // No score for upcoming matches
-      } else if (matchDate.isSame(today, 'day')) {
-          fixture.status = 'live';
-          // If the match is live, the score might be available
-          if (!fixture.team1Score && !fixture.team2Score) {
-              fixture.status = 'upcoming'; // Handle cases where the match is still upcoming today
-          }
-      } else {
-          fixture.status = 'past';
-      }
-  });
-  
-    // Save the data to MongoDB
-    await Fixture.insertMany(fixtures);
-    console.log('Data saved to MongoDB with status');
-    
-    // Close Puppeteer
-    await browser.close();
-  });
-
-
 router.get('/fixtures', async (req, res) => {
+    let brower
     try {
-        const fixtures = await Fixture.find();
-        res.json(fixtures);
+        // First, scrape the latest fixtures from the website
+        browser = await puppeteer.launch({
+            headless: true,
+            ignoreHTTPSErrors: true,
+        });
+
+        const page = await browser.newPage();
+
+        // Navigate to the page
+        await page.goto('https://www.the-aiff.com/', { waitUntil: 'networkidle0' });
+
+        // Wait for the elements to load
+        await page.waitForSelector('#fixture_scroll .item');
+
+        // Month abbreviations mapping to numbers
+        const monthMapping = {
+            'Jan': '01',
+            'Feb': '02',
+            'Mar': '03',
+            'Apr': '04',
+            'May': '05',
+            'Jun': '06',
+            'Jul': '07',
+            'Aug': '08',
+            'Sep': '09',
+            'Oct': '10',
+            'Nov': '11',
+            'Dec': '12'
+        };
+
+        // Extract the data from the page
+        const fixtures = await page.evaluate(() => {
+            const fixtureElements = document.querySelectorAll('#fixture_scroll .item');
+            const fixtureData = [];
+
+            fixtureElements.forEach((element) => {
+                const date = element.querySelector('.match_date')?.textContent?.trim();
+                const day = element.querySelector('.day')?.textContent?.trim();
+                const monthText = element.querySelector('.day-month')?.textContent.trim();
+
+                const tournamentName = element.querySelector('.tournament-name a, .tournament-name span')?.textContent?.trim();
+                const venue = element.querySelector('.venue')?.textContent?.trim();
+
+                const team1Name = element.querySelectorAll('.team-name.text-center')[0]?.textContent?.trim();
+                const team2Name = element.querySelectorAll('.team-name.text-center')[1]?.textContent?.trim();
+
+                const scoreText = element.querySelector('.score-info span')?.textContent?.trim();
+
+                const time = scoreText?.includes(':') ? scoreText : null;
+                const team1Score = scoreText?.includes('-') ? scoreText.split('-')[0]?.trim() : null;
+                const team2Score = scoreText?.includes('-') ? scoreText.split('-')[1]?.trim() : null;
+
+                const team1Logo = element.querySelector('.team-info .image img')?.src || null;
+                const team2Logo = element.querySelectorAll('.team-info .image img')[1]?.src || null;
+
+                fixtureData.push({
+                    date,
+                    day,
+                    month: monthText,  // Storing the original month text
+                    tournamentName,
+                    venue,
+                    time,
+                    team1Name,
+                    team2Name,
+                    team1Score,
+                    team2Score,
+                    team1Logo,
+                    team2Logo,
+                    status: null // This will be calculated in the next step
+                });
+            });
+
+            return fixtureData;
+        });
+
+        const today = moment().startOf('day'); // Get the current date without time component
+        fixtures.forEach(fixture => {
+            const monthYearText = fixture.month.split("\n").pop().trim();
+            const cleanedMonthText = monthYearText.replace("'", "").trim();
+            const [monthAbbreviation, year] = cleanedMonthText.split(" ");
+            const month = monthMapping[monthAbbreviation];
+            const day = fixture.date.padStart(2, '0');
+
+            // Ensure matchDateString is in 'YYYY-MM-DD' format
+            const matchDateString = `${year}-${month}-${day}`;
+            const matchDate = moment(matchDateString, 'YYYY-MM-DD').startOf('day'); // Remove time for consistency
+
+            // Date comparison logic
+            if (matchDate.isAfter(today)) {
+                fixture.status = 'upcoming';
+                fixture.team1Score = null;
+                fixture.team2Score = null;
+            } else if (matchDate.isSame(today)) {
+                fixture.status = 'live';
+                if (!fixture.team1Score && !fixture.team2Score) {
+                    fixture.status = 'upcoming';
+                }
+            } else {
+                fixture.status = 'past';
+            }
+        });
+
+
+        const existingFixtures = await Fixture.find({});
+
+        for (let fixture of fixtures) {
+            const existingFixture = existingFixtures.find(f =>
+                f.tournamentName === fixture.tournamentName &&
+                f.date === fixture.date &&
+                f.team1Name === fixture.team1Name &&
+                f.team2Name === fixture.team2Name
+            );
+
+            if (existingFixture) {
+                const hasChanged = (
+                    existingFixture.venue !== fixture.venue ||
+                    existingFixture.time !== fixture.time ||
+                    existingFixture.team1Score !== fixture.team1Score ||
+                    existingFixture.team2Score !== fixture.team2Score ||
+                    existingFixture.status !== fixture.status
+                );
+
+                if (hasChanged) {
+                    await Fixture.updateOne({ _id: existingFixture._id }, fixture);
+                    console.log(`Fixture updated: ${fixture.tournamentName} on ${fixture.date}`);
+                }
+            } else {
+                await Fixture.create(fixture);
+                console.log(`New fixture added: ${fixture.tournamentName} on ${fixture.date}`);
+            }
+        }
+
+
+
+        const updatedFixtures = await Fixture.find();
+        res.json(updatedFixtures); // Respond with the updated data
     } catch (err) {
         console.log(err);
-        res.status(500).json({ success: false, message: 'Failed to fetch clubs' });
+        res.status(500).json({ success: false, message: 'Failed to fetch fixtures' });
+    } finally {
+        // Close Puppeteer
+        if (browser) await browser.close();
     }
 });
 
-/*
-// Route to fetch player data
-router.get('/players', async (req, res) => {
+// Route to scrape player data and update the database
+router.get('/fetch/players', async (req, res) => {
     try {
-        const clubs = await Club.find();
-        const playerData = [];
+        const clubs = await Club.find(); // Fetch all club links from the Club model
+        const playerData = []; // Array to store player data from all clubs
 
+        // Loop through all clubs
         for (const club of clubs) {
-            const { link } = club;
-            const fullProfileURL = `${link}/stats`;
+            const { link, _id: clubId } = club; // Get the club's link and ID
+            const fullProfileURL = `${link}/squad`; // Create the squad URL
+            console.log(`Fetching data from: ${fullProfileURL}`);
 
-            const { data } = await axios.get(fullProfileURL);
-            const $ = cheerio.load(data);
-            const playerPosition = $(squadSection).find('h3.sub-title').text().trim();
+            // Wrap the scraping process in a try-catch to handle errors
+            try {
+                // Fetch squad data from the club's URL
+                const { data } = await axios.get(fullProfileURL);
+                const $ = cheerio.load(data); // Load HTML into Cheerio
 
-            $('.squad-item').each(async (index, element) => {
-                const playerFirstName = $(element).find('.name first-name').text().trim();
-                const playerLastName = $(element).find('.name last-name').text().trim();
-                const playerName = `${playerFirstName} ${playerLastName}`;
-                const playerImage = $(element).find('.player-thumbnail img').attr('data-src') || $(element).find('.player-thumbnail img').attr('src');
+                // Loop through each player in the squad
+                const promises = $('.squad-item').map(async (index, element) => {
+                    const playerFirstName = $(element).find('.name.first-name').text().trim();
+                    const playerLastName = $(element).find('.name.last-name').text().trim();
+                    const playerName = `${playerFirstName} ${playerLastName}`;
+                    const playerNumber = $(element).find('.player-number').text().trim();
+                    const playerImage = $(element).find('.player-thumbnail img').attr('data-src') || $(element).find('.player-thumbnail img').attr('src');
+                    const profileLink = $(element).find('.card-action a').attr('href');
+                    const playerPosition = $(element).closest('.squad-listing').find('h3.sub-title').text().trim();
 
-                const stats = {};
-                $(element).find('.player-stats-item').each((idx, statElement) => {
-                    const statTitle = $(statElement).find('.player-stats-title').text().trim();
-                    const statCount = $(statElement).find('.player-stats-count').text().trim();
-                    stats[statTitle] = statCount;
-                });
+                    // Extract player stats
+                    const stats = {};
+                    $(element).find('.player-stats-item').each((i, statElement) => {
+                        const statTitle = $(statElement).find('.player-stats-title').text().trim();
+                        const statCount = $(statElement).find('.player-stats-count').text().trim();
+                        stats[statTitle] = statCount;
+                    });
 
-                const playerObject = {
-                    firstName: playerFirstName,
-                    lastName: playerLastName,
-                    fullName: playerName,
-                    playerNumber: $(element).find('.player-number').text().trim(),
-                    position: playerPosition,
-                    club: club._id,
-                    stats: {
-                        matchesPlayed: stats['MATCHES PLAYED'] || 0,
-                        tackles: stats['TACKLES'] || 0,
-                        assists: stats['ASSISTS'] || 0,
-                        goals: stats['GOALS'] || 0
-                    },
-                    profileLink: fullProfileURL,
-                    imageUrl: `https://www.indiansuperleague.com${playerImage}`
-                };
+                    // Create a player object
+                    const playerObject = {
+                        firstName: playerFirstName,
+                        lastName: playerLastName,
+                        fullName: playerName,
+                        playerNumber,
+                        position: playerPosition,
+                        club: clubId, // Add the club reference here
+                        stats: {
+                            matchesPlayed: stats['MATCHES PLAYED'] || 0,
+                            saves: stats['SAVES'] || 0,
+                            cleanSheets: stats['CLEAN SHEETS'] || 0,
+                            tackles: stats['TACKLES'] || 0,
+                            assists: stats['ASSISTS'] || 0,
+                        },
+                        profileLink: `https://www.indiansuperleague.com${profileLink}`,
+                        imageUrl: `https://www.indiansuperleague.com${playerImage}`,
+                    };
 
-                const existingPlayer = await Player.findOne({ fullName: playerName });
-                if (!existingPlayer) {
-                    await Player.create(playerObject);
-                } else {
-                    await Player.updateOne(
-                        { fullName: playerName },
-                        { $set: playerObject }
-                    );
-                }
+                    playerData.push(playerObject);
 
-                playerData.push(playerObject);
-            });
+                    // Check if the player already exists in the database
+                    const existingPlayer = await Player.findOne({ fullName: playerName, club: clubId });
+                    if (!existingPlayer) {
+                        await Player.create(playerObject); // Create a new player in the DB
+                    } else {
+                        await Player.updateOne({ fullName: playerName, club: clubId }, { $set: playerObject }); // Update existing player data
+                    }
+                }).get();
+
+                // Wait for all promises (players) to resolve before continuing to the next club
+                await Promise.all(promises);
+            } catch (error) {
+                console.error(`Failed to fetch data for club: ${fullProfileURL}, Error:`, error.message);
+                continue; // Skip to the next club if there's an error with this one
+            }
         }
 
-        res.json(playerData);
+        // Send the scraped player data as a response
+        res.status(200).json({
+            message: 'Players data scraped and saved successfully',
+            players: playerData,
+        });
 
     } catch (error) {
-        console.error(error);
-        res.status(500).send('An error occurred while fetching the player data.');
+        console.error('Error occurred while scraping player data:', error);
+        res.status(500).json({ message: 'Error occurred while scraping player data.' });
     }
-});*/
+});
+
+// Route to get players based on the club ID
+router.get('/players/:clubId', async (req, res) => {
+    const { clubId } = req.params;
+
+    try {
+        const players = await Player.find({ club: clubId }); // Fetch players by club ID
+        if (!players.length) {
+            return res.status(404).json({ message: 'No players found for this club.' });
+        }
+
+        res.status(200).json({
+            message: `Players found for club ID: ${clubId}`,
+            players,
+        });
+
+    } catch (error) {
+        console.error(`Error occurred while fetching players for club ID ${clubId}:`, error);
+        res.status(500).json({ message: 'Error occurred while fetching players data.' });
+    }
+});
 
 module.exports = router;
