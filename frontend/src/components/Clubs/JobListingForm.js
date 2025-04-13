@@ -14,12 +14,13 @@ const JobPostingForm = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const backend = process.env.BACKEND_URL
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   
     try {
-      const response = await fetch('http://localhost:5000/apis/job-postings', {
+      const response = await fetch(`${backend}/apis/job-postings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Instructors = () => {
+  
+  const backend = process.env.BACKEND_URL
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -108,7 +110,7 @@ const Instructors = () => {
     const amountInPaise = course.price === "Start for Free" ? 0 : parseInt(course.price) * 100;
 
     try {
-      const response = await fetch("http://localhost:5000/razorpay/create-order", {
+      const response = await fetch(`${backend}/razorpay/create-order`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -4,6 +4,7 @@ const PostNewsForm = () => {
     const [newsTitle, setNewsTitle] = useState('');
     const [newsContent, setNewsContent] = useState('');
     const [thumbnail, setThumbnail] = useState(null); // State for thumbnail image file
+    const backend = process.env.BACKEND_URL
 
     // Handle file upload
     const handleThumbnailChange = (e) => {
@@ -25,7 +26,7 @@ const PostNewsForm = () => {
 
         // Send POST request to backend
         try {
-            const response = await fetch('http://localhost:5000/apis/news', {
+            const response = await fetch(`${backend}/apis/news`, {
                 method: 'POST',
                 body: formData, // Send FormData object
             });

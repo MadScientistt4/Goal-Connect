@@ -17,11 +17,12 @@ const MatchCenter = () => {
     const [upcomingMatches, setUpcomingMatches] = useState([]);
     const [pastMatches, setPastMatches] = useState([]);
     const [isUpdating, setIsUpdating] = useState(false);
+    const backend = process.env.BACKEND_URL
     // const navigate = useNavigate();
     const handleUpdateMatches = async () => {
         setIsUpdating(true);
         try {
-            const response = await axios.get('http://localhost:5000/scrape/scrape-fixtures');
+            const response = await axios.get(`${backend}/scrape/scrape-fixtures`);
             setmatchData(response.data); // Update state with new data
             alert('Matches updated successfully!');
         } catch (error) {
@@ -34,7 +35,7 @@ const MatchCenter = () => {
     useEffect(() => {
         const fetchmatchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/apis/matches/fixtures'); // Adjust the URL as necessary
+                const response = await axios.get(`${backend}/apis/matches/fixtures`); // Adjust the URL as necessary
                 setmatchData(response.data); // Set the data fetched from the backend
                 setLoading(false); // Turn off loading state
             } catch (error) {

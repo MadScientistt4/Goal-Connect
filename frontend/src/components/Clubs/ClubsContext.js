@@ -8,11 +8,11 @@ export const ClubsContext = createContext();
 export const ClubsProvider = ({ children }) => {
     const [clubsData, setClubsData] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const backend = process.env.BACKEND_URL
     useEffect(() => {
         const fetchClubsData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/scrape/clubs'); // Adjust the URL as necessary
+                const response = await axios.get(`${backend}/scrape/clubs`); // Adjust the URL as necessary
                 setClubsData(response.data);
                 setLoading(false);
             } catch (error) {

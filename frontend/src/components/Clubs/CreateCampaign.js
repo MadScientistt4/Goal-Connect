@@ -7,6 +7,7 @@ const CreateCampaign = () => {
     const [clubLogo, setClubLogo] = useState(null); // Add state for club logo
     const [amount, setAmount] = useState('');
     const [customMessage, setCustomMessage] = useState('');
+    const backend = process.env.BACKEND_URL
 
     // Handle club logo upload
     const handleClubLogoChange = (e) => {
@@ -39,7 +40,7 @@ const CreateCampaign = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/apis/campaigns', {
+            const response = await fetch(`${backend}/apis/campaigns`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

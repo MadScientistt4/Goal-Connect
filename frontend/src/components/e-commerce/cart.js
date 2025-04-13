@@ -10,13 +10,14 @@ function Cart({ items = [], setCart, onClose }) {
     const updateQuantity = (productId, newQuantity) => {
         setCart((prev) => prev.map((item) => (item.id === productId ? { ...item, quantity: newQuantity } : item)));
     };
+    const backend = process.env.BACKEND_URL
 
     const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     const handlePayNow = async () => {
         const amountInPaise = total * 100; 
         try {
-            const response = await fetch("http://localhost:5000/razorpay/create-order", {
+            const response = await fetch(`${backend}/razorpay/create-order`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

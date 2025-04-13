@@ -9,13 +9,14 @@ const ClubDashboard = () => {
     const [players, setPlayers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const backend = process.env.BACKEND_URL
+    
     // Fetch player data when the component mounts
     useEffect(() => {
         const fetchPlayers = async () => {
             try {
                 // Fetch players from the backend API
-                const response = await axios.get(`http://localhost:5000/players?clubId=${clubInfoReceived._id}`);
+                const response = await axios.get(`${backend}/players?clubId=${clubInfoReceived._id}`);
                 console.log(response.data); // Log to check if data is correct
                 setPlayers(response.data.players);
                 setLoading(false);

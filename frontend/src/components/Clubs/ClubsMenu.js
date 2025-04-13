@@ -6,12 +6,13 @@ const ClubsMenu = () => {
     const [clubsData, setClubsData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const backend = process.env.BACKEND_URL
 
     useEffect(() => {
         const fetchClubsData = async () => {
             try {
                 // Adjust the API URL to match your backend route
-                const response = await axios.get('http://localhost:5000/scrape/clubs');
+                const response = await axios.get(`${backend}/scrape/clubs`);
                 setClubsData(response.data); // Set the data fetched from the backend
                 setLoading(false); // Turn off loading state
             } catch (error) {

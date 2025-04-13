@@ -34,7 +34,7 @@ const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState(null);
-
+  const backend = process.env.BACKEND_URL
   // Function to scroll to match center
   const scrollToMatchCenter = () => {
     if (matchCenterRef.current) {
@@ -49,7 +49,7 @@ const App = () => {
       if (token) {
         try {
           // Get user data using the token
-          const res = await axios.get('http://localhost:5000/auth/protected', {
+          const res = await axios.get(`${backend}/auth/protected`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           const { role } = res.data;

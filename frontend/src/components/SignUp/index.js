@@ -17,6 +17,7 @@ const SignUp = () => {
       [name]: value,
     });
   };
+  const backend = process.env.BACKEND_URL
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +30,7 @@ const SignUp = () => {
       body: JSON.stringify(formData),
     };
     
-    const url = 'http://localhost:5000/auth/signup';
+    const url = `${backend}/auth/signup`;
     try {
       const res = await fetch(url, options);
       const data = await res.json();

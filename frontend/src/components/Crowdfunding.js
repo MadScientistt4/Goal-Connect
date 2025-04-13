@@ -7,12 +7,13 @@ const Crowdfunding = () => {
   const { customMessage } = location.state || {};
   const [contributionAmount, setContributionAmount] = useState('');
   const [selectedClub, setSelectedClub] = useState(null);
-
+  
+  const backend = process.env.BACKEND_URL
   // Fetch campaigns from the backend
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const response = await fetch('http://localhost:5000/apis/campaigns'); // Adjust the API URL if necessary
+        const response = await fetch(`${backend}/apis/campaigns`); // Adjust the API URL if necessary
         if (response.ok) {
           const data = await response.json();
           setClubsData(data); // Set the fetched campaigns
@@ -43,7 +44,7 @@ const Crowdfunding = () => {
 
     try {
       // Call backend to create the Razorpay order
-      const response = await fetch('http://localhost:5000/razorpay/create-order', {
+      const response = await fetch(`${backend}/razorpay/create-order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

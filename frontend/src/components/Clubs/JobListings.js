@@ -4,12 +4,13 @@ const JobListings = () => {
     const [jobListings, setJobListings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const backend = process.env.BACKEND_URL
 
     // Fetch job postings from the backend API
     useEffect(() => {
         const fetchJobListings = async () => {
             try {
-                const response = await fetch('http://localhost:5000/apis/job-postings');
+                const response = await fetch(`${backend}/apis/job-postings`);
                 if (response.ok) {
                     const data = await response.json();
                     setJobListings(data);  // Set the fetched data into state

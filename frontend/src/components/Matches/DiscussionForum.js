@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 
-const socket = io("http://localhost:5000");
+const socket = io(`${backend}`);
 
 function DiscussionForum() {
   const [posts, setPosts] = useState([]);
@@ -12,6 +12,7 @@ function DiscussionForum() {
   const [username, setUsername] = useState("");
   const [isUsernameSet, setIsUsernameSet] = useState(false); 
   const MAX_POSTS = 6;
+  const backend = process.env.BACKEND_URL
 
   useEffect(() => {
     if (isUsernameSet) {
@@ -48,7 +49,7 @@ function DiscussionForum() {
   }, [isUsernameSet]);
 
   const fetchPosts = async () => {
-    const response = await axios.get("http://localhost:5000/api/posts");
+    const response = await axios.get(`${backend}/api/posts`);
     setPosts(response.data);
   };
 
@@ -58,10 +59,10 @@ function DiscussionForum() {
       // Ensure that the post count is within limits
       if (posts.length >= MAX_POSTS) {
         const oldestPostId = posts[0]._id;
-        await axios.delete(`http://localhost:5000/api/posts/${oldestPostId}`)
+        await axios.delete(`${backend}/api/posts/${oldestPostId}`)
           .catch((error) => console.error("Error deleting oldest post:", error));
       }
-      await axios.post("http://localhost:5000/api/posts", {
+      await axios.post(`${backend}/api/posts`, {
         content: newPost,
         username,
       })
@@ -74,7 +75,7 @@ function DiscussionForum() {
 
   const handleReplySubmit = async (postId) => {
     if (replyContent.trim() && username.trim()) {
-      await axios.post(`http://localhost:5000/api/posts/${postId}/reply`, {
+      await axios.post(`${backend}api/posts/${postId}/reply`, {
         content: replyContent,
         username, // Include the username when replying
       });
