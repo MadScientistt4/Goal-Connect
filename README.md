@@ -75,4 +75,5 @@ Follow these steps to run the project locally:
    npm run start
    ```
 
-1. Access the application at http://localhost:3000
+1. Access the Frontend at http://localhost:3000
+2. Run the backend at http://localhost:5000
