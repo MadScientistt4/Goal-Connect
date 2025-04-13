@@ -16,13 +16,25 @@ const MatchCenter = () => {
     const [liveMatches, setLiveMatches] = useState([]);
     const [upcomingMatches, setUpcomingMatches] = useState([]);
     const [pastMatches, setPastMatches] = useState([]);
-
+    const [isUpdating, setIsUpdating] = useState(false);
     // const navigate = useNavigate();
-
+    const handleUpdateMatches = async () => {
+        setIsUpdating(true);
+        try {
+            const response = await axios.get('http://localhost:5000/scrape/scrape-fixtures');
+            setmatchData(response.data); // Update state with new data
+            alert('Matches updated successfully!');
+        } catch (error) {
+            console.error("Update failed:", error);
+            alert(`Update failed: ${error.response?.data?.message || error.message}`);
+        } finally {
+            setIsUpdating(false);
+        }
+    };
     useEffect(() => {
         const fetchmatchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/scrape/fixtures'); // Adjust the URL as necessary
+                const response = await axios.get('http://localhost:5000/apis/matches/fixtures'); // Adjust the URL as necessary
                 setmatchData(response.data); // Set the data fetched from the backend
                 setLoading(false); // Turn off loading state
             } catch (error) {
@@ -58,12 +70,33 @@ const MatchCenter = () => {
 
     return (
         <div className='p-10 flex flex-col'>
+            <div className="flex flex-row justify-between items-center">
+
+
             <h1 className='border-b border-b-gray-600 text-white text-6xl font-bold pb-4 mb-3'>Match Center</h1>
+            <button 
+                        onClick={handleUpdateMatches}
+                        disabled={isUpdating}
+                        style={{
+                            padding: '0.5rem 1rem',
+                            backgroundColor: '#22c55e',
+                            display:'flex',
+                            flexDirection:'column',
+                            justifyContent:'space-between',
+                            color: 'white',
+                            borderRadius: '0.375rem',
+                            cursor: isUpdating ? 'not-allowed' : 'pointer',
+                            opacity: isUpdating ? 0.7 : 1
+                        }}
+                        >Update</button>
+            </div>
             <div className='ongoing flex flex-col pb-4 mb-4 border-b border-b-gray-600'>
                 <div className='flex items-center gap-3'>
                     <div className='w-4 h-4 bg-red-600 rounded-full'></div>
                     <h1 className='text-3xl sm:text-4xl text-white font-semibold'>Ongoing matches</h1>
+                    
                 </div>
+                
                 {
                     liveMatches.map((match) => {
                         return (<MatchContainer

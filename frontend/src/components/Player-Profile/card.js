@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 
 const PlayerCard = ({ player }) => {
     const { name, fullImage, club, position, age, height, jerseyNumber, country } = player;
@@ -42,3 +42,4 @@ const PlayerCard = ({ player }) => {
 };
 
 export default PlayerCard;
+*/

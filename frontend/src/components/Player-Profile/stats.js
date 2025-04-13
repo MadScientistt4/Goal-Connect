@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 
 const StatBox = ({ icon, value, label, large = false, circular = false }) => {
     if (value === undefined || value === null) return null;
@@ -98,3 +98,4 @@ function PlayerStats({ stats }) {
 }
 
 export default PlayerStats;
+*/

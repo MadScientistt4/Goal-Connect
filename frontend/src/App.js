@@ -21,7 +21,7 @@ import ClubTemp from "./components/Clubs/ClubTemp.js";
 import Tournament from "./components/SearchTournament/Tournament.js";
 import SponsorDashboard from "./SponsorDashboard.js";
 import Sessions from "./components/Sessions.js";
-import PlayerProfile from "./components/Player-Profile/profile.js";
+//import PlayerProfile from "./components/Player-Profile/profile.js";
 import JobListingForm from "./components/Clubs/JobListingForm.js";
 import PlayerDashboard from "./components/Clubs/PlayerDashboard.js"; // Ensure this is imported correctly
 import ProtectRoute from './components/ProtectRoute/index.js';
@@ -154,7 +154,7 @@ const App = () => {
             <ClubTemp />
           </ProtectRoute>
         } />
-        <Route path="/player/:playerName" element={<PlayerProfile />} />
+        
         <Route path="/form" element={
           <ProtectRoute loggedIn={isLoggedIn} role={userRole}>
             <JobListingForm />

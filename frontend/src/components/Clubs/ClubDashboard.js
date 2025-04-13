@@ -2,12 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 
-const clubInfo = {
-    sponsors: [
-        { name: 'Nike', logo: '/assets/nike.png' },
-        { name: 'Adidas', logo: '/assets/adidas.png' }
-    ],
-};
 
 const ClubDashboard = () => {
     const location = useLocation();
@@ -74,22 +68,6 @@ const ClubDashboard = () => {
                     <img src={clubInfoReceived.bannerImg} className="border rounded-lg sm:w-1/2" alt="not loading" />
                     <h1 className='mt-1 text-sm text-center'>{clubInfoReceived.venue}</h1>
                 </div>
-
-                <section className="mb-10">
-                    <h2 className="text-2xl font-semibold mb-4">Our Sponsors</h2>
-                    <div className="flex gap-6">
-                        {clubInfo.sponsors.map((sponsor, index) => (
-                            <div key={index} className="flex flex-col items-center">
-                                <img
-                                    src={sponsor.logo}
-                                    alt={`${sponsor.name} Logo`}
-                                    className="w-20 h-20 object-contain mb-2"
-                                />
-                                <p className="text-lg">{sponsor.name}</p>
-                            </div>
-                        ))}
-                    </div>
-                </section>
 
                 <section className="mb-2">
                     <h2 className="text-6xl font-semibold mb-2">Our Team</h2>

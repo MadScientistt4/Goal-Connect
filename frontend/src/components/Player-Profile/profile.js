@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+/*import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PlayerCard from './card'; 
 import PlayerStats from "./stats";
-import { data } from "./data";
+//import { data } from "./data";
 
 const PlayerProfile = () => {
     const { playerName } = useParams();
@@ -52,7 +52,7 @@ const PlayerProfile = () => {
                 <QuickOverview />
                 <h2 className="text-xl font-bold text-white mb-4">Players</h2>
                 <ul className="space-y-3 max-h-[calc(100vh-300px)] overflow-y-auto">
-                    {data.map((p, index) => (
+                    {player.map((p, index) => (
                         <li
                             key={p.id}
                             className={`cursor-pointer text-gray-400 hover:text-white transition-colors duration-200 ${
@@ -83,3 +83,4 @@ const PlayerProfile = () => {
 };
 
 export default PlayerProfile;
+*/

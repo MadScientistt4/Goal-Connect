@@ -58,40 +58,24 @@ router.get('/clubs', async (req, res) => {
     }
 });
 
-router.get('/fixtures', async (req, res) => {
-    let brower
+router.get('/scrape-fixtures', async (req, res) => {
+    let browser;
     try {
-        // First, scrape the latest fixtures from the website
         browser = await puppeteer.launch({
             headless: true,
             ignoreHTTPSErrors: true,
         });
 
         const page = await browser.newPage();
-
-        // Navigate to the page
         await page.goto('https://www.the-aiff.com/', { waitUntil: 'networkidle0' });
-
-        // Wait for the elements to load
         await page.waitForSelector('#fixture_scroll .item');
 
-        // Month abbreviations mapping to numbers
         const monthMapping = {
-            'Jan': '01',
-            'Feb': '02',
-            'Mar': '03',
-            'Apr': '04',
-            'May': '05',
-            'Jun': '06',
-            'Jul': '07',
-            'Aug': '08',
-            'Sep': '09',
-            'Oct': '10',
-            'Nov': '11',
-            'Dec': '12'
+            'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
+            'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
+            'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
         };
 
-        // Extract the data from the page
         const fixtures = await page.evaluate(() => {
             const fixtureElements = document.querySelectorAll('#fixture_scroll .item');
             const fixtureData = [];
@@ -100,7 +84,6 @@ router.get('/fixtures', async (req, res) => {
                 const date = element.querySelector('.match_date')?.textContent?.trim();
                 const day = element.querySelector('.day')?.textContent?.trim();
                 const monthText = element.querySelector('.day-month')?.textContent.trim();
-
                 const tournamentName = element.querySelector('.tournament-name a, .tournament-name span')?.textContent?.trim();
                 const venue = element.querySelector('.venue')?.textContent?.trim();
 
@@ -108,7 +91,6 @@ router.get('/fixtures', async (req, res) => {
                 const team2Name = element.querySelectorAll('.team-name.text-center')[1]?.textContent?.trim();
 
                 const scoreText = element.querySelector('.score-info span')?.textContent?.trim();
-
                 const time = scoreText?.includes(':') ? scoreText : null;
                 const team1Score = scoreText?.includes('-') ? scoreText.split('-')[0]?.trim() : null;
                 const team2Score = scoreText?.includes('-') ? scoreText.split('-')[1]?.trim() : null;
@@ -119,7 +101,7 @@ router.get('/fixtures', async (req, res) => {
                 fixtureData.push({
                     date,
                     day,
-                    month: monthText,  // Storing the original month text
+                    month: monthText,
                     tournamentName,
                     venue,
                     time,
@@ -129,40 +111,32 @@ router.get('/fixtures', async (req, res) => {
                     team2Score,
                     team1Logo,
                     team2Logo,
-                    status: null // This will be calculated in the next step
+                    status: null
                 });
             });
 
             return fixtureData;
         });
 
-        const today = moment().startOf('day'); // Get the current date without time component
+        const today = moment().startOf('day');
         fixtures.forEach(fixture => {
-            const monthYearText = fixture.month.split("\n").pop().trim();
-            const cleanedMonthText = monthYearText.replace("'", "").trim();
-            const [monthAbbreviation, year] = cleanedMonthText.split(" ");
+            const monthYearText = fixture.month.split("\n").pop().trim().replace("'", "");
+            const [monthAbbreviation, year] = monthYearText.split(" ");
             const month = monthMapping[monthAbbreviation];
             const day = fixture.date.padStart(2, '0');
-
-            // Ensure matchDateString is in 'YYYY-MM-DD' format
             const matchDateString = `${year}-${month}-${day}`;
-            const matchDate = moment(matchDateString, 'YYYY-MM-DD').startOf('day'); // Remove time for consistency
+            const matchDate = moment(matchDateString, 'YYYY-MM-DD').startOf('day');
 
-            // Date comparison logic
             if (matchDate.isAfter(today)) {
                 fixture.status = 'upcoming';
                 fixture.team1Score = null;
                 fixture.team2Score = null;
             } else if (matchDate.isSame(today)) {
-                fixture.status = 'live';
-                if (!fixture.team1Score && !fixture.team2Score) {
-                    fixture.status = 'upcoming';
-                }
+                fixture.status = fixture.team1Score || fixture.team2Score ? 'live' : 'upcoming';
             } else {
                 fixture.status = 'past';
             }
         });
-
 
         const existingFixtures = await Fixture.find({});
 
@@ -193,15 +167,13 @@ router.get('/fixtures', async (req, res) => {
             }
         }
 
-
-
         const updatedFixtures = await Fixture.find();
-        res.json(updatedFixtures); // Respond with the updated data
+        res.json(updatedFixtures);
+
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ success: false, message: 'Failed to fetch fixtures' });
+        console.error('Error scraping fixtures:', err);
+        res.status(500).json({ success: false, message: 'Scraping failed' });
     } finally {
-        // Close Puppeteer
         if (browser) await browser.close();
     }
 });
@@ -312,5 +284,102 @@ router.get('/players/:clubId', async (req, res) => {
         res.status(500).json({ message: 'Error occurred while fetching players data.' });
     }
 });
+
+function timeoutPromise(ms) {
+    return new Promise((_, reject) => setTimeout(() => reject(new Error("Operation timed out")), ms));
+}
+
+async function scrapeAndSavePlayerStats(url) {
+    return Promise.race([
+        (async () => {
+            let browser;
+            try {
+                if (!url || url === "https://www.indiansuperleague.comundefined") return null;
+
+                browser = await puppeteer.launch({ headless: true });
+                const page = await browser.newPage();
+                
+                await page.goto(url, { waitUntil: 'networkidle0', timeout: 0 });
+                await page.waitForFunction(() => typeof window.playerprofile_08_1 !== 'undefined', { timeout: 30000 });
+
+                const playerStats = await page.evaluate(() => {
+                    const profileData = window.playerprofile_08_1;
+                    return {
+                        bio: profileData?.pagePlayerData?.bio,
+                        seasonStats: profileData?.stats?.season
+                    };
+                });
+
+                const playerData = {
+                    player_id: playerStats.bio.player_id,
+                    full_name: playerStats.bio.full_name,
+                    position: playerStats.bio.position_name,
+                    nationality: playerStats.bio.nationality,
+                    current_team_name: playerStats.bio.current_team_name,
+                    height: playerStats.bio.height,
+                    weight: playerStats.bio.weight,
+                    date_of_birth: playerStats.bio.date_of_birth,
+                    seasonStats: playerStats.seasonStats.map(season => ({
+                        year: season.year,
+                        matches: season.matches,
+                        minutes: season.minutes,
+                        goals: season.goals,
+                        assists: season.assists,
+                        saves: season.saves,
+                        clean_sheets: season.clean_sheet,
+                        yellow_cards: season.yellow_cards,
+                        red_cards: season.red_cards,
+                        passing_accuracy: season.passing_accuracy_percentage,
+                        tackles_won: season.tackles_won,
+                        aerial_duel_won: season.aerial_duel_won,
+                        fouls_committed: season.fouls_committed,
+                        interceptions: season.interception,
+                        clearances: season.clearance,
+                        goals_conceded: season.goals_conceded,
+                        shots_faced: season.shots_faced,
+                        avg_saves_per_game: season.avg_saves_per_game,
+                    }))
+                };
+
+                const updatedPlayer = await PlayerStats.findOneAndUpdate(
+                    { player_id: playerData.player_id },
+                    playerData,
+                    { new: true, upsert: true }
+                );
+
+                return updatedPlayer;
+
+            } catch (error) {
+                console.error('Error scraping player stats:', error);
+                return null;
+            } finally {
+                if (browser) await browser.close();
+            }
+        })(),
+        timeoutPromise(60000) // Timeout after 60 seconds
+    ]);
+}
+
+// API 1: Fetch stats for all players from the Players model
+router.get('/fetch/players-stats', async (req, res) => { 
+    try {
+        const players = await Player.find({});
+
+        const validPlayers = players.filter(player => 
+            player.profileLink && player.profileLink !== "https://www.indiansuperleague.comundefined"
+        );
+
+        const playerStatsPromises = validPlayers.map(player => scrapeAndSavePlayerStats(player.profileLink));
+        const playerStatsResults = await Promise.all(playerStatsPromises);
+
+        const successfulStats = playerStatsResults.filter(result => result !== null);
+        res.json(successfulStats);
+
+    } catch (error) {
+        console.error('Error fetching all player statistics:', error);
+        res.status(500).json({ error: 'Failed to fetch all player statistics' });
+    }
+});
+
 
 module.exports = router;

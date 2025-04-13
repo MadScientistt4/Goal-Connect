@@ -15,7 +15,7 @@ const newsRoutes = require('./src/routes/news');
 const app = express();
 const server = http.createServer(app);
 const playerRoutes = require('./src/routes/player')
-
+const matcheRoutes = require('./src/routes/matches');
 const io = socketIo(server, {
   cors: {
     origin: "http://localhost:3000", 
@@ -36,6 +36,7 @@ app.use('/apis', jobPostingRoutes);
 app.use('/apis', campaignRoutes);
 app.use('/apis', newsRoutes);
 app.use('/apis', playerRoutes);
+app.use('/apis/matches', matcheRoutes);
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
