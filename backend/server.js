@@ -26,8 +26,25 @@ const io = socketIo(server, {
 });
 
 // middleware
-app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(express.json());const allowedOrigins = [
+  "http://localhost:3000", // for local dev
+  "https://goal-connect-nu.vercel.app", // production domain
+  "https://goal-connect-hfxvk4ayz-madscientistt4s-projects.vercel.app", // preview deployments
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
 app.use(cookieParser());
 app.use('/auth', authRoutes);
 app.use('/scrape', scrapeRoutes);
