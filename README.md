@@ -6,31 +6,21 @@
 
 ## 📜 Introduction
 
-Our project allows `<insert consumer segment>` to do A, B and C by D, E and F. We have utilised X, Y and Z technologies to do P, Q and R.
+Our project allows users to see real-time match statistics. We have utilised web sockets to integrate a live match chat, JSON web tokens for login authentication, and razorpay payment integration for e-commerce and crowdfunding.
 
 ## ✨ Features
 
-App:
-
-- Ultra cool feature #1
-- Pro max feature #2
-- Feature #3
-
 Website:
 
-- Ultra cool feature #1
-- Pro max super feature #2
-- Feature #3
+- Live chat discussion
+- Real time match data
+- Browse clubs
+- Search tournaments nearby
+- Login / Register as a user, club, sponsor, playe
 
 ## 🟢 Access
 
-🌐 Website link: https://example.com
-
-📱 App's APK file location: [`android/build/my-app.apk`](android/build/my-app.apk)
-
-OR
-
-📱 Play store link: https://play.google.com/store/apps/details?id=com.digilocker.android
+🌐 Website link: https://goal-connect-nu.vercel.app/
 
 ## 📦 Instructions For Local Deployment With Docker (Optional)
 
@@ -39,8 +29,7 @@ To deploy the application locally using docker, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-team-repo/manipal-hackathon-2024.git
-   cd manipal-hackathon-2024
+   git clone https://github.com/MadScientistt4/Goal-Connect.git
    ```
 
 1. Build the docker image
