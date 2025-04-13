@@ -8,7 +8,7 @@ export const ClubsContext = createContext();
 export const ClubsProvider = ({ children }) => {
     const [clubsData, setClubsData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const backend = process.env.BACKEND_URL
+    const backend = process.env.REACT_APP_BACKEND_URL
     useEffect(() => {
         const fetchClubsData = async () => {
             try {

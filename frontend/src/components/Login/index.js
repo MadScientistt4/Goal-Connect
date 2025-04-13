@@ -6,6 +6,7 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState(null); // Optional error handling
   const navigate = useNavigate(); // Use the hook correctly
+  const backend = process.env.REACT_APP_BACKEND_URL;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

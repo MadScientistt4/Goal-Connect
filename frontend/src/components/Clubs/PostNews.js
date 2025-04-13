@@ -4,7 +4,7 @@ const PostNewsForm = () => {
     const [newsTitle, setNewsTitle] = useState('');
     const [newsContent, setNewsContent] = useState('');
     const [thumbnail, setThumbnail] = useState(null); // State for thumbnail image file
-    const backend = process.env.BACKEND_URL
+    const backend = process.env.REACT_APP_BACKEND_URL
 
     // Handle file upload
     const handleThumbnailChange = (e) => {

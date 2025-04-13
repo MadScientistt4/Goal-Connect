@@ -10,7 +10,7 @@ function Cart({ items = [], setCart, onClose }) {
     const updateQuantity = (productId, newQuantity) => {
         setCart((prev) => prev.map((item) => (item.id === productId ? { ...item, quantity: newQuantity } : item)));
     };
-    const backend = process.env.BACKEND_URL
+    const backend = process.env.REACT_APP_BACKEND_URL
 
     const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 

@@ -8,7 +8,7 @@ const Crowdfunding = () => {
   const [contributionAmount, setContributionAmount] = useState('');
   const [selectedClub, setSelectedClub] = useState(null);
   
-  const backend = process.env.BACKEND_URL
+  const backend = process.env.REACT_APP_BACKEND_URL
   // Fetch campaigns from the backend
   useEffect(() => {
     const fetchCampaigns = async () => {

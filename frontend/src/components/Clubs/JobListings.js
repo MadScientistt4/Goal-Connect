@@ -4,7 +4,7 @@ const JobListings = () => {
     const [jobListings, setJobListings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const backend = process.env.BACKEND_URL
+    const backend = process.env.REACT_APP_BACKEND_URL
 
     // Fetch job postings from the backend API
     useEffect(() => {

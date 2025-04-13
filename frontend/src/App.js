@@ -34,7 +34,7 @@ const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState(null);
-  const backend = process.env.BACKEND_URL
+  const backend = process.env.REACT_APP_BACKEND_URL
   // Function to scroll to match center
   const scrollToMatchCenter = () => {
     if (matchCenterRef.current) {

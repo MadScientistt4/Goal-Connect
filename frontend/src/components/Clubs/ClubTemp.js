@@ -9,7 +9,7 @@ const ClubDashboard = () => {
     const [players, setPlayers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const backend = process.env.BACKEND_URL
+    const backend = process.env.REACT_APP_BACKEND_URL
     
     // Fetch player data when the component mounts
     useEffect(() => {

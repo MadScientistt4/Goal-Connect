@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Instructors = () => {
   
-  const backend = process.env.BACKEND_URL
+  const backend = process.env.REACT_APP_BACKEND_URL
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

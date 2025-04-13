@@ -17,7 +17,7 @@ const SignUp = () => {
       [name]: value,
     });
   };
-  const backend = process.env.BACKEND_URL
+  const backend = process.env.REACT_APP_BACKEND_URL
 
   const handleSubmit = async (e) => {
     e.preventDefault();

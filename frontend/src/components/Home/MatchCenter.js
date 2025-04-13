@@ -17,7 +17,7 @@ const MatchCenter = () => {
     const [upcomingMatches, setUpcomingMatches] = useState([]);
     const [pastMatches, setPastMatches] = useState([]);
     const [isUpdating, setIsUpdating] = useState(false);
-    const backend = process.env.BACKEND_URL
+    const backend = process.env.REACT_APP_BACKEND_URL
     // const navigate = useNavigate();
     const handleUpdateMatches = async () => {
         setIsUpdating(true);

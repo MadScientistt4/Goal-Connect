@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 
-const socket = io(`${backend}`);
+const socket = io(process.env.REACT_APP_BACKEND_URL);
 
 function DiscussionForum() {
   const [posts, setPosts] = useState([]);
@@ -12,7 +12,7 @@ function DiscussionForum() {
   const [username, setUsername] = useState("");
   const [isUsernameSet, setIsUsernameSet] = useState(false); 
   const MAX_POSTS = 6;
-  const backend = process.env.BACKEND_URL
+  const backend = process.env.REACT_APP_BACKEND_URL
 
   useEffect(() => {
     if (isUsernameSet) {

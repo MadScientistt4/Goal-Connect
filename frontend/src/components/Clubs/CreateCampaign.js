@@ -7,7 +7,7 @@ const CreateCampaign = () => {
     const [clubLogo, setClubLogo] = useState(null); // Add state for club logo
     const [amount, setAmount] = useState('');
     const [customMessage, setCustomMessage] = useState('');
-    const backend = process.env.BACKEND_URL
+    const backend = process.env.REACT_APP_BACKEND_URL
 
     // Handle club logo upload
     const handleClubLogoChange = (e) => {

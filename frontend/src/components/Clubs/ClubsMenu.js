@@ -6,7 +6,7 @@ const ClubsMenu = () => {
     const [clubsData, setClubsData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const backend = process.env.BACKEND_URL
+    const backend = process.env.REACT_APP_BACKEND_URL
 
     useEffect(() => {
         const fetchClubsData = async () => {
