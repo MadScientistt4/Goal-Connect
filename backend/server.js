@@ -26,7 +26,8 @@ const io = socketIo(server, {
 });
 
 // middleware
-app.use(express.json());const allowedOrigins = [
+app.use(express.json());
+const allowedOrigins = [
   "http://localhost:3000", // for local dev
   "https://goal-connect-nu.vercel.app", // production domain
   "https://goal-connect-hfxvk4ayz-madscientistt4s-projects.vercel.app", // preview deployments
@@ -46,6 +47,10 @@ app.use(
 );
 
 app.use(cookieParser());
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
 app.use('/auth', authRoutes);
 app.use('/scrape', scrapeRoutes);
 app.use('/razorpay', razorpayRoutes);
@@ -54,10 +59,7 @@ app.use('/apis', campaignRoutes);
 app.use('/apis', newsRoutes);
 app.use('/apis', playerRoutes);
 app.use('/apis/matches', matcheRoutes);
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
+
 
 // Initialize Razorpay
 const razorpay = new Razorpay({

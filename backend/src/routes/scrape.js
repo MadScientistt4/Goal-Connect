@@ -138,34 +138,10 @@ router.get('/scrape-fixtures', async (req, res) => {
             }
         });
 
-        const existingFixtures = await Fixture.find({});
+        await Fixture.deleteMany({});
+        console.log(`Inserted ${fixtures.length} new fixtures.`);
+        await Fixture.insertMany(fixtures);
 
-        for (let fixture of fixtures) {
-            const existingFixture = existingFixtures.find(f =>
-                f.tournamentName === fixture.tournamentName &&
-                f.date === fixture.date &&
-                f.team1Name === fixture.team1Name &&
-                f.team2Name === fixture.team2Name
-            );
-
-            if (existingFixture) {
-                const hasChanged = (
-                    existingFixture.venue !== fixture.venue ||
-                    existingFixture.time !== fixture.time ||
-                    existingFixture.team1Score !== fixture.team1Score ||
-                    existingFixture.team2Score !== fixture.team2Score ||
-                    existingFixture.status !== fixture.status
-                );
-
-                if (hasChanged) {
-                    await Fixture.updateOne({ _id: existingFixture._id }, fixture);
-                    console.log(`Fixture updated: ${fixture.tournamentName} on ${fixture.date}`);
-                }
-            } else {
-                await Fixture.create(fixture);
-                console.log(`New fixture added: ${fixture.tournamentName} on ${fixture.date}`);
-            }
-        }
 
         const updatedFixtures = await Fixture.find();
         res.json(updatedFixtures);

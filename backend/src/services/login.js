@@ -22,6 +22,5 @@ async function loginUser(email, password) {
         console.log("Authentication error:", err.message);
         throw new Error("Invalid credentials");
     }
-
 }
 module.exports = { loginUser };
