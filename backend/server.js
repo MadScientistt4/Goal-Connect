@@ -16,7 +16,7 @@ const app = express();
 const server = http.createServer(app);
 const playerRoutes = require('./src/routes/player')
 const matcheRoutes = require('./src/routes/matches');
-const io = socketIo(server, {
+/*const io = socketIo(server, {
   cors: {
     origin: "http://localhost:3000", 
     methods: ["GET", "POST"], 
@@ -24,7 +24,7 @@ const io = socketIo(server, {
     credentials: true 
   }
 });
-
+*/
 // middleware
 app.use(express.json());
 const allowedOrigins = [
@@ -145,10 +145,10 @@ mongoose.connect(process.env.MONGO_URI)
     console.log(err);
   });
 
-io.on("connection", (socket) => {
+/*io.on("connection", (socket) => {
   console.log("New client connected");
 
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
-});
+});*/
