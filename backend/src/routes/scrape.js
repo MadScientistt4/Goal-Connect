@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 const cheerio = require('cheerio');
 const mongoose = require('mongoose');
-const puppeteer = require("puppeteer-core");
+const puppeteer = require("puppeteer");
 const chromium = require("@sparticuz/chromium");
 const Club = require('../models/Club');
 const Player = require("../models/Player")
@@ -63,15 +63,15 @@ router.get('/scrape-fixtures', async (req, res) => {
     let browser;
     try {
         browser = await puppeteer.launch({
-            executablePath: await chromium.executablePath,
-            headless: true,
-            args: chromium.args,
-            ignoreHTTPSErrors: true,
+            headless: "new",
+            executablePath: chromium?.executablePath || undefined,
+            args: chromium?.args || ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
         });
 
 
         const page = await browser.newPage();
-        await page.goto('https://www.the-aiff.com/', { waitUntil: 'networkidle0' });
+        await page.goto("https://www.the-aiff.com/", { waitUntil: "networkidle2", timeout: 45000 });
+
         await page.waitForSelector('#fixture_scroll .item');
 
         const monthMapping = {
