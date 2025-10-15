@@ -63,8 +63,15 @@ router.get('/scrape-fixtures', async (req, res) => {
     try {
         browser = await puppeteer.launch({
             headless: true,
-            ignoreHTTPSErrors: true,
+            executablePath: puppeteer.executablePath(), // important!
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu'
+            ],
         });
+
 
         const page = await browser.newPage();
         await page.goto('https://www.the-aiff.com/', { waitUntil: 'networkidle0' });
