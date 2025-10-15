@@ -3,7 +3,8 @@ const router = express.Router();
 const axios = require('axios');
 const cheerio = require('cheerio');
 const mongoose = require('mongoose');
-const puppeteer = require('puppeteer');
+const puppeteer = require("puppeteer-core");
+const chromium = require("@sparticuz/chromium");
 const Club = require('../models/Club');
 const Player = require("../models/Player")
 const Fixture = require('../models/Fixture')
@@ -62,14 +63,10 @@ router.get('/scrape-fixtures', async (req, res) => {
     let browser;
     try {
         browser = await puppeteer.launch({
+            executablePath: await chromium.executablePath(),
             headless: true,
-            executablePath: puppeteer.executablePath(), // important!
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-gpu'
-            ],
+            args: chromium.args,
+            ignoreHTTPSErrors: true,
         });
 
 
