@@ -7,7 +7,7 @@ async function login(req, res) {
         res.json({ token: token });
     } catch (err) {
         console.log("Error: ", err.message);
-        res.status(401).json({ message: err.message });  // Send the specific error message to the client
+        res.status(401).json({ message: err.message });  
     }
 }
 

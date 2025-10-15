@@ -1,4 +1,4 @@
-const express = require('express'); 
+/*const express = require('express'); 
 const Post = require('../models/Post');
 const socketIo = require("socket.io");
 const http = require("http");
@@ -76,4 +76,4 @@ server.listen(4000, () => {
 });
 
 module.exports = server;
-module.exports = router;
+module.exports = router;*/

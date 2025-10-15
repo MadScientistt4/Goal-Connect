@@ -13,9 +13,8 @@ const protect = (req, res, next) => {
       return res.status(403).json({ message: 'Invalid token' });
     }
     
-    // Attach user details from the token to the request
     req.user = {
-      _id: decoded._id,     // You can now use _id or email for lookup
+      _id: decoded._id,   
       email: decoded.email,
       role: decoded.role
     };
