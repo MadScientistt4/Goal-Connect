@@ -26,6 +26,7 @@
   "scripts": {
     "start": "node server.js"
   },
+  "postinstall": "npx puppeteer install --platform=linux",
   "author": "",
   "license": "ISC",
   "description": ""
