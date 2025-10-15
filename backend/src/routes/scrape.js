@@ -63,7 +63,7 @@ router.get('/scrape-fixtures', async (req, res) => {
     let browser;
     try {
         browser = await puppeteer.launch({
-            executablePath: await chromium.executablePath(),
+            executablePath: await chromium.executablePath,
             headless: true,
             args: chromium.args,
             ignoreHTTPSErrors: true,
