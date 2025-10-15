@@ -45,6 +45,9 @@ app.use(
     credentials: true,
   })
 );
+app.get('/ping', (req, res) => {
+  res.status(200).send('pong');
+});
 
 app.use(cookieParser());
 app.use((req, res, next) => {
