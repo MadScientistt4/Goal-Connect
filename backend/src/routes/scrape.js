@@ -64,9 +64,13 @@ router.get('/scrape-fixtures', async (req, res) => {
     try {
         browser = await puppeteer.launch({
             headless: "new",
-            executablePath: chromium?.executablePath || undefined,
-            args: chromium?.args || ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
+            args: [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage"
+            ]
         });
+
 
 
         const page = await browser.newPage();

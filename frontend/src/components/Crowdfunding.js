@@ -8,7 +8,9 @@ const Crowdfunding = () => {
   const [contributionAmount, setContributionAmount] = useState('');
   const [selectedClub, setSelectedClub] = useState(null);
   
-  const backend = process.env.REACT_APP_BACKEND_URL
+  const backend = process.env.REACT_APP_BACKEND_URL;
+  const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
+
   // Fetch campaigns from the backend
   useEffect(() => {
     const fetchCampaigns = async () => {
@@ -53,10 +55,9 @@ const Crowdfunding = () => {
       });
 
       const orderData = await response.json();
-
       // Open Razorpay payment modal
       const options = {
-        key: 'rzp_test_iVFlHfIHXJjTX9', // Replace with your Razorpay key
+        key: RAZORPAY_KEY_ID, // Replace with your Razorpay key
         amount: amountInPaise,
         currency: 'INR',
         name: club.title,

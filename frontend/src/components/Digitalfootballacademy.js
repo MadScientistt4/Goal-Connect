@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Instructors = () => {
   
+  const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
   const backend = process.env.REACT_APP_BACKEND_URL
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -119,9 +120,9 @@ const Instructors = () => {
       });
 
       const orderData = await response.json();
-
+      
       const options = {
-        key: "rzp_test_iVFlHfIHXJjTX9", 
+        key: RAZORPAY_KEY_ID, 
         amount: amountInPaise,
         currency: "INR",
         name: "Football Training",

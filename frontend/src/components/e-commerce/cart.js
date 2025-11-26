@@ -10,7 +10,8 @@ function Cart({ items = [], setCart, onClose }) {
     const updateQuantity = (productId, newQuantity) => {
         setCart((prev) => prev.map((item) => (item.id === productId ? { ...item, quantity: newQuantity } : item)));
     };
-    const backend = process.env.REACT_APP_BACKEND_URL
+    const backend = process.env.REACT_APP_BACKEND_URL;
+    const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
 
     const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -26,9 +27,9 @@ function Cart({ items = [], setCart, onClose }) {
             });
             
             const orderData = await response.json();
-    
+            
             const options = {
-                key: "rzp_test_iVFlHfIHXJjTX9", // Replace with your Razorpay key
+                key: RAZORPAY_KEY_ID, // Replace with your Razorpay key
                 amount: amountInPaise, // Amount in paise
                 currency: "INR",
                 name: "Your Store",
