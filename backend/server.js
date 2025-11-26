@@ -96,7 +96,7 @@ const postSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-/*const Post = mongoose.model("Post", postSchema);
+const Post = mongoose.model("Post", postSchema);
 
 app.get("/api/posts", async (req, res) => {
   const posts = await Post.find();
@@ -135,7 +135,7 @@ app.delete('/api/posts/:id', async (req, res) => {
   } catch (error) {
     res.status(500).send('Server error');
   }
-});*/
+});
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
