@@ -1,3 +1,175 @@
+// import React, { useEffect, useState } from 'react';
+// import MatchContainer from '../../components/Home/MatchContainer';
+// import axios from 'axios';
+
+// const MatchCenter = () => {
+
+//     const [matchData, setmatchData] = useState([]);
+//     const [loading, setLoading] = useState(true);
+
+//     const [liveMatches, setLiveMatches] = useState([]);
+//     const [upcomingMatches, setUpcomingMatches] = useState([]);
+//     const [pastMatches, setPastMatches] = useState([]);
+
+//     const [isUpdating, setIsUpdating] = useState(false);
+
+//     const backend = process.env.REACT_APP_BACKEND_URL;
+
+//     const handleUpdateMatches = async () => {
+//         setIsUpdating(true);
+
+//         try {
+//             const response = await axios.get(`${backend}/scrape/scrape-fixtures`);
+//             setmatchData(response.data);
+//             alert('Matches updated successfully!');
+//         } catch (error) {
+//             console.error(error);
+//         } finally {
+//             setIsUpdating(false);
+//         }
+//     };
+
+//     useEffect(() => {
+
+//         const fetchmatchData = async () => {
+
+//             try {
+
+//                 const response = await axios.get(`${backend}/apis/matches/fixtures`);
+//                 setmatchData(response.data);
+//                 setLoading(false);
+
+//             } catch (error) {
+
+//                 console.error("Error fetching matches:", error);
+//                 setLoading(false);
+
+//             }
+//         };
+
+//         fetchmatchData();
+
+//     }, []);
+
+//     useEffect(() => {
+
+//         if (!loading && matchData.length > 0) {
+
+//             setLiveMatches(matchData.filter(m => m.status === "live"));
+//             setUpcomingMatches(matchData.filter(m => m.status === "upcoming"));
+//             setPastMatches(matchData.filter(m => m.status === "past"));
+
+//         }
+
+//     }, [matchData, loading]);
+
+
+//     const ScrollRow = ({ matches, status, live }) => (
+
+//         <div className="flex gap-6 overflow-x-auto pb-6">
+
+//             {matches.map((match, index) => (
+
+//                 <div key={index} className="w-[260px] flex-shrink-0">
+
+//                     <MatchContainer
+//                         day={match.day}
+//                         date={match.date}
+//                         month={match.month}
+//                         team1Logo={match.team1Logo}
+//                         team1Name={match.team1Name}
+//                         team2Name={match.team2Name}
+//                         team2Logo={match.team2Logo}
+//                         team1Score={match.team1Score}
+//                         team2Score={match.team2Score}
+//                         time={match.time}
+//                         venue={match.venue}
+//                         tournamentName={match.tournamentName}
+//                         status={status}
+//                         live={live}
+//                     />
+
+//                 </div>
+
+//             ))}
+
+//         </div>
+
+//     );
+
+
+//     return (
+
+//         <div className="p-10">
+
+//             <div className="flex justify-between items-center">
+
+//                 <h1 className="text-white text-6xl font-bold border-b border-gray-700 pb-4">
+//                     Match Center
+//                 </h1>
+
+//                 <button
+//                     onClick={handleUpdateMatches}
+//                     disabled={isUpdating}
+//                     className="bg-green-500 px-4 py-2 rounded text-white"
+//                 >
+//                     {isUpdating ? "Updating..." : "Update"}
+//                 </button>
+
+//             </div>
+
+
+//             {/* LIVE MATCHES */}
+
+//             <div className="mt-10">
+
+//                 <div className="flex items-center gap-3 mb-6">
+
+//                     <div className="w-4 h-4 bg-red-600 rounded-full"></div>
+
+//                     <h2 className="text-3xl text-white font-semibold">
+//                         Live Today
+//                     </h2>
+
+//                 </div>
+
+//                 <ScrollRow matches={liveMatches} status="live" live={true} />
+
+//             </div>
+
+
+//             {/* UPCOMING */}
+
+//             <div className="mt-10">
+
+//                 <h2 className="text-3xl text-white font-semibold mb-6">
+//                     Upcoming Matches
+//                 </h2>
+
+//                 <ScrollRow matches={upcomingMatches} status="upcoming" live={false} />
+
+//             </div>
+
+
+//             {/* PAST */}
+
+//             <div className="mt-10">
+
+//                 <h2 className="text-3xl text-white font-semibold mb-6">
+//                     Past Matches
+//                 </h2>
+
+//                 <ScrollRow matches={pastMatches} status="past" live={false} />
+
+//             </div>
+
+//         </div>
+
+//     );
+// };
+
+// export default MatchCenter;
+
 import React, { useEffect, useState } from 'react';
 import MatchContainer from '../../components/Home/MatchContainer.js';
 // import { useNavigate } from 'react-router-dom';

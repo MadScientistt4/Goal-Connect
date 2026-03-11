@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+console.log(mongoose)
 const campaignSchema = new mongoose.Schema({
   title: { type: String, required: true },
   logo: { type: String, required: true }, 

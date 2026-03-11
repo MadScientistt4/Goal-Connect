@@ -4,7 +4,6 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const mongoose = require('mongoose');
 const puppeteer = require("puppeteer");
-const chromium = require("@sparticuz/chromium");
 const Club = require('../models/Club');
 const Player = require("../models/Player")
 const Fixture = require('../models/Fixture')
@@ -70,8 +69,6 @@ router.get('/scrape-fixtures', async (req, res) => {
                 "--disable-dev-shm-usage"
             ]
         });
-
-
 
         const page = await browser.newPage();
         await page.goto("https://www.the-aiff.com/", { waitUntil: "networkidle2", timeout: 45000 });
