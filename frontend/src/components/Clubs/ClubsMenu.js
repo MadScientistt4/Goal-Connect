@@ -132,11 +132,11 @@ export const clubs = [
 const ClubsMenu = () => {
     const [clubsData, setClubsData] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const backend = process.env.REACT_APP_BACKEND_URL
     useEffect(() => {
         const fetchClubsData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/scrape/clubs'); // Adjust the URL as necessary
+                const response = await axios.get(`${backend}/scrape/clubs`); // Adjust the URL as necessary
                 setClubsData(response.data); // Set the data fetched from the backend
                 setLoading(false); // Turn off loading state
             } catch (error) {
