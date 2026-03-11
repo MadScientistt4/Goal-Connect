@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 
@@ -46,12 +46,12 @@ function DiscussionForum() {
         socket.off("deletedPost");
       };
     }
-  }, [isUsernameSet]);
+  }, [isUsernameSet, fetchPosts]);
 
-  const fetchPosts = async () => {
-    const response = await axios.get(`${backend}/api/posts`);
-    setPosts(response.data);
-  };
+const fetchPosts = useCallback(async () => {
+  const response = await axios.get(`${backend}/api/posts`);
+  setPosts(response.data);
+}, [backend]);
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
@@ -75,7 +75,7 @@ function DiscussionForum() {
 
   const handleReplySubmit = async (postId) => {
     if (replyContent.trim() && username.trim()) {
-      await axios.post(`${backend}api/posts/${postId}/reply`, {
+      await axios.post(`${backend}/api/posts/${postId}/reply`, {
         content: replyContent,
         username, // Include the username when replying
       });
