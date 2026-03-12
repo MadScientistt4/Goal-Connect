@@ -10,8 +10,8 @@ router.get('/players/:clubId', async (req, res) => {
         const players = await Player.find({ club: clubId });
 
         res.status(200).json({ playerIds: players.map(player => player._id) });
-        // Return the players data
-        res.status(200).json({ players });
+         // Return the players data
+        // res.status(200).json({ players });
     } catch (error) {
         console.error('Error fetching players:', error);
         res.status(500).json({ message: 'Error fetching players' });

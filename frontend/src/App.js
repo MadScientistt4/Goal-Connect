@@ -150,9 +150,7 @@ const App = () => {
           </ProtectRoute>
         } />
         <Route path="/club-temp" element={
-          <ProtectRoute loggedIn={isLoggedIn} role={userRole} allowedRoles={['Club', 'Player']}>
             <ClubTemp />
-          </ProtectRoute>
         } />
         
         <Route path="/form" element={

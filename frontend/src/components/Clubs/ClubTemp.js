@@ -16,7 +16,7 @@ const ClubDashboard = () => {
         const fetchPlayers = async () => {
             try {
                 // Fetch players from the backend API
-                const response = await axios.get(`${backend}/players?clubId=${clubInfoReceived._id}`);
+                const response = await axios.get(`${backend}/scrape/players/${clubInfoReceived._id}`);
                 console.log(response.data); // Log to check if data is correct
                 setPlayers(response.data.players);
                 setLoading(false);
